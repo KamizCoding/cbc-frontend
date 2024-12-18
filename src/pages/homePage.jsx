@@ -1,5 +1,6 @@
 import React from 'react';
 import './Homepage.css';
+import { Link } from 'react-router-dom';
 
 export function Homepage() {
     return (
@@ -22,6 +23,7 @@ export function Homepage() {
                     <h2>Feature 3</h2>
                     <p>Join a community of like-minded individuals.</p>
                 </div>
+                <Link to= "/login">Login</Link>
             </section>
             <footer className="footer">
                 <p>&copy; 2024 My Website. All rights reserved.</p>
