@@ -1,4 +1,4 @@
-export function AdminOrdersPage() {
+export default function AdminOrdersPage() {
     return(
         <div>
             Admin Orders Page

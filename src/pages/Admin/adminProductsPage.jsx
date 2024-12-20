@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function AdminProductsPage() {
+export default function AdminProductsPage() {
 
     getProducts()
     

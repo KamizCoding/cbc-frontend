@@ -3,10 +3,10 @@ import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { FaShoppingBag } from "react-icons/fa";
 import { GoListOrdered } from "react-icons/go";
 import { HiIdentification } from "react-icons/hi2";
-import { AdminProductsPage } from "./adminProductsPage";
-import { AdminDashboard } from "./adminDashboard";
-import { AdminOrdersPage } from "./adminOrdersPage";
-import { AdminCustomersPage } from "./adminCustomersPage";
+import AdminProductsPage from "./adminProductsPage";
+import AdminDashboard from "./adminDashboard";
+import AdminOrdersPage from "./adminOrdersPage";
+import AdminCustomersPage from "./adminCustomersPage";
 export function AdminHomePage() {
     return(
         <div className="bg-gray-400 w-full h-screen flex">

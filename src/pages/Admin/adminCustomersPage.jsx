@@ -1,4 +1,4 @@
-export function AdminCustomersPage() {
+export default function AdminCustomersPage() {
     return(
         <div>
             Admin Customers Page
