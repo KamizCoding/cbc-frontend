@@ -4,6 +4,8 @@ import { FaShoppingCart, FaBoxOpen, FaEnvelope, FaHome } from "react-icons/fa";
 import CartPage from './Customer/cartPage';
 import ProductsPage from './Customer/productsPage';
 import ContactPage from './Customer/contactpage';
+import LoginPage from './loginPage';
+import RegisterPage from './registerPage';
 
 export default function Homepage() {
     return (
@@ -11,8 +13,11 @@ export default function Homepage() {
             {/* Navbar */}
             <nav className="bg-gray-800 text-white py-4">
                 <div className="max-w-6xl mx-auto flex justify-between items-center px-6">
+                    {/* "My Website" Text in Left Corner */}
                     <div className="text-lg font-bold">My Website</div>
-                    <div className="flex space-x-4">
+                    
+                    {/* Navbar Links Centered */}
+                    <div className="flex space-x-6">
                         <Link to="/" className="flex items-center space-x-2 hover:text-blue-400">
                             <FaHome />
                             <span>Home</span>
@@ -28,6 +33,22 @@ export default function Homepage() {
                         <Link to="/contact" className="flex items-center space-x-2 hover:text-blue-400">
                             <FaEnvelope />
                             <span>Contact</span>
+                        </Link>
+                    </div>
+                    
+                    {/* Login and Register Buttons in Right Corner */}
+                    <div className="flex space-x-4">
+                        <Link
+                            to="/login"
+                            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
+                        >
+                            Login
+                        </Link>
+                        <Link
+                            to="/register"
+                            className="px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition"
+                        >
+                            Register
                         </Link>
                     </div>
                 </div>
@@ -74,6 +95,8 @@ export default function Homepage() {
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
                     <Route path="/*" element={<h1>404 Error</h1>} />
                 </Routes>
             </div>
