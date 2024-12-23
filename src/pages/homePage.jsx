@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Route, Routes } from "react-router-dom";
+import { FaShoppingCart, FaBoxOpen, FaEnvelope, FaHome } from "react-icons/fa";
 import CartPage from './Customer/cartPage';
 import ProductsPage from './Customer/productsPage';
 import ContactPage from './Customer/contactpage';
@@ -7,6 +8,31 @@ import ContactPage from './Customer/contactpage';
 export default function Homepage() {
     return (
         <div className="flex flex-col min-h-screen">
+            {/* Navbar */}
+            <nav className="bg-gray-800 text-white py-4">
+                <div className="max-w-6xl mx-auto flex justify-between items-center px-6">
+                    <div className="text-lg font-bold">My Website</div>
+                    <div className="flex space-x-4">
+                        <Link to="/" className="flex items-center space-x-2 hover:text-blue-400">
+                            <FaHome />
+                            <span>Home</span>
+                        </Link>
+                        <Link to="/cart" className="flex items-center space-x-2 hover:text-blue-400">
+                            <FaShoppingCart />
+                            <span>Cart</span>
+                        </Link>
+                        <Link to="/products" className="flex items-center space-x-2 hover:text-blue-400">
+                            <FaBoxOpen />
+                            <span>Products</span>
+                        </Link>
+                        <Link to="/contact" className="flex items-center space-x-2 hover:text-blue-400">
+                            <FaEnvelope />
+                            <span>Contact</span>
+                        </Link>
+                    </div>
+                </div>
+            </nav>
+
             {/* Header Section */}
             <header className="bg-blue-600 text-white text-center py-12">
                 <h1 className="text-4xl font-bold mb-4">Welcome to My Website</h1>
@@ -41,22 +67,21 @@ export default function Homepage() {
                     </Link>
                 </div>
             </section>
-            <div className="w-[75%] h-screen">
-                <Routes path="/*">
-                    <Route path="/cart" element={<CartPage/>}/>
-                    <Route path="/products" element={<ProductsPage/>}/>
-                    <Route path="/contact" element={<ContactPage/>}/>
-                    <Route path="/*" element={<h1>404 Error</h1>}/>
+
+            {/* Routes Section */}
+            <div className="flex-grow p-6">
+                <Routes>
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/*" element={<h1>404 Error</h1>} />
                 </Routes>
-             </div>
+            </div>
 
             {/* Footer Section */}
             <footer className="bg-gray-800 text-white text-center py-6 mt-auto">
                 <p>&copy; 2024 My Website. All rights reserved.</p>
             </footer>
         </div>
-                
-        
     );
-
 }
