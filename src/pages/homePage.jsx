@@ -1,5 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Routes } from "react-router-dom";
+import CartPage from './Customer/cartPage';
+import ProductsPage from './Customer/productsPage';
+import ContactPage from './Customer/contactpage';
 
 export default function Homepage() {
     return (
@@ -38,11 +41,22 @@ export default function Homepage() {
                     </Link>
                 </div>
             </section>
+            <div className="w-[75%] h-screen">
+                <Routes path="/*">
+                    <Route path="/cart" element={<CartPage/>}/>
+                    <Route path="/products" element={<ProductsPage/>}/>
+                    <Route path="/contact" element={<ContactPage/>}/>
+                    <Route path="/*" element={<h1>404 Error</h1>}/>
+                </Routes>
+             </div>
 
             {/* Footer Section */}
             <footer className="bg-gray-800 text-white text-center py-6 mt-auto">
                 <p>&copy; 2024 My Website. All rights reserved.</p>
             </footer>
         </div>
+                
+        
     );
+
 }
