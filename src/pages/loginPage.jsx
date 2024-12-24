@@ -1,6 +1,7 @@
 export default function LoginPage() {
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <div className="flex flex-col min-h-screen items-center justify-center bg-gray-100">
+            <img src="/logo.png" className="rounded-full w-[150px] p-3" />
             <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
                 <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h1>
                 <div className="space-y-4">
