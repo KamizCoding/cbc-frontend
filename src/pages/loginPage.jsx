@@ -1,9 +1,21 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function LoginPage() {
 
     const [email,setEmail] = useState("")
     const [password,setPassword]=useState("")
+
+    function login(){
+        axios.post("http://localhost:5000/api/users/login",{
+            email : email,
+            password : password
+        }).then(
+            (res)=>{
+                console.log(res)
+            }
+        )
+    }
 
     return (
         <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-b from-green-300 to-green-500">
@@ -31,7 +43,8 @@ export default function LoginPage() {
                             setPassword(e.target.value)
                         }}
                     />
-                    <button className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition">
+                    <button className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
+                    onClick={login}>
                         Login To Your Account
                     </button>
                 </div>
