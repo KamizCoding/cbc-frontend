@@ -1,15 +1,17 @@
 export default function LoginPage() {
     return (
         <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-b from-green-300 to-green-500">
-            <img src="/logo1.png" className="rounded-full w-[150px] p-3" />
+            <img src="/logo.png" className="rounded-full w-[150px] p-3" />
             <div className="w-full max-w-md bg-gradient-to-br from-green-500 to-green-700 rounded-lg shadow-md p-6">
-                <h1 className="text-2xl font-bold text-center text-gray-100 mb-6">Login</h1>
+                <h1 className="text-2xl font-bold text-center text-green-700 mb-2 bg-green-400 rounded-3xl">Login</h1>
                 <div className="space-y-4">
+                    <span className="pl-44 text-xl text-gray-200 font-bold">Email : </span>
                     <input
                         type="text"
                         placeholder="Enter Your Email"
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
+                    <span className="pl-40 text-xl text-gray-200 font-bold">Password : </span>
                     <input
                         type="password"
                         placeholder="Enter Your Password"
