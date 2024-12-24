@@ -1,4 +1,10 @@
+import { useState } from "react";
+
 export default function LoginPage() {
+
+    const [email,setEmail] = useState("")
+    const [password,setPassword]=useState("")
+
     return (
         <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-b from-green-300 to-green-500">
             <img src="/logo.png" className="rounded-full w-[150px] p-3" />
@@ -9,13 +15,21 @@ export default function LoginPage() {
                     <input
                         type="text"
                         placeholder="Enter Your Email"
+                        defaultValue={email}
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e)=>{
+                            setEmail(e.target.value)
+                        }}
                     />
                     <span className="pl-40 text-xl text-gray-200 font-bold">Password : </span>
                     <input
                         type="password"
                         placeholder="Enter Your Password"
+                        defaultValue={password}
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e)=>{
+                            setPassword(e.target.value)
+                        }}
                     />
                     <button className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition">
                         Login To Your Account
