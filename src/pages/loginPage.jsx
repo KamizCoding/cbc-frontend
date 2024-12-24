@@ -12,7 +12,16 @@ export default function LoginPage() {
             password : password
         }).then(
             (res)=>{
-                console.log(res)
+
+                if(res.data.user == null){
+                    return
+                }
+                localStorage.setItem("token",res.data.token)
+                if(res.data.user.type == "admin"){
+                    window.location.href = "/admin"
+                }else{
+                    window.location.href = "/"
+                }
             }
         )
     }
