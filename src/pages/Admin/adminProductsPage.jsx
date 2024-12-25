@@ -88,8 +88,3 @@ export default function AdminProductsPage() {
         </div>
     );
 }
-
-async function getProducts(){
-    const res = await axios.get()
-        console.log(res)
-}
