@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
 
@@ -14,8 +15,10 @@ export default function LoginPage() {
             (res)=>{
 
                 if(res.data.user == null){
+                    toast.error(res.data.message)
                     return
                 }
+                toast.success(res.data.message)
                 localStorage.setItem("token",res.data.token)
                 if(res.data.user.type == "admin"){
                     window.location.href = "/admin"
