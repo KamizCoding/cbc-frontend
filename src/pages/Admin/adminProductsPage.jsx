@@ -59,6 +59,12 @@ export default function AdminProductsPage() {
             "__v": 0
         }
     ])
+
+    axios.get("http://localhost:5000/api/products").
+    then((res)=>{
+        console.log(res.data.list)
+        setProducts(res.data.list)
+    })
     
     return(
         <div>
@@ -80,6 +86,6 @@ export default function AdminProductsPage() {
 }
 
 async function getProducts(){
-    const res = await axios.get("http://localhost:5000/api/products")
+    const res = await axios.get()
         console.log(res)
 }
