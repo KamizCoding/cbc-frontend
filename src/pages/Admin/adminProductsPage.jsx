@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdminProductsPage() {
 
@@ -60,12 +60,16 @@ export default function AdminProductsPage() {
         }
     ])
 
-    axios.get("http://localhost:5000/api/products").
-    then((res)=>{
-        console.log(res.data.list)
-        setProducts(res.data.list)
-    })
-    
+    useEffect(
+        ()=>{
+        axios.get("http://localhost:5000/api/products").
+        then((res)=>{
+            console.log(res.data.list)
+            setProducts(res.data.list)
+        })
+    },[]
+    )
+   
     return(
         <div>
             Admin Products Page
