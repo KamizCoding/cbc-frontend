@@ -18,18 +18,35 @@ export default function AdminProductsPage() {
     return(
         <div>
             Admin Products Page
-            {
-                products.map(
-                    (product,index)=>{
-                        return(
-                            <div key={product._id}>
-                                {index}
-                                {product.productName}
-                            </div>
+            <table>
+                <thead>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Last Price</th>
+                    <th>Stock</th>
+                    <th>Description</th>
+                </thead>
+                <tbody>
+                    {
+                    products.map(
+                        (product,index)=>{
+                            return(
+                                <tr key={product._id}>
+                                    <td>{product.productId}</td>
+                                    <td>{product.productName}</td>
+                                    <td>{product.price}</td>
+                                    <td>{product.lastPrice}</td>
+                                    <td>{product.stock}</td>
+                                    <td>{product.description}</td>
+                                </tr>
+                                )
+                            }
                         )
                     }
-                )
-            }
+                </tbody>
+            </table>
+            
         </div>
     );
 }
