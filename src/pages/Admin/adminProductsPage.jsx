@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaTrash, FaPencil } from "react-icons/fa6";
 
 export default function AdminProductsPage() {
 
@@ -26,6 +27,8 @@ export default function AdminProductsPage() {
                     <th>Last Price</th>
                     <th>Stock</th>
                     <th>Description</th>
+                    <th>Update Product</th>
+                    <th>Delete Product</th>
                 </thead>
                 <tbody>
                     {
@@ -39,6 +42,8 @@ export default function AdminProductsPage() {
                                     <td>{product.lastPrice}</td>
                                     <td>{product.stock}</td>
                                     <td>{product.description}</td>
+                                    <td><FaTrash/></td>
+                                    <td><FaPencil/></td>
                                 </tr>
                                 )
                             }
