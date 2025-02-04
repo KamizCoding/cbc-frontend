@@ -1,4 +1,7 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddProductForm() {
     const [productId, setProductId] = useState("");
@@ -9,18 +12,38 @@ export default function AddProductForm() {
     const [lastPrice, setLastPrice] = useState("");
     const [stock, setStock] = useState("");
     const [description, setDescription] = useState("");
+    const navigate = useNavigate();
 
-    function handleAddProduct() {
-        console.log({
-            productId,
-            productName,
-            alternativeNames,
-            imageUrls,
-            price,
-            lastPrice,
-            stock,
-            description,
-        });
+    async function handleAddProduct() {
+        const altNames = alternativeNames.split(",")
+        const imgUrls = imageUrls.split(",")
+
+        const product = {
+            productId : productId,
+            productName : productName,
+            altNames : altNames,
+            images : imgUrls,
+            price : price,
+            lastPrice : lastPrice,
+            stock : stock,
+            description : description
+        }
+
+        const token = localStorage.getItem("token")
+
+        try {
+            await axios.post("http://localhost:5000/api/products", product,{
+                headers : {
+                    Authorization : "Bearer " + token
+                }
+            });
+            navigate("/admin/products");
+            toast.success("The Product Was Added Succesfully");          
+        } catch (error) {
+            toast.error("The Product Was Not Added Due To An Error")
+        }
+
+
     }
 
     return (
