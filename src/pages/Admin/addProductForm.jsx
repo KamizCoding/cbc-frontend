@@ -1,4 +1,15 @@
+import { useState } from "react";
+
 export default function AddProductForm() {
+    const [productId, setProductId] = useState("");
+    const [productName, setProductName] = useState("");
+    const [alternativeNames, setAlternativeNames] = useState("");
+    const [imageUrls, setImageUrls] = useState("");
+    const [price, setPrice] = useState("");
+    const [lastPrice, setLastPrice] = useState("");
+    const [stock, setStock] = useState("");
+    const [description, setDescription] = useState("");
+
     return (
         <div className="w-full min-h-screen flex justify-center items-center p-12">
             <form className="bg-green-100 shadow-2xl rounded-xl p-8 w-[600px] flex flex-col gap-6 border border-green-300">
