@@ -7,6 +7,7 @@ import AdminProductsPage from "./adminProductsPage";
 import AdminDashboard from "./adminDashboard";
 import AdminOrdersPage from "./adminOrdersPage";
 import AdminCustomersPage from "./adminCustomersPage";
+import AddProductForm from "./addProductForm";
 export default function AdminHomePage() {
     return(
         <div className="bg-lime-50 w-full min-h-screen flex">
@@ -29,10 +30,11 @@ export default function AdminHomePage() {
                 </Link>
             </div>
 
-            <div className="w-[75%] h-screen">
+            <div className="w-[80%] h-screen">
                 <Routes path="/*">
                     <Route path="/dashboard" element={<AdminDashboard/>}/>
                     <Route path="/products" element={<AdminProductsPage/>}/>
+                    <Route path="/products/addProducts" element={<AddProductForm/>}/>
                     <Route path="/orders" element={<AdminOrdersPage/>}/>
                     <Route path="/customers" element={<AdminCustomersPage/>}/>
                     <Route path="/*" element={<h1>404 Error</h1>}/>
