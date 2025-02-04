@@ -9,30 +9,22 @@ import AdminOrdersPage from "./adminOrdersPage";
 import AdminCustomersPage from "./adminCustomersPage";
 export default function AdminHomePage() {
     return(
-        <div className="bg-lime-50 w-full h-screen flex">
-            <div className="bg-blue-100 w-[20%] h-screen flex flex-col">
-                <Link className="flex flex-row items-center gap-4 p-2 text-2xl ml-5 border border-blue-500 bg-blue-200 mt-10 mr-5 rounded-2xl transition-all duration-300 hover:bg-blue-300 hover:text-white hover:shadow-lg" to="/admin/dashboard">
-                    <div className="flex flex-col items-center">
-                        <TbLayoutDashboardFilled />
-                    </div>
+        <div className="bg-lime-50 w-full min-h-screen flex">
+            <div className="bg-lime-200 w-[20%] min-h-screen flex flex-col p-4">
+                <Link className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg" to="/admin/dashboard">
+                    <TbLayoutDashboardFilled />
                     <span>Dashboard</span>
                 </Link>
-                <Link className="flex flex-row items-center gap-4 p-2 text-2xl ml-5 border border-blue-500 bg-blue-200 mt-4 mr-5 rounded-2xl transition-all duration-300 hover:bg-blue-300 hover:text-white hover:shadow-lg" to="/admin/products">
-                    <div className="flex flex-col items-center">
-                        <FaShoppingBag />
-                    </div>
+                <Link className="flex flex-row items-center gap-4 p-3 text-2xl mt-4 border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg" to="/admin/products">
+                    <FaShoppingBag />
                     <span>Products</span>
                 </Link>
-                <Link className="flex flex-row items-center gap-4 p-2 text-2xl ml-5 border border-blue-500 bg-blue-200 mt-4 mr-5 rounded-2xl transition-all duration-300 hover:bg-blue-300 hover:text-white hover:shadow-lg" to="/admin/orders">
-                    <div className="flex flex-col items-center">
-                        <GoListOrdered />
-                    </div>
+                <Link className="flex flex-row items-center gap-4 p-3 text-2xl mt-4 border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg" to="/admin/orders">
+                    <GoListOrdered />
                     <span>Orders</span>
                 </Link>
-                <Link className="flex flex-row items-center gap-4 p-2 text-2xl ml-5 border border-blue-500 bg-blue-200 mt-4 mr-5 rounded-2xl transition-all duration-300 hover:bg-blue-300 hover:text-white hover:shadow-lg" to="/admin/customers">
-                    <div className="flex flex-col items-center">
-                        <HiIdentification />
-                    </div>
+                <Link className="flex flex-row items-center gap-4 p-3 text-2xl mt-4 border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg" to="/admin/customers">
+                    <HiIdentification />
                     <span>Customers</span>
                 </Link>
             </div>
