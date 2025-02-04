@@ -8,10 +8,12 @@ import AdminDashboard from "./adminDashboard";
 import AdminOrdersPage from "./adminOrdersPage";
 import AdminCustomersPage from "./adminCustomersPage";
 import AddProductForm from "./addProductForm";
+
 export default function AdminHomePage() {
-    return(
+    return (
         <div className="bg-lime-50 w-full min-h-screen flex">
-            <div className="bg-lime-200 w-[20%] min-h-screen flex flex-col p-4">
+            {/* Sidebar */}
+            <div className="bg-lime-200 w-[20%] h-screen fixed left-0 top-0 flex flex-col p-4">
                 <Link className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg" to="/admin/dashboard">
                     <TbLayoutDashboardFilled />
                     <span>Dashboard</span>
@@ -29,15 +31,16 @@ export default function AdminHomePage() {
                     <span>Customers</span>
                 </Link>
             </div>
-
-            <div className="w-[80%] h-screen">
-                <Routes path="/*">
-                    <Route path="/dashboard" element={<AdminDashboard/>}/>
-                    <Route path="/products" element={<AdminProductsPage/>}/>
-                    <Route path="/products/addProducts" element={<AddProductForm/>}/>
-                    <Route path="/orders" element={<AdminOrdersPage/>}/>
-                    <Route path="/customers" element={<AdminCustomersPage/>}/>
-                    <Route path="/*" element={<h1>404 Error</h1>}/>
+            
+            {/* Main Content */}
+            <div className="ml-[20%] w-[80%] min-h-screen p-6">
+                <Routes>
+                    <Route path="dashboard" element={<AdminDashboard />} />
+                    <Route path="products" element={<AdminProductsPage />} />
+                    <Route path="products/addProducts" element={<AddProductForm />} />
+                    <Route path="orders" element={<AdminOrdersPage />} />
+                    <Route path="customers" element={<AdminCustomersPage />} />
+                    <Route path="*" element={<h1 className='text-center text-3xl text-red-600'>404 Error - Page Not Found</h1>} />
                 </Routes>
             </div>
         </div>
