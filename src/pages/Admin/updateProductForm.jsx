@@ -1,19 +1,32 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
 
 export default function UpdateProductForm() {
-    const [productId, setProductId] = useState("");
-    const [productName, setProductName] = useState("");
-    const [alternativeNames, setAlternativeNames] = useState("");
-    const [imageFiles, setImageFiles] = useState("");
-    const [price, setPrice] = useState("");
-    const [lastPrice, setLastPrice] = useState("");
-    const [stock, setStock] = useState("");
-    const [description, setDescription] = useState("");
+    const location = useLocation()
     const navigate = useNavigate();
+    const product = location.state.product
+    const altNames = product.altNames.join(",")
+
+    if (product == null){
+        navigate("/admin/products")
+    }
+
+
+    const [productId, setProductId] = useState(product.productId);
+    const [productName, setProductName] = useState(product.productName);
+    const [alternativeNames, setAlternativeNames] = useState(altNames);
+    const [imageFiles, setImageFiles] = useState("");
+    const [price, setPrice] = useState(product.price);
+    const [lastPrice, setLastPrice] = useState(product.lastPrice);
+    const [stock, setStock] = useState(product.stock);
+    const [description, setDescription] = useState(product.description);
+    
+    
+
+    console.log(location)
 
     async function handleAddProduct() {
         const altNames = alternativeNames.split(",")
@@ -62,7 +75,7 @@ export default function UpdateProductForm() {
                 <div className="flex gap-4">
                     <div className="flex flex-col flex-1 gap-2">
                         <label className="font-semibold text-green-700">Product ID</label>
-                        <input type="text" placeholder="Enter product ID" className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" value={productId} onChange={(e) => setProductId(e.target.value)} />
+                        <input type="text" placeholder="Enter product ID" className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" disabled value={productId} onChange={(e) => setProductId(e.target.value)} />
                     </div>
                     <div className="flex flex-col flex-1 gap-2">
                         <label className="font-semibold text-green-700">Product Name</label>
@@ -106,7 +119,7 @@ export default function UpdateProductForm() {
                     <textarea placeholder="Enter product description" className="border p-3 rounded-lg h-28 focus:outline-none focus:ring-2 focus:ring-green-400" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
                 
-                <button className="bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition-all mt-4" onClick={handleAddProduct}>Add Product</button>
+                <button className="bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition-all mt-4" onClick={handleAddProduct}>Update Product</button>
             </div>
         </div>
     );

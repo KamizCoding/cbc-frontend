@@ -57,7 +57,7 @@ export default function AdminProductsPage() {
                                             <td className="py-4 px-6 text-center">
                                                 <button className="text-lime-600 hover:text-lime-800 transition duration-200 p-2 rounded-lg bg-lime-300 hover:bg-lime-400"
                                                 onClick={()=>{
-                                                    navigate("/admin/products/updateProducts");
+                                                    navigate("/admin/products/updateProducts", {state : {product : product}});
                                                 }}>
                                                     <FaPencil />
                                                 </button>
