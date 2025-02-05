@@ -31,13 +31,16 @@ export default function UpdateProductForm() {
     async function handleAddProduct() {
         const altNames = alternativeNames.split(",")
         const promisesArray = []
-        
-        for(let i=0; i<imageFiles.length; i++){
-            promisesArray[i] = uploadMediaToSupabase(imageFiles[i])
-        }
 
-        const imgUrls = await Promise.all(promisesArray)
-        console.log(imgUrls)
+        let imgUrls = product.images
+
+        if(imageFiles.length > 0){
+            for(let i=0; i<imageFiles.length; i++){
+                promisesArray[i] = uploadMediaToSupabase(imageFiles[i])
+            }
+    
+            imgUrls = await Promise.all(promisesArray)
+        }
 
         const product = {
             productId : productId,
