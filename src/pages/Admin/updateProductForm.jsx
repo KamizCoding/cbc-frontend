@@ -28,7 +28,7 @@ export default function UpdateProductForm() {
 
     console.log(location)
 
-    async function handleAddProduct() {
+    async function handleUpdateProduct() {
         const altNames = alternativeNames.split(",")
         const promisesArray = []
 
@@ -42,7 +42,7 @@ export default function UpdateProductForm() {
             imgUrls = await Promise.all(promisesArray)
         }
 
-        const product = {
+        const productData = {
             productId : productId,
             productName : productName,
             altNames : altNames,
@@ -56,15 +56,15 @@ export default function UpdateProductForm() {
         const token = localStorage.getItem("token")
 
         try {
-            await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/products", product,{
+            await axios.put(import.meta.env.VITE_BACKEND_URL + `/api/products/update/${product.productId}`, productData,{
                 headers : {
                     Authorization : "Bearer " + token
                 }
             });
             navigate("/admin/products");
-            toast.success("The Product Was Added Succesfully");          
+            toast.success("The Product Was Updated Succesfully");          
         } catch (error) {
-            toast.error("The Product Was Not Added Due To An Error")
+            toast.error("The Product Was Not Updated Due To An Error")
         }
 
 
@@ -122,7 +122,7 @@ export default function UpdateProductForm() {
                     <textarea placeholder="Enter product description" className="border p-3 rounded-lg h-28 focus:outline-none focus:ring-2 focus:ring-green-400" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
                 
-                <button className="bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition-all mt-4" onClick={handleAddProduct}>Update Product</button>
+                <button className="bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition-all mt-4" onClick={handleUpdateProduct}>Update Product</button>
             </div>
         </div>
     );

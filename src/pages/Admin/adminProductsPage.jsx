@@ -66,7 +66,7 @@ export default function AdminProductsPage() {
                                                 <button className="text-red-600 hover:text-red-800 transition duration-200 p-2 rounded-lg bg-red-200 hover:bg-red-300"
                                                     onClick={() => {
                                                         const token = localStorage.getItem("token");
-                                                        axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
+                                                        axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/products/${product.productId}`, {
                                                             headers: {
                                                                 Authorization: "Bearer " + token
                                                             }
