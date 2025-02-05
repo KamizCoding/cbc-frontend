@@ -4,7 +4,7 @@ const key = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 
 const url = "https://pmphsgruellevfodydyh.supabase.co"
 
-export default function uploadMediaToSupabase(File){
+export default function uploadMediaToSupabase(file){
     
     return new Promise(
         (resolve,reject)=>{
@@ -19,7 +19,7 @@ export default function uploadMediaToSupabase(File){
 
             const timestamp = new Date().getTime();
 
-            fileName = timestamp + "." + extension;
+            fileName = timestamp + file.name + "." + extension;
 
             supabase.storage.from("images").upload(fileName,file,{
                 cacheControl : "3600",
