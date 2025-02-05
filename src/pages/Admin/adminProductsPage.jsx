@@ -10,7 +10,7 @@ export default function AdminProductsPage() {
 
     useEffect(() => {
         if (!loadedProducts) {
-            axios.get("http://localhost:5000/api/products")
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products")
                 .then((res) => {
                     console.log(res.data.list);
                     setProducts(res.data.list);
