@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaTrash, FaPencil, FaPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AdminProductsPage() {
     const [products, setProducts] = useState([]);
@@ -18,6 +18,8 @@ export default function AdminProductsPage() {
                 });
         }
     }, [loadedProducts]);
+
+    const navigate = useNavigate()
 
     return (
         <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
@@ -53,7 +55,10 @@ export default function AdminProductsPage() {
                                             <td className="py-4 px-6 text-left">{product.stock}</td>
                                             <td className="py-4 px-6 text-left truncate max-w-sm">{product.description}</td>
                                             <td className="py-4 px-6 text-center">
-                                                <button className="text-lime-600 hover:text-lime-800 transition duration-200 p-2 rounded-lg bg-lime-300 hover:bg-lime-400">
+                                                <button className="text-lime-600 hover:text-lime-800 transition duration-200 p-2 rounded-lg bg-lime-300 hover:bg-lime-400"
+                                                onClick={()=>{
+                                                    navigate("/admin/products/updateProducts");
+                                                }}>
                                                     <FaPencil />
                                                 </button>
                                             </td>

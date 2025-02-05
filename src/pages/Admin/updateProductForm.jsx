@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
 
-export default function AddProductForm() {
+export default function UpdateProductForm() {
     const [productId, setProductId] = useState("");
     const [productName, setProductName] = useState("");
     const [alternativeNames, setAlternativeNames] = useState("");
@@ -57,7 +57,8 @@ export default function AddProductForm() {
     return (
         <div className="w-full min-h-screen flex justify-center items-center p-12 bg-green-50">
             <div className="bg-green-100 shadow-2xl rounded-xl p-8 w-[600px] flex flex-col gap-6 border border-green-300">
-                <h1 className="text-3xl font-extrabold text-center text-green-700">Add Product</h1>
+                <h1 className="text-3xl font-extrabold text-center text-green-700">Update Product Details</h1>
+                
                 <div className="flex gap-4">
                     <div className="flex flex-col flex-1 gap-2">
                         <label className="font-semibold text-green-700">Product ID</label>

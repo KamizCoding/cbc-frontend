@@ -8,6 +8,7 @@ import AdminDashboard from "./adminDashboard";
 import AdminOrdersPage from "./adminOrdersPage";
 import AdminCustomersPage from "./adminCustomersPage";
 import AddProductForm from "./addProductForm";
+import UpdateProductForm from "./updateProductForm";
 
 export default function AdminHomePage() {
     return (
@@ -38,6 +39,7 @@ export default function AdminHomePage() {
                     <Route path="dashboard" element={<AdminDashboard />} />
                     <Route path="products" element={<AdminProductsPage />} />
                     <Route path="products/addProducts" element={<AddProductForm />} />
+                    <Route path="products/updateProducts" element={<UpdateProductForm />} />
                     <Route path="orders" element={<AdminOrdersPage />} />
                     <Route path="customers" element={<AdminCustomersPage />} />
                     <Route path="*" element={<h1 className='text-center text-3xl text-red-600'>404 Error - Page Not Found</h1>} />
