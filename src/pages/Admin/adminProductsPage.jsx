@@ -29,7 +29,7 @@ export default function AdminProductsPage() {
             {
                 loadedProducts ? (
                     <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
-                        <div className="max-h-[450px] overflow-y-auto">
+                        <div className="max-h-[350px] overflow-y-auto">
                             <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
                                 <thead>
                                     <tr className="bg-lime-700 text-white uppercase text-md font-semibold">
