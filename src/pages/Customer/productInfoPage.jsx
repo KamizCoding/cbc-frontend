@@ -58,18 +58,24 @@ export default function ProductInfoPage() {
 
       {/* Product Details */}
       {status === "found" && (
-        <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-10 grid grid-cols-2 gap-8 items-center">
+        <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-10 grid grid-cols-2 gap-8 items-start">
           {/* Image Section */}
           <div className="rounded-xl overflow-hidden">
             <ImageSlider images={product.images} />
           </div>
 
           {/* Product Details Section */}
-          <div className="space-y-4">
+          <div className="space-y-6">
+            {/* Product Name */}
             <h1 className="text-5xl font-bold text-dark">{product.productName}</h1>
             <h2 className="text-xl font-semibold text-secondary">
               {product.altNames.join(" | ")}
             </h2>
+
+            {/* Stock Status */}
+            <p className={`text-lg font-semibold ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
+              {product.stock > 0 ? "In Stock" : "Out of Stock"}
+            </p>
 
             {/* Price Section */}
             <div className="flex items-center space-x-4 text-2xl">
@@ -79,8 +85,22 @@ export default function ProductInfoPage() {
               <span className="text-accent font-bold text-4xl">${product.lastPrice}</span>
             </div>
 
-            {/* Description */}
-            <p className="text-gray-700 leading-relaxed">{product.description}</p>
+            {/* Product Features */}
+            <div className="bg-muted p-4 rounded-lg">
+              <h3 className="text-lg font-bold text-dark">Key Features</h3>
+              <ul className="list-disc pl-5 text-gray-700">
+                <li>High-quality ingredients for nourishment</li>
+                <li>Long-lasting hydration</li>
+                <li>Dermatologically tested</li>
+                <li>Suitable for all hair types</li>
+              </ul>
+            </div>
+
+            {/* Ratings & Reviews */}
+            <div className="flex items-center space-x-2">
+              <span className="text-yellow-500 text-2xl">⭐ 4.8</span>
+              <span className="text-gray-600">(120 Reviews)</span>
+            </div>
           </div>
         </div>
       )}
