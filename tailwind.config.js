@@ -7,11 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary" : "#F7FEE7",
-        "secondary" : "#65A30D",
-        "accent" : "#4D7C0F"
+        "primary": "#ECFDF5",  // Soft mint green (Background)
+        "secondary": "#86EFAC", // Fresh pastel green (Buttons, highlights)
+        "accent": "#166534",    // Deep forest green (Headings, important text)
+        "muted": "#D1FAE5",     // Light green for subtle elements
+        "dark": "#065F46",      // Rich emerald green (Contrasts, shadows)
       }
     },
   },
+
   plugins: [],
 }
