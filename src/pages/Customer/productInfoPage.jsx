@@ -4,8 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import ImageSlider from "../../components/imageSlider";
 
 export default function ProductInfoPage() {
-  const parameters = useParams();
-  const productId = parameters.id;
+  const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
 
@@ -16,13 +15,9 @@ export default function ProductInfoPage() {
       .then((res) => {
         console.log(res.data);
 
-        //If Null
-        if (res.data == null) {
+        if (!res.data) {
           setStatus("not-found");
-        }
-
-        //If Product Was Found
-        if (res.data != null) {
+        } else {
           setProduct(res.data);
           setStatus("found");
         }
@@ -30,19 +25,22 @@ export default function ProductInfoPage() {
   }, []);
 
   return (
-    <div>
-      {status == "loading" && (
+    <div className="min-h-screen bg-primary flex flex-col items-center py-10">
+      {/* Loader */}
+      {status === "loading" && (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
-          <div className="w-32 h-32 border-t-2 border-b-2 border-gray-300 border-t-dark border-b-dark rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
           <p className="mt-4 text-dark text-xl font-semibold animate-pulse">
             Loading...
           </p>
         </div>
       )}
-      {status == "not-found" && (
-        <div className="flex flex-col items-center justify-center h-screen text-center bg-primary">
+
+      {/* 404 Not Found */}
+      {status === "not-found" && (
+        <div className="flex flex-col items-center justify-center h-screen text-center bg-primary p-10 shadow-lg rounded-xl">
           <h1 className="text-6xl font-extrabold text-accent">404</h1>
-          <h2 className="text-3xl font-bold text-gray-800 mt-2">
+          <h2 className="text-3xl font-bold text-gray-800 mt-3">
             Oops! This Product is Missing
           </h2>
           <p className="text-gray-600 text-lg mt-2">
@@ -51,34 +49,38 @@ export default function ProductInfoPage() {
           </p>
           <Link
             to="/products"
-            className="mt-6 px-6 py-3 bg-accent text-white font-semibold rounded-md shadow-md hover:bg-dark transition-all duration-300"
+            className="mt-6 px-6 py-3 bg-secondary text-dark font-semibold rounded-md shadow-md hover:bg-dark hover:text-white transition-all duration-300"
           >
             Back to Products
           </Link>
         </div>
       )}
 
+      {/* Product Details */}
       {status === "found" && (
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-[35%] h-full">
+        <div className="w-full max-w-6xl bg-white shadow-lg rounded-xl p-10 grid grid-cols-2 gap-8 items-center">
+          {/* Image Section */}
+          <div className="rounded-xl overflow-hidden">
             <ImageSlider images={product.images} />
           </div>
-          <div className="w-[65%] h-full p-4">
-            <h1 className="text-4xl font-bold text-gray-800">
-              {product.productName}
-            </h1>
-            <h1 className="text-2xl font-semibold text-gray-500">
+
+          {/* Product Details Section */}
+          <div className="space-y-4">
+            <h1 className="text-5xl font-bold text-dark">{product.productName}</h1>
+            <h2 className="text-xl font-semibold text-secondary">
               {product.altNames.join(" | ")}
-            </h1>
-            <p className="text-xl text-gray-600">
+            </h2>
+
+            {/* Price Section */}
+            <div className="flex items-center space-x-4 text-2xl">
               {product.price > product.lastPrice && (
-                <span className="line-through text-red-500">
-                  ${product.price}
-                </span>
+                <span className="line-through text-red-500">${product.price}</span>
               )}
-              <span>${product.lastPrice}</span>
-            </p>
-            <p className="text-xl text-gray-600">{product.description}</p>
+              <span className="text-accent font-bold text-4xl">${product.lastPrice}</span>
+            </div>
+
+            {/* Description */}
+            <p className="text-gray-700 leading-relaxed">{product.description}</p>
           </div>
         </div>
       )}
