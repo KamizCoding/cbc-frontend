@@ -13,7 +13,6 @@ import UpdateProductForm from "./updateProductForm";
 export default function AdminHomePage() {
     return (
         <div className="bg-lime-50 w-full min-h-screen flex">
-            {/* Sidebar */}
             <div className="bg-lime-200 w-[20%] h-screen fixed left-0 top-0 flex flex-col p-4">
                 <Link className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg" to="/admin/dashboard">
                     <TbLayoutDashboardFilled />
@@ -33,7 +32,6 @@ export default function AdminHomePage() {
                 </Link>
             </div>
             
-            {/* Main Content */}
             <div className="ml-[20%] w-[80%] min-h-screen p-6">
                 <Routes>
                     <Route path="dashboard" element={<AdminDashboard />} />

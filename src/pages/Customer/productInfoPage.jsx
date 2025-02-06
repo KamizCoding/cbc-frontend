@@ -22,7 +22,6 @@ export default function ProductInfoPage() {
 
     return (
         <div className="flex flex-col flex-grow items-center bg-primary px-4 sm:px-8">
-            {/* Loader */}
             {status === "loading" && (
                 <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
                     <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
@@ -30,7 +29,6 @@ export default function ProductInfoPage() {
                 </div>
             )}
 
-            {/* 404 Not Found */}
             {status === "not-found" && (
                 <div className="flex flex-col items-center justify-center min-h-screen text-center bg-primary p-4 sm:p-6 shadow-lg rounded-xl">
                     <h1 className="text-5xl font-extrabold text-accent">404</h1>
@@ -42,16 +40,13 @@ export default function ProductInfoPage() {
                 </div>
             )}
 
-            {/* Product Details */}
             {status === "found" && (
                 <div className="w-full max-w-5xl bg-white shadow-lg rounded-xl p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     
-                    {/* Image Section */}
                     <div className="rounded-xl overflow-hidden flex flex-col items-center">
                         <ImageSlider images={product.images} />
                     </div>
 
-                    {/* Product Details Section */}
                     <div className="flex flex-col justify-center h-full p-4 sm:p-6 leading-relaxed">
                         <div className="space-y-4">
                             <h1 className="text-3xl sm:text-5xl font-bold text-dark">{product.productName}</h1>
@@ -66,7 +61,6 @@ export default function ProductInfoPage() {
                                 <span className="text-accent font-bold text-3xl sm:text-4xl">${product.lastPrice}</span>
                             </div>
 
-                            {/* Product Description - Larger Font */}
                             <p className="text-gray-800 text-lg sm:text-xl leading-relaxed bg-gray-100 p-5 rounded-lg shadow-md">
                                 {product.description}
                             </p>

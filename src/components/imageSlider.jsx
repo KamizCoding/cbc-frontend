@@ -5,7 +5,6 @@ export default function ImageSlider({ images }) {
 
     return (
         <div className="w-full flex flex-col items-center relative aspect-[3/4]">
-            {/* Main Image */}
             <div className="w-full aspect-[3/4] overflow-hidden rounded-lg shadow-lg border border-gray-300">
                 <img
                     src={images[activeImage]}
@@ -14,7 +13,6 @@ export default function ImageSlider({ images }) {
                 />
             </div>
 
-            {/* Thumbnails */}
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-95 rounded-lg shadow-md p-2 w-[80%] flex justify-center space-x-2">
                 {images.slice(0, 5).map((image, index) => (
                     <div 
