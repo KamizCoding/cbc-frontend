@@ -20,13 +20,22 @@ export default function ProductInfoPage() {
     return(
         <div>
             {
-                status == "loading" && <h1>Loading...</h1>
+                status === "loading" && (
+                    <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-opacity-50 bg-secondary">
+                        <div className="w-32 h-32 border-t-2 border-b-2 border-gray-300 border-t-green-600 border-b-green-600 rounded-full animate-spin"></div>
+                    </div>
+                )
+                
             }
             {
                 status == "not found" && <h1>Product Was Not Found</h1>
             }
             {
-                status == "found" && <h1>Loading...</h1>
+                status == "found" && (
+                    <div>
+                        product found
+                    </div>
+                )
             }
         </div>
     );
