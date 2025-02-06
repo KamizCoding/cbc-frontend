@@ -14,11 +14,11 @@ export default function Homepage() {
             <Header/> 
 
             {/* Routes Section */}
-            <div className="flex-grow p-6">
+            <div className="flex-grow p-6 bg-primary">
                 <Routes>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
-                    <Route path="/products/productinfo" element={<ProductInfoPage />} />
+                    <Route path="/products/productinfo/:id" element={<ProductInfoPage />} />
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
