@@ -1,20 +1,20 @@
-import React from 'react';
+import React from "react";
 import { Route, Routes } from "react-router-dom";
-import CartPage from './Customer/cartPage';
-import ProductsPage from './Customer/productsPage';
-import ContactPage from './Customer/contactpage';
-import LoginPage from './loginPage';
-import RegisterPage from './registerPage';
-import Header from '../components/header';
-import ProductInfoPage from './Customer/productInfoPage';
+import CartPage from "./Customer/cartPage";
+import ProductsPage from "./Customer/productsPage";
+import ContactPage from "./Customer/contactpage";
+import LoginPage from "./loginPage";
+import RegisterPage from "./registerPage";
+import Header from "../components/header";
+import ProductInfoPage from "./Customer/productInfoPage";
 
 export default function Homepage() {
     return (
         <div className="flex flex-col min-h-screen w-full">
-            <Header/> 
+            <Header />
 
             {/* Routes Section */}
-            <div className="flex-grow p-6 bg-primary">
+            <div className="flex-grow p-4 bg-primary flex flex-col">
                 <Routes>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
@@ -26,8 +26,8 @@ export default function Homepage() {
                 </Routes>
             </div>
 
-            {/* Footer Section */}
-            <footer className="bg-gray-800 text-white text-center py-6 mt-auto">
+            {/* Footer Section - Now sticks properly */}
+            <footer className="bg-gray-800 text-white text-center py-4 mt-0">
                 <p>&copy; 2024 My Website. All rights reserved.</p>
             </footer>
         </div>
