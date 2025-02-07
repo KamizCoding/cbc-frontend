@@ -1,24 +1,44 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-export default function ProductCard(props){
+export default function ProductCard({ product }) {
+    return (
+        <Link to={`/products/productinfo/${product.productId}`} className="transition-all duration-300 hover:scale-[1.05]">
+            <div className="w-[320px] h-[550px] bg-primary rounded-2xl shadow-xl border border-muted hover:shadow-2xl flex flex-col overflow-hidden relative 
+            backdrop-blur-md bg-opacity-90 border-t border-l border-opacity-30 hover:border-opacity-50 transition-all duration-300 m-[20px]">
+                
+                {/* Product Image */}
+                <div className="h-[65%] w-full bg-muted flex items-center justify-center overflow-hidden relative">
+                    <img src={product.images[0]} alt={product.productName} className="w-full h-full object-cover transition-all duration-300 hover:scale-110"/>
+                    
+                    {/* Floating Label */}
+                    <span className="absolute top-3 left-3 bg-secondary text-dark text-sm px-3 py-1 rounded-full shadow-md font-semibold">
+                        New Arrival
+                    </span>
+                </div>
 
-    console.log(props)
+                {/* Product Details */}
+                <div className="h-[35%] p-5 flex flex-col justify-between">
+                    <div className="text-center">
+                        <h1 className="text-2xl font-extrabold text-accent drop-shadow-md">{product.productName}</h1>
+                        <h2 className="text-md font-semibold text-dark tracking-wide opacity-70">{product.productId}</h2>
+                    </div>
 
-    return(
-        <Link to={`/products/productinfo/${props.product.productId}`}>
-            <div className="w-[300px] h-[450px] rounded-xl shadow-lg shadow-muted m-[30px] flex flex-col  hover:shadow-none hover:border hover:border-secondary overflow-hidden">
-                <img src={props.product.images[0]} alt={props.product.productName} className="h-[65%] w-full object-cover"/>
-                <div className="max-h-[35%] h-[35%]">
-                <h1 className="text-3xl font-bold text-center text-accent">{props.product.productName}</h1>
-                <h2 className="text-xl font-bold text-center text-gray-400">{props.product.productId}</h2>
-                <p className="text-left text-xl font-semibold">LKR. {props.product.lastPrice.toFixed(2)}</p>
-                {
-                    (props.product.lastPrice<props.product.price)&&
-                    <p className="text-left text-xl font-semibold text-gray-500 line-through">LKR. {props.product.price.toFixed(2)}</p>
-                }
+                    {/* Pricing */}
+                    <div className="text-left flex flex-col">
+                        <p className="text-xl font-bold text-dark tracking-wide">LKR. {product.lastPrice.toFixed(2)}</p>
+                        {product.lastPrice < product.price && (
+                            <p className="text-lg font-semibold text-gray-500 line-through opacity-80">LKR. {product.price.toFixed(2)}</p>
+                        )}
+                    </div>
+
+                    {/* Call-to-Action */}
+                    <div className="w-full flex justify-center mt-2">
+                        <button className="px-6 py-2 bg-accent text-white font-semibold rounded-lg shadow-md hover:bg-dark hover:scale-105 transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
                 </div>
             </div>
         </Link>
-    )
-
+    );
 }
