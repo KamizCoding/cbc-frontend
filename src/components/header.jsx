@@ -3,7 +3,7 @@ import { FaShoppingCart, FaBoxOpen, FaEnvelope, FaHome } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <header className="bg-secondary w-full h-[95px] flex justify-between items-center px-10 shadow-md">
+    <header className="bg-secondary w-full h-[93px] flex justify-between items-center px-10 shadow-md">
       <img
         src="/logo.png"
         className="h-[85px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"

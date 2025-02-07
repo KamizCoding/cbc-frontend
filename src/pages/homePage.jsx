@@ -13,7 +13,7 @@ export default function Homepage() {
         <div className="flex flex-col min-h-screen w-full">
             <Header />
 
-            <div className="flex-grow p-4 bg-primary flex flex-col">
+            <div className="h-[calc(100vh-155px)]p-4 bg-primary flex flex-col overflow-hidden">
                 <Routes>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
@@ -22,9 +22,8 @@ export default function Homepage() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/*" element={<h1>404 Error</h1>} />
-                </Routes>
+                </Routes>               
             </div>
-
             <footer className="bg-gray-800 text-white text-center py-4 mt-0">
                 <p>&copy; 2024 My Website. All rights reserved.</p>
             </footer>
