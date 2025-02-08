@@ -13,7 +13,7 @@ export default function Homepage() {
         <div className="flex flex-col min-h-screen w-full">
             <Header />
 
-            <div className="h-[calc(100vh-155px)]p-4 bg-primary flex flex-col overflow-hidden">
+            <div className="h-[calc(100vh-150px)] p-4 bg-primary flex flex-col overflow-hidden">
                 <Routes>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />

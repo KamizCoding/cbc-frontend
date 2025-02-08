@@ -21,7 +21,7 @@ export function addToCart(productId, quantity){
             {productId, quantity}
         ) 
     } else {
-        const newQauntity = cart[index].qunatity + quantity
+        const newQauntity = cart[index].quantity + quantity
 
         if(newQauntity <= 0){
             cart.splice(index,1)

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ImageSlider from "../../components/imageSlider";
+import { addToCart } from "../../utils/cartfunction";
+import toast from "react-hot-toast";
 
 export default function ProductInfoPage() {
     const { id: productId } = useParams();
@@ -19,6 +21,11 @@ export default function ProductInfoPage() {
                 }
             });
     }, []);
+
+    function onAddToCartClicked(){
+        addToCart(product.productId,1)
+        toast.success(product.productId + "Was Added To Cart Succesfully")
+    }
 
     return (
         <div className="flex flex-col flex-grow items-center bg-primary px-4 sm:px-8">
@@ -64,6 +71,8 @@ export default function ProductInfoPage() {
                             <p className="text-gray-800 text-lg sm:text-xl leading-relaxed bg-gray-100 p-5 rounded-lg shadow-md">
                                 {product.description}
                             </p>
+
+                            <button className="bg-dark text-white p-t rounded-lg" onClick={onAddToCartClicked}>Add To Cart  </button>
                         </div>
                     </div>
                 </div>
