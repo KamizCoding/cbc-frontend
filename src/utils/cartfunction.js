@@ -1,6 +1,6 @@
 export function loadCart(){
     const cart = localStorage.getItem("cart");
-    if(cart=null){
+    if(cart!=null){
         return JSON.parse(cart)
     }else{
         return []
@@ -12,7 +12,7 @@ export function addToCart(productId, quantity){
 
     const index = cart.findIndex(
         (product) => {
-            product.productId == productId
+           return product.productId == productId
         }
     )
 
@@ -34,4 +34,8 @@ export function addToCart(productId, quantity){
 
 export function saveCart(cart){
     localStorage.setItem("cart",JSON.stringify(cart))
+}
+
+export function clearCart(){
+    localStorage.removeItem("cart")
 }
