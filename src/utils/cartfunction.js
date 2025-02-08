@@ -29,6 +29,9 @@ export function addToCart(productId, quantity){
             cart[index].quantity = newQauntity
         }
     }
+    saveCart(cart)    
+}
 
-    
+export function saveCart(cart){
+    localStorage.setItem("cart",JSON.stringify(cart))
 }
