@@ -1,8 +1,34 @@
 export function loadCart(){
     const cart = localStorage.getItem("cart");
-    if(cart1=null){
+    if(cart=null){
         return JSON.parse(cart)
     }else{
         return []
     }
+}
+
+export function addToCart(productId, quantity){
+    const cart = loadCart()
+
+    const index = cart.findIndex(
+        (product) => {
+            product.productId == productId
+        }
+    )
+
+    if(index == -1){
+        cart.push(
+            {productId, quantity}
+        ) 
+    } else {
+        const newQauntity = cart[index].qunatity + quantity
+
+        if(newQauntity <= 0){
+            cart.splice(index,1)
+        } else {
+            cart[index].quantity = newQauntity
+        }
+    }
+
+    
 }
