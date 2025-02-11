@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { deleteProductFromCart } from "../utils/cartfunction"
 
 export default function CartCard(props){
 
@@ -13,9 +14,13 @@ export default function CartCard(props){
         if(!loaded){
             axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId).then(
                 (response) => {
-                    setProduct(response.data)
-                    console.log(response.data)
-                    setLoaded(true)
+                    if(response.data != null){
+                        setProduct(response.data)
+                        console.log(response.data)
+                        setLoaded(true)
+                    } else {
+                        deleteProductFromCart(productId)
+                    }
                 }
             ).catch(
                 (error) => {
