@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { loadCart } from "../../utils/cartfunction";
+import CartCard from "../../components/cartCard";
 
 export default function CartPage() {
     const [cart, setCart] = useState([])
@@ -11,12 +12,12 @@ export default function CartPage() {
     )  
     
     return(
-        <div className="w-full h-full overflow-y-scroll flex flex-wrap justify-center">
+        <div className="w-full h-full overflow-y-scroll flex flex-col items-center">
             {
                 cart.map(
                     (product) => {
                         return(
-                            <span key={product.productId}>{product.productId} X {product.quantity}</span>
+                            <CartCard key={product.productId} productId={product.productId} quantity={product.quantity}/>
                         )
                     }
                 )
