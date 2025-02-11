@@ -22,13 +22,13 @@ export default function ProductInfoPage() {
             });
     }, []);
 
-    function onAddToCartClicked(){
-        addToCart(product.productId,1)
-        toast.success(product.productId + "Was Added To Cart Succesfully")
+    function onAddToCartClicked() {
+        addToCart(product.productId, 1);
+        toast.success(product.productId + " was added to the cart successfully");
     }
 
     return (
-        <div className="flex flex-col flex-grow items-center bg-primary px-4 sm:px-8">
+        <div className="flex flex-col w-full h-[calc(100vh-150px)] overflow-y-auto bg-primary px-4 sm:px-8">
             {status === "loading" && (
                 <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
                     <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
@@ -38,41 +38,49 @@ export default function ProductInfoPage() {
 
             {status === "not-found" && (
                 <div className="flex flex-col items-center justify-center min-h-screen text-center bg-primary p-4 sm:p-6 shadow-lg rounded-xl">
-                    <h1 className="text-5xl font-extrabold text-accent">404</h1>
-                    <h2 className="text-2xl font-bold text-gray-800 mt-2">Oops! This Product is Missing</h2>
-                    <p className="text-gray-600 text-base mt-2">We couldn’t find the product you were looking for. It may have been removed or never existed.</p>
-                    <Link to="/products" className="mt-4 px-5 py-2 bg-secondary text-dark font-semibold rounded-md shadow-md hover:bg-dark hover:text-white transition-all duration-300">
+                    <h1 className="text-4xl font-extrabold text-accent">404</h1>
+                    <h2 className="text-xl font-bold text-gray-800 mt-2">Oops! This Product is Missing</h2>
+                    <p className="text-gray-600 text-sm mt-2">We couldn’t find the product you were looking for. It may have been removed or never existed.</p>
+                    <Link to="/products" className="mt-4 px-4 py-2 bg-secondary text-dark font-semibold rounded-md shadow-md hover:bg-dark hover:text-white transition-all duration-300">
                         Back to Products
                     </Link>
                 </div>
             )}
 
             {status === "found" && (
-                <div className="w-full max-w-5xl bg-white shadow-lg rounded-xl p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div className="w-full max-w-5xl bg-white shadow-lg rounded-xl p-6 sm:p-8 mx-auto mt-6 grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-6 items-center">
                     
-                    <div className="rounded-xl overflow-hidden flex flex-col items-center">
+                    {/* 🔥 Fixed Image Slider Section */}
+                    <div className="rounded-xl overflow-hidden flex flex-col items-center max-w-[400px]">
                         <ImageSlider images={product.images} />
                     </div>
 
-                    <div className="flex flex-col justify-center h-full p-4 sm:p-6 leading-relaxed">
-                        <div className="space-y-4">
-                            <h1 className="text-3xl sm:text-5xl font-bold text-dark">{product.productName}</h1>
-                            <h2 className="text-lg sm:text-2xl font-semibold text-secondary">{product.altNames.join(" | ")}</h2>
+                    {/* Product Details */}
+                    <div className="flex flex-col justify-center h-full p-4 sm:p-6 leading-snug">
+                        <div className="space-y-3">
+                            <h1 className="text-3xl sm:text-4xl font-bold text-dark">{product.productName}</h1>
+                            <h2 className="text-md sm:text-lg font-semibold text-secondary">{product.altNames.join(" | ")}</h2>
 
-                            <p className={`text-base sm:text-lg font-semibold ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
+                            <p className={`text-sm sm:text-md font-semibold ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
                                 {product.stock > 0 ? "In Stock" : "Out of Stock"}
                             </p>
 
-                            <div className="flex items-center space-x-4 text-lg sm:text-2xl">
+                            <div className="flex items-center space-x-3 text-sm sm:text-lg">
                                 {product.price > product.lastPrice && <span className="line-through text-red-500">${product.price}</span>}
-                                <span className="text-accent font-bold text-3xl sm:text-4xl">${product.lastPrice}</span>
+                                <span className="text-accent font-bold text-2xl sm:text-3xl">${product.lastPrice}</span>
                             </div>
 
-                            <p className="text-gray-800 text-lg sm:text-xl leading-relaxed bg-gray-100 p-5 rounded-lg shadow-md">
+                            <p className="text-gray-800 text-sm sm:text-md leading-relaxed bg-gray-100 p-3 rounded-lg shadow-md max-h-[100px] overflow-y-auto">
                                 {product.description}
                             </p>
 
-                            <button className="bg-dark text-white p-t rounded-lg" onClick={onAddToCartClicked}>Add To Cart  </button>
+                            {/* Add to Cart Button */}
+                            <button 
+                                className="bg-dark text-white py-2 px-5 rounded-lg font-semibold text-md hover:bg-accent transition-all duration-300"
+                                onClick={onAddToCartClicked}
+                            >
+                                Add To Cart
+                            </button>
                         </div>
                     </div>
                 </div>
