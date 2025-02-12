@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { loadCart } from "../../utils/cartfunction";
 import CartCard from "../../components/cartCard";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
     const [labeledTotal, setLabeledTotal] = useState(0);
+    const nav = useNavigate();
 
     useEffect(() => {
         setCart(loadCart());
@@ -20,26 +22,10 @@ export default function CartPage() {
     }, []);
 
     function onCheckoutClicked(){
-        const token = localStorage.getItem("token")
-
-        if(token == null){
-            return
-        }
-
-        axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders",
-            {
-                orderedItems : cart,
-                name : "Kamiz",
-                address : "Kandy",
-                phone : "0752072772"
-            },
-            {
-                headers : {
-                    Authorization: "Bearer " + token,
-                }
+        nav("/shipping", {
+            state : {
+                products : loadCart()
             }
-        ).then((res) => {
-            console.log(res.data)
         })
     }
 

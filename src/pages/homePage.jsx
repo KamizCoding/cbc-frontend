@@ -7,6 +7,7 @@ import LoginPage from "./loginPage";
 import RegisterPage from "./registerPage";
 import Header from "../components/header";
 import ProductInfoPage from "./Customer/productInfoPage";
+import ShippingPage from "./Customer/shipping";
 
 export default function Homepage() {
     return (
@@ -19,6 +20,7 @@ export default function Homepage() {
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/products/productinfo/:id" element={<ProductInfoPage />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/shipping" element={<ShippingPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/*" element={<h1>404 Error</h1>} />
