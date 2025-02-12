@@ -19,6 +19,30 @@ export default function CartPage() {
         });
     }, []);
 
+    function onCheckoutClicked(){
+        const token = localStorage.getItem("token")
+
+        if(token == null){
+            return
+        }
+
+        axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders",
+            {
+                orderedItems : cart,
+                name : "Kamiz",
+                address : "Kandy",
+                phone : "0752072772"
+            },
+            {
+                headers : {
+                    Authorization: "Bearer " + token,
+                }
+            }
+        ).then((res) => {
+            console.log(res.data)
+        })
+    }
+
     return (
         <div className="w-full min-h-screen flex flex-col lg:flex-row items-center lg:items-start p-6 bg-primary">
             
@@ -58,7 +82,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Checkout Button */}
-                    <button className="w-full text-center mt-6 px-5 py-3 bg-accent text-white text-lg font-medium rounded-md hover:bg-dark transition-all duration-300 shadow-md">
+                    <button className="w-full text-center mt-6 px-5 py-3 bg-accent text-white text-lg font-medium rounded-md hover:bg-dark transition-all duration-300 shadow-md" onClick={onCheckoutClicked}>
                         Proceed to Checkout
                     </button>
                 </div>
