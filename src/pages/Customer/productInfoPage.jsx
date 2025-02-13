@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ImageSlider from "../../components/imageSlider";
 import { addToCart } from "../../utils/cartfunction";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ export default function ProductInfoPage() {
     const { id: productId } = useParams();
     const [product, setProduct] = useState(null);
     const [status, setStatus] = useState("loading");
+    const nav = useNavigate();
 
     useEffect(() => {
         axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId)
@@ -25,6 +26,19 @@ export default function ProductInfoPage() {
     function onAddToCartClicked() {
         addToCart(product.productId, 1);
         toast.success(product.productId + " was added to the cart successfully");
+    }
+
+    function onBuyNowClicked() {
+        nav("/shipping", {
+            state : {
+                products: [
+                    {
+                        productId: product.productId,
+                        quantity: 1
+                    }
+                ]
+            }
+        })
     }
 
     return (
@@ -80,6 +94,14 @@ export default function ProductInfoPage() {
                                 onClick={onAddToCartClicked}
                             >
                                 Add To Cart
+                            </button>
+
+                            {/* Buy Now Button */}
+                            <button 
+                                className="bg-accent text-white py-2 px-5 rounded-lg font-semibold text-md hover:bg-dark transition-all duration-300"
+                                onClick={onBuyNowClicked}
+                            >
+                                Buy Now
                             </button>
                         </div>
                     </div>
