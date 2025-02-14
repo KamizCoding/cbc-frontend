@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
 
 export default function LoginPage() {
@@ -81,10 +82,12 @@ export default function LoginPage() {
                         Login To Your Account
                     </button>
 
-                    <button className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
-                    onClick={() => {googleLogin()}}>
-                        Google Login
-                    </button>
+                    <button 
+    className="w-full py-2 flex items-center justify-center gap-3 bg-muted text-dark border border-muted font-semibold rounded-full shadow-md 
+    hover:bg-secondary transition duration-300"
+    onClick={() => { googleLogin() }}>
+    <FcGoogle className="text-xl" /> <span className="text-dark">Login with Google</span>
+</button>
 
                 </div>
             </div>
