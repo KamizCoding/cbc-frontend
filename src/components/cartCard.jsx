@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { deleteProductFromCart } from "../utils/cartfunction";
 
 export default function CartCard(props) {
     const { productId, quantity } = props;
@@ -14,6 +15,9 @@ export default function CartCard(props) {
                     if (response.data != null) {
                         setProduct(response.data);
                         setLoaded(true);
+                    } else {
+                        deleteProductFromCart(productId);
+                        window.location.reload;
                     }
                 })
                 .catch((error) => console.log(error));
@@ -21,6 +25,7 @@ export default function CartCard(props) {
     }, []);
 
     return (
+        
         <div className="w-full max-w-[600px] flex items-center gap-4 bg-muted p-4 rounded-lg shadow-md border border-muted 
             transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-accent">
             
