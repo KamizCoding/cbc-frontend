@@ -16,8 +16,10 @@ export default function CartPage() {
             orderedItems: loadCart()
         }).then((res) => {
             console.log(res.data);
+            if(res.data == null){
             setTotal(res.data.total);
             setLabeledTotal(res.data.labeledTotal);
+            }
         });
     }, []);
 
