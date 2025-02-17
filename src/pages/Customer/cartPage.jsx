@@ -34,7 +34,6 @@ export default function CartPage() {
     return (
         <div className="w-full min-h-screen flex flex-col lg:flex-row items-center lg:items-start p-6 bg-primary">
             
-            {/* Cart Items Section */}
             <div className="w-full lg:w-2/3 max-w-3xl flex flex-col gap-4 overflow-y-auto max-h-[65vh] p-2">
                 {cart.length > 0 ? (
                     cart.map((product) => (
@@ -45,11 +44,9 @@ export default function CartPage() {
                 )}
             </div>
 
-            {/* Subtle Stand-Out Order Summary */}
             {cart.length > 0 && (
                 <div className="w-full lg:w-1/3 max-w-md bg-muted text-dark rounded-lg shadow-lg p-5 ml-4 lg:sticky top-6 border border-gray-300">
                     
-                    {/* 🌟 Subtle Heading Enhancement */}
                     <h2 className="text-xl font-bold text-dark text-center border-b pb-2 tracking-wide">
                         Order Summary
                     </h2>
@@ -69,7 +66,6 @@ export default function CartPage() {
                         <span className="text-accent">LKR. {total.toFixed(2)}</span>
                     </div>
 
-                    {/* Checkout Button */}
                     <button className="w-full text-center mt-6 px-5 py-3 bg-accent text-white text-lg font-medium rounded-md hover:bg-dark transition-all duration-300 shadow-md" onClick={onCheckoutClicked}>
                         Proceed to Checkout
                     </button>

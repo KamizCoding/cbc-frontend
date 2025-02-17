@@ -20,12 +20,14 @@ export default function ProductsPage() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center gap-4 p-4">
+    <>
+    {loadingStatus == "loaded" && <div className="w-full flex flex-col items-center gap-4 p-4">
       <div className="w-full flex justify-center mb-6">
         <input
           type="text"
           className="w-1/2 p-3 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
           placeholder="Search Products"
+
         />
       </div>
       <div className="w-full flex flex-wrap justify-center gap-4 overflow-y-auto">
@@ -33,6 +35,13 @@ export default function ProductsPage() {
           <ProductCard key={product.id || index} product={product} />
         ))}
       </div>
-    </div>
+    </div>}  
+    {loadingStatus == "loading" && <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
+          <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
+          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">
+            Loading...
+          </p>
+        </div>}
+    </>
   );
 }
