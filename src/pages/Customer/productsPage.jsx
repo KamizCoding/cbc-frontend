@@ -13,10 +13,14 @@ export default function ProductsPage() {
       axios
         .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
         .then((res) => {
-          setProducts(res.data.list);
+          setProducts(Array.isArray(res.data.list) ? res.data.list : []);
           setLoadingStatus("loaded");
         })
-        .catch(() => toast.error("Failed To Fetch Products"));
+        .catch(() => {
+          toast.error("Failed To Fetch Products");
+          setProducts([]);
+          setLoadingStatus("loaded");
+        });
     }
   }, []);
 
@@ -28,39 +32,50 @@ export default function ProductsPage() {
       axios
         .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
         .then((res) => {
-          setProducts(res.data.list);
+          setProducts(Array.isArray(res.data.list) ? res.data.list : []);
           setLoadingStatus("loaded");
         })
-        .catch(() => toast.error("Failed To Fetch Products"));
+        .catch(() => {
+          toast.error("Failed To Fetch Products");
+          setProducts([]);
+          setLoadingStatus("loaded");
+        });
     } else {
       axios
         .get(import.meta.env.VITE_BACKEND_URL + "/api/products/search/" + query)
         .then((res) => {
-          setProducts(res.data.list);
+          setProducts(Array.isArray(res.data.list) ? res.data.list : []);
           setLoadingStatus("loaded");
         })
-        .catch(() => toast.error("Failed To Fetch Products"));
+        .catch(() => {
+          toast.error("Failed To Fetch Products");
+          setProducts([]);
+          setLoadingStatus("loaded");
+        });
     }
   }
 
   return (
     <div className="w-full h-full relative">
       <div className="w-full flex justify-center mb-6">
-            <input
-              type="text"
-              className="w-1/2 p-3 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 z-50"
-              placeholder="Search Products"
-              onChange={search}
-              value={query}
-            />
-          </div>
+        <input
+          type="text"
+          className="w-1/2 p-3 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 z-50"
+          placeholder="Search Products"
+          onChange={search}
+          value={query}
+        />
+      </div>
       {loadingStatus === "loaded" && (
         <div className="w-full flex flex-col items-center gap-4 p-4">
-          
           <div className="w-full max-h-[70vh] overflow-y-auto flex flex-wrap justify-center gap-4">
-            {products.map((product, index) => (
-              <ProductCard key={product.id || index} product={product} />
-            ))}
+            {products.length > 0 ? (
+              products.map((product, index) => (
+                <ProductCard key={product.id || index} product={product} />
+              ))
+            ) : (
+              <p className="text-dark text-lg font-semibold">No products found.</p>
+            )}
           </div>
         </div>
       )}
