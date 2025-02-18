@@ -14,7 +14,7 @@ export default function Header() {
 
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split(".")[1])); // Decode token manually
+        const payload = JSON.parse(atob(token.split(".")[1]));
         console.log("Decoded User:", payload);
         setUser(payload);
       } catch (error) {
@@ -32,7 +32,9 @@ export default function Header() {
 
   return (
     <>
-      {isMenuOpen && <HamburgerMenu closeHamburgerMenu={() => setIsMenuOpen(false)} />}
+      {isMenuOpen && (
+        <HamburgerMenu closeHamburgerMenu={() => setIsMenuOpen(false)} />
+      )}
       <header className="bg-secondary w-full flex h-[93px] justify-between items-center px-10 shadow-md">
         <img
           src="/logo.png"
@@ -45,19 +47,24 @@ export default function Header() {
         />
 
         <div className="gap-12 flex-1 justify-center hidden lg:flex">
-          <Link to="/" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/"
+            className="flex flex-col items-center text-dark text-lg hover:text-white"
+          >
             <FaHome size={30} />
             <span>Home</span>
           </Link>
-          <Link to="/products" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/products"
+            className="flex flex-col items-center text-dark text-lg hover:text-white"
+          >
             <FaBoxOpen size={30} />
             <span>Products</span>
           </Link>
-          <Link to="/cart" className="flex flex-col items-center text-dark text-lg hover:text-white">
-            <FaShoppingCart size={30} />
-            <span>Cart</span>
-          </Link>
-          <Link to="/contact" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/contact"
+            className="flex flex-col items-center text-dark text-lg hover:text-white"
+          >
             <FaEnvelope size={30} />
             <span>Contact</span>
           </Link>
@@ -68,7 +75,10 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <Link to="/profile">
                 <img
-                  src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
+                  src={
+                    user.profilePicture ||
+                    "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"
+                  }
                   alt="Profile"
                   className="w-12 h-12 rounded-full border border-gray-300 cursor-pointer hover:scale-110 transition-transform duration-300"
                 />
@@ -82,10 +92,16 @@ export default function Header() {
             </div>
           ) : (
             <>
-              <Link to="/login" className="px-7 py-3 bg-dark text-white text-lg font-semibold rounded-lg hover:bg-accent">
+              <Link
+                to="/login"
+                className="px-7 py-3 bg-dark text-white text-lg font-semibold rounded-lg hover:bg-accent"
+              >
                 Login
               </Link>
-              <Link to="/register" className="px-7 py-3 bg-accent text-white text-lg font-semibold rounded-lg hover:bg-dark">
+              <Link
+                to="/register"
+                className="px-7 py-3 bg-accent text-white text-lg font-semibold rounded-lg hover:bg-dark"
+              >
                 Register
               </Link>
             </>
