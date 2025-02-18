@@ -41,7 +41,7 @@ export default function Header() {
             src="/logo.png"
             className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
           />
-          <span className="text-sm font-semibold text-dark">Pure & Pristine E-Market</span>  
+          <span className="text-sm font-semibold text-dark mt-1">Pure & Pristine E-Market</span>  
         </div>
 
         <RxHamburgerMenu
@@ -82,7 +82,7 @@ export default function Header() {
 
         <div className="space-x-6 ml-auto hidden lg:flex">
           {user ? (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-1 mt-2">
               <Link to="/profile">
                 <img
                   src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
@@ -92,7 +92,7 @@ export default function Header() {
               </Link>
               <button
                 onClick={handleLogout}
-                className="mt-2 px-5 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl"
+                className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl mb-1"
               >
                 Logout
               </button>
