@@ -3,8 +3,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+    const nav = useNavigate();
+
     const googleLogin = useGoogleLogin({
         onSuccess : (res) => {
             console.log(res)
@@ -43,9 +46,9 @@ export default function LoginPage() {
                 toast.success(res.data.message)
                 localStorage.setItem("token",res.data.token)
                 if(res.data.user.type == "admin"){
-                    window.location.href = "/admin"
+                    nav("/admin");
                 }else{
-                    window.location.href = "/"
+                    nav("/");
                 }
             }
         )
