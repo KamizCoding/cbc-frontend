@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import uploadMediaToSupabase from "../utils/mediaUpload";
@@ -10,6 +11,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicURL, setProfilePicURL] = useState("");
+  const nav = useNavigate();
 
   async function handleRegister() {
     let uploadedImageURL = "";
@@ -34,6 +36,10 @@ export default function RegisterPage() {
       })
       .then((res) => {
         toast.success(res.data.message);
+
+        setTimeout(() => {
+          nav("/login");
+        }, 1000);
       })
       .catch(() => {
         toast.error("Failed to Register");
@@ -93,7 +99,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Profile Picture Upload */}
           <div>
             <label className="block text-gray-200 font-bold mb-1">
               Profile Picture:
@@ -114,7 +119,6 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Profile Image Preview */}
           {profilePic && (
             <div className="flex justify-center mt-2">
               <img
