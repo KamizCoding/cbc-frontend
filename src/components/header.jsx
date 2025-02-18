@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaBoxOpen, FaEnvelope, FaHome } from "react-icons/fa";
+import { FaShoppingCart, FaBoxOpen, FaEnvelope, FaHome, FaClipboardList } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, useEffect } from "react";
 import HamburgerMenu from "./hamburgerMenu";
@@ -60,6 +60,13 @@ export default function Header() {
           >
             <FaBoxOpen size={30} />
             <span>Products</span>
+          </Link>
+          <Link
+            to="/orders"
+            className="flex flex-col items-center text-dark text-lg hover:text-white"
+          >
+            <FaClipboardList size={30} />
+            <span>Orders</span>
           </Link>
           <Link
             to="/contact"
