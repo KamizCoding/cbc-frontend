@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ProductCard from "../../components/productCard";
+import { Link } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -87,6 +89,15 @@ export default function ProductsPage() {
           </p>
         </div>
       )}
+
+      {/* Floating Cart Button */}
+      <Link
+        to="/cart"
+        className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition flex items-center gap-2"
+      >
+        <FaShoppingCart size={24} />
+        <span className="hidden md:inline font-semibold">Cart</span>
+      </Link>
     </div>
   );
 }
