@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaBoxOpen, FaEnvelope, FaHome, FaClipboardList } from "react-icons/fa";
+import { FaBoxOpen, FaEnvelope, FaHome, FaClipboardList } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, useEffect } from "react";
 import HamburgerMenu from "./hamburgerMenu";
@@ -36,10 +36,13 @@ export default function Header() {
         <HamburgerMenu closeHamburgerMenu={() => setIsMenuOpen(false)} />
       )}
       <header className="bg-secondary w-full flex h-[93px] justify-between items-center px-10 shadow-md">
-        <img
-          src="/logo.png"
-          className="h-[85px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
-        />
+        <div className="flex flex-col items-center">
+          <img
+            src="/logo.png"
+            className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
+          />
+          <span className="text-sm font-semibold text-dark">Pure & Pristine E-Market</span>  
+        </div>
 
         <RxHamburgerMenu
           className="text-3xl absolute cursor-pointer text-dark right-[10px] lg:hidden"
@@ -79,20 +82,17 @@ export default function Header() {
 
         <div className="space-x-6 ml-auto hidden lg:flex">
           {user ? (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center">
               <Link to="/profile">
                 <img
-                  src={
-                    user.profilePicture ||
-                    "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"
-                  }
+                  src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
                   alt="Profile"
                   className="w-12 h-12 rounded-full border border-gray-300 cursor-pointer hover:scale-110 transition-transform duration-300"
                 />
               </Link>
               <button
                 onClick={handleLogout}
-                className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl"
+                className="mt-2 px-5 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl"
               >
                 Logout
               </button>
