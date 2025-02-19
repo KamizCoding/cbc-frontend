@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaBan, FaTrash } from "react-icons/fa6";
 
 export default function AdminCustomersPage() {
@@ -71,7 +72,30 @@ export default function AdminCustomersPage() {
                     </button>
                   </td>
                   <td className="py-3 px-3 text-left">
-                    <button className="p-1 rounded-lg bg-red-500 hover:bg-red-600 text-white shadow-md transition duration-200">
+                    <button
+                      className="p-1 rounded-lg bg-red-500 hover:bg-red-600 text-white shadow-md transition duration-200"
+                      onClick={() => {
+                        const token = localStorage.getItem("token");
+
+                        axios
+                          .delete(
+                            import.meta.env.VITE_BACKEND_URL + "/api/users",
+                            {
+                              headers: {
+                                Authorization: `Bearer ${token}`,
+                              },
+                              data: { email: customer.email }, // Send email in request body
+                            }
+                          )
+                          .then((res) => {
+                            console.log(res.data);
+                            toast.success(
+                              "The unwelcome customer was kicked out successfully"
+                            );
+                          })
+                          .catch((err) => console.error(err));
+                      }}
+                    >
                       <FaTrash />
                     </button>
                   </td>
