@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBoxOpen, FaEnvelope, FaHome, FaClipboardList } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, useEffect } from "react";
@@ -22,6 +22,8 @@ export default function Header() {
       }
     }
   }, []);
+
+   const nav = useNavigate();
 
   function handleLogout() {
     console.log("Logging out...");
@@ -83,13 +85,15 @@ export default function Header() {
         <div className="space-x-6 ml-auto hidden lg:flex">
           {user ? (
             <div className="flex flex-col items-center gap-1 mt-2">
-              <Link to="/user">
+              <button onClick={() => {
+                nav("/user", {state : {user : user}})
+              }}>
                 <img
                   src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
                   alt="Profile"
                   className="w-12 h-12 rounded-full border border-gray-300 cursor-pointer hover:scale-110 transition-transform duration-300"
                 />
-              </Link>
+              </button>
               <button
                 onClick={handleLogout}
                 className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl mb-1"

@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
 
-export default function RegisterPage() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [profilePic, setProfilePic] = useState(null);
+export default function UserDetailsPage() {
+  const location = useLocation();
+  const user = location.state.user;
+
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [email, setEmail] = useState(user.email);
+  const [password, setPassword] = useState(user.password);
+  const [profilePic, setProfilePic] = useState(user.profilePic);
   const [profilePicURL, setProfilePicURL] = useState("");
   const nav = useNavigate();
+
+  console.log(location);
 
   async function handleRegister() {
     let uploadedImageURL = "";
@@ -51,8 +56,19 @@ export default function RegisterPage() {
       <img src="/logo.png" className="rounded-full w-[150px] p-3" />
       <div className="w-full max-w-md bg-gradient-to-br from-green-500 to-green-700 rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-center text-green-700 mb-2 bg-green-400 rounded-3xl">
-          Register
+          Your Details
         </h1>
+
+        <div>
+          <label className="block text-gray-200 font-bold">Email:</label>
+          <input
+            type="email"
+            placeholder="Enter Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         <div className="space-y-4">
           <div>
@@ -73,17 +89,6 @@ export default function RegisterPage() {
               placeholder="Enter Your Last Name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-200 font-bold">Email:</label>
-            <input
-              type="email"
-              placeholder="Enter Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
