@@ -20,6 +20,7 @@ export default function Homepage() {
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/products/productinfo/:id" element={<ProductInfoPage />} />
+                    <Route path="/user" element={<UserDetailsPage />} />
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="/shipping" element={<ShippingPage />} />
                     <Route path="/orders" element={<OrdersPage />} />

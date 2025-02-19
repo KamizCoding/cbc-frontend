@@ -83,7 +83,7 @@ export default function Header() {
         <div className="space-x-6 ml-auto hidden lg:flex">
           {user ? (
             <div className="flex flex-col items-center gap-1 mt-2">
-              <Link to="/profile">
+              <Link to="/user">
                 <img
                   src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
                   alt="Profile"
