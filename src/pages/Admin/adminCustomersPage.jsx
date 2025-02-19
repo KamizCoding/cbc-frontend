@@ -5,20 +5,24 @@ import { FaBan, FaTrash } from "react-icons/fa6";
 
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState([]);
+  const [loadedCustomers, setLoadedCustomers] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data.list);
-        setCustomers(res.data.list);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    if (!loadedCustomers) {
+      axios
+        .get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data.list);
+          setCustomers(res.data.list);
+          setLoadedCustomers(true);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [loadedCustomers]);
 
   return (
     <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
@@ -84,7 +88,7 @@ export default function AdminCustomersPage() {
                               headers: {
                                 Authorization: `Bearer ${token}`,
                               },
-                              data: { email: customer.email }, // Send email in request body
+                              data: { email: customer.email },
                             }
                           )
                           .then((res) => {
@@ -92,6 +96,11 @@ export default function AdminCustomersPage() {
                             toast.success(
                               "The unwelcome customer was kicked out successfully"
                             );
+
+                            // Delay the refresh so toast remains visible
+                            setTimeout(() => {
+                              setLoadedCustomers(false);
+                            }, 1000); 
                           })
                           .catch((err) => console.error(err));
                       }}
