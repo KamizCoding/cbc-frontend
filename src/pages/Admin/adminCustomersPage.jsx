@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaBan, FaTrash } from "react-icons/fa6";
+import { FaLock, FaLockOpen, FaTrash } from "react-icons/fa6";
 
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState([]);
@@ -23,6 +23,32 @@ export default function AdminCustomersPage() {
         .catch((err) => console.error(err));
     }
   }, [loadedCustomers]);
+
+  function handleBlockToggle(customer) {
+    const token = localStorage.getItem("token");
+
+    axios
+      .put(
+        import.meta.env.VITE_BACKEND_URL + "/api/users", 
+        { email: customer.email, isBlocked: !customer.isBlocked }, 
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        toast.success(res.data.message);
+        setCustomers(
+          customers.map((c) =>
+            c.email === customer.email
+              ? { ...c, isBlocked: !customer.isBlocked }
+              : c
+          )
+        );
+      })
+      .catch(() => {
+        toast.error("Failed to update user status. Please try again.");
+      });
+  }
 
   return (
     <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
@@ -71,8 +97,15 @@ export default function AdminCustomersPage() {
                     />
                   </td>
                   <td className="py-3 px-3 text-left">
-                    <button className="p-1 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white shadow-md transition duration-200">
-                      <FaBan />
+                    <button
+                      className={`p-1 rounded-lg ${
+                        customer.isBlocked
+                          ? "bg-green-500 hover:bg-green-600"
+                          : "bg-yellow-500 hover:bg-yellow-600"
+                      } text-white shadow-md transition duration-200`}
+                      onClick={() => handleBlockToggle(customer)}
+                    >
+                      {customer.isBlocked ? <FaLockOpen /> : <FaLock />}
                     </button>
                   </td>
                   <td className="py-3 px-3 text-left">
@@ -97,10 +130,9 @@ export default function AdminCustomersPage() {
                               "The unwelcome customer was kicked out successfully"
                             );
 
-                            // Delay the refresh so toast remains visible
                             setTimeout(() => {
                               setLoadedCustomers(false);
-                            }, 1000); 
+                            }, 1000);
                           })
                           .catch((err) => console.error(err));
                       }}
