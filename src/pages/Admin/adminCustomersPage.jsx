@@ -1,19 +1,21 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState([]);
 
-  axios.get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}` 
-    }
-  })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => console.error(err));
-  
+  useEffect(() => {
+    axios.get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}` 
+        }
+      })
+        .then((res) => {
+          console.log(res.data.list);
+          setCustomers(res.data.list)
+        })
+        .catch((err) => console.error(err));
+  }, [])
 
   return (
     <div>
