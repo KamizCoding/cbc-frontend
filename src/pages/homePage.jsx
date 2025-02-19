@@ -9,17 +9,19 @@ import Header from "../components/header";
 import ProductInfoPage from "./Customer/productInfoPage";
 import ShippingPage from "./Customer/shipping";
 import OrdersPage from "./Customer/ordersPage";
+import UserDetailsPage from "./Customer/userDetailsPage";
 
 export default function Homepage() {
     return (
         <div className="flex flex-col min-h-screen w-full">
             <Header />
 
-            <div className="h-[calc(100vh-150px)] p-4 bg-primary flex flex-col overflow-hidden">
+            <div className="h-[calc(100vh-150px)] bg-primary flex flex-col overflow-hidden">
                 <Routes>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/products/productinfo/:id" element={<ProductInfoPage />} />
+                    <Route path="/user" element={<UserDetailsPage />} />
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="/shipping" element={<ShippingPage />} />
                     <Route path="/orders" element={<OrdersPage />} />
