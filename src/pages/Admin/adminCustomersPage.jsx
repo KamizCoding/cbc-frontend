@@ -20,14 +20,31 @@ export default function AdminCustomersPage() {
   return (
     <div>
       Admin Customers Page
-      {customers.map((customer,index) => {
+      <table>
+        <thead>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Blocked?</th>
+            <th>Type</th>
+            <th>Profile Picture</th>
+        </thead>
+        <tbody>
+        {customers.map((customer,index) => {
         return(
-            <div key={index}>
-                {customer.firstName}
-            </div>
+            <tr key={index}>
+                <td>{customer.firstName}</td>
+                <td>{customer.lastName}</td>
+                <td>{customer.email}</td>
+                <td>{customer.isBlocked ? "Yes" : "No"}</td>
+                <td>{customer.type}</td>
+                <td>{customer.profilePicture}</td>
+            </tr>
         )
       }
       )}
+        </tbody>
+      </table>
     </div>
   );
 }
