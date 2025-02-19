@@ -18,38 +18,42 @@ export default function UserDetailsPage() {
 
   console.log(location);
 
-  async function handleRegister() {
-    let uploadedImageURL = "";
+  async function handleUpdate() {
+    const promisesArray = [];
+
+    let uploadedImageURL = profilePicURL;
 
     if (profilePic) {
-      try {
-        uploadedImageURL = await uploadMediaToSupabase(profilePic);
-        setProfilePicURL(uploadedImageURL);
-      } catch (error) {
-        toast.error("Profile picture upload failed.");
-        return;
-      }
+        promisesArray.push(uploadMediaToSupabase(profilePic));
+        uploadedImageURL = await Promise.all(promisesArray);
+        uploadedImageURL = uploadedImageURL[0]; // Since we are uploading only one image
     }
 
-    axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/users", {
-        firstName,
-        lastName,
-        email,
-        password,
+    const userData = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
         profilePicture: uploadedImageURL,
-      })
-      .then((res) => {
-        toast.success(res.data.message);
+    };
 
+    const token = localStorage.getItem("token");
+
+    try {
+        await axios.put(import.meta.env.VITE_BACKEND_URL + `/api/users/update/${email}`, userData, {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        });
+        toast.success("Your Details Were Updated Successfully");
         setTimeout(() => {
-          nav("/login");
+            nav("/");
         }, 1000);
-      })
-      .catch(() => {
-        toast.error("Failed to Register");
-      });
-  }
+    } catch (error) {
+        toast.error("Failed to update user details due to an error");
+    }
+}
+
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-b from-green-300 to-green-500">
@@ -67,6 +71,7 @@ export default function UserDetailsPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled
           />
         </div>
 
@@ -135,10 +140,10 @@ export default function UserDetailsPage() {
           )}
 
           <button
-            onClick={handleRegister}
+            onClick={handleUpdate}
             className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
           >
-            Create Account
+            Update User Details
           </button>
         </div>
       </div>
