@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import CartPage from "./Customer/cartPage";
 import ProductsPage from "./Customer/productsPage";
-import ContactPage from "./Customer/contactpage";
+import ContactPage from "./Customer/contactPage";
 import LoginPage from "./loginPage";
 import RegisterPage from "./registerPage";
 import Header from "../components/header";
