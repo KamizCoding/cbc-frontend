@@ -10,6 +10,7 @@ import ProductInfoPage from "./Customer/productInfoPage";
 import ShippingPage from "./Customer/shipping";
 import OrdersPage from "./Customer/ordersPage";
 import UserDetailsPage from "./Customer/userDetailsPage";
+import MainHomePage from "./Customer/mainHomePage";
 
 export default function Homepage() {
     return (
@@ -18,6 +19,7 @@ export default function Homepage() {
 
             <div className="h-[calc(100vh-150px)] bg-primary flex flex-col overflow-hidden">
                 <Routes>
+                    <Route path="/" element={<MainHomePage />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/products/productinfo/:id" element={<ProductInfoPage />} />
@@ -27,7 +29,14 @@ export default function Homepage() {
                     <Route path="/orders" element={<OrdersPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/*" element={<h1>404 Error</h1>} />
+                    <Route
+              path="*"
+              element={
+                <h1 className="text-center text-3xl text-red-600">
+                  404 Error - Page Not Found
+                </h1>
+              }
+            />
                 </Routes>               
             </div>
             <footer className="bg-gray-800 text-white text-center py-4 mt-0">
