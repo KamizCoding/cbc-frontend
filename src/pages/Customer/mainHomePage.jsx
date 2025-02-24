@@ -29,12 +29,14 @@ export default function MainHomePage() {
   const totalSlides = Math.floor(brandLogos.length / 4);
 
   const goToPreviousSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? totalSlides - 1 : prevIndex - 1));
-};
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
+    );
+  };
 
-const goToNextSlide = () => {
+  const goToNextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
-};
+  };
 
   return (
     <div className="flex-1 w-full overflow-y-auto bg-primary">
@@ -45,14 +47,19 @@ const goToNextSlide = () => {
             Pure & Pristine E-Market
           </h1>
           <p className="text-xl md:text-2xl mt-4 text-gray-300 font-medium">
-            Discover nature-inspired beauty products made with sustainability in mind.
+            Discover nature-inspired beauty products made with sustainability in
+            mind.
           </p>
         </div>
       </div>
 
       <div className="w-full flex flex-col items-center py-12">
-        <h2 className="text-3xl font-extrabold text-green-800 mb-2">Featured Deals ✨</h2>
-        <p className="text-lg text-gray-600 mb-6">Exclusive discounts on our best-selling nature-inspired products!</p>
+        <h2 className="text-3xl font-extrabold text-green-800 mb-2">
+          Featured Deals ✨
+        </h2>
+        <p className="text-lg text-gray-600 mb-6">
+          Exclusive discounts on our best-selling nature-inspired products!
+        </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl">
@@ -60,7 +67,10 @@ const goToNextSlide = () => {
           .filter((product) => product.lastPrice < product.price)
           .slice(0, 8)
           .map((product) => (
-            <div key={product.productId} className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center min-h-[380px]">
+            <div
+              key={product.productId}
+              className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center min-h-[380px]"
+            >
               <img
                 src={product.images?.[0] || "/placeholder.png"}
                 alt={product.productName}
@@ -101,9 +111,68 @@ const goToNextSlide = () => {
         </div>
       )}
 
+      <div className="w-full py-12 flex flex-col items-center bg-green-50">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-2">
+          Why Choose Us? 🌿
+        </h2>
+        <p className="text-lg text-gray-600 mb-6">
+          Experience the best in sustainable beauty with our nature-inspired
+          products!
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl">
+          <div
+            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
+                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            <span className="text-green-600 text-4xl">🌱</span>
+            <h3 className="text-xl font-semibold text-green-700 mt-3">
+              100% Eco-Friendly
+            </h3>
+            <p className="text-gray-600 mt-2">
+              Our products are sustainably sourced, cruelty-free, and
+              environmentally friendly.
+            </p>
+          </div>
+
+          <div
+            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
+                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            <span className="text-yellow-500 text-4xl">✨</span>
+            <h3 className="text-xl font-semibold text-green-700 mt-3">
+              Premium Quality
+            </h3>
+            <p className="text-gray-600 mt-2">
+              We ensure top-tier quality with the finest natural ingredients and
+              expert craftsmanship.
+            </p>
+          </div>
+
+          <div
+            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
+                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            <span className="text-blue-500 text-4xl">💚</span>
+            <h3 className="text-xl font-semibold text-green-700 mt-3">
+              Loved by Customers
+            </h3>
+            <p className="text-gray-600 mt-2">
+              Thousands of happy customers trust us for their skincare and
+              beauty needs.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="w-full py-12 bg-green-50 flex flex-col items-center">
-        <h2 className="text-3xl font-extrabold text-green-800 mb-6">Our Trusted Partners 🤝</h2>
-        <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">We collaborate with top eco-friendly brands to bring you the best sustainable beauty products.</p>
+        <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+          Our Trusted Partners 🤝
+        </h2>
+        <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
+          We collaborate with top eco-friendly brands to bring you the best
+          sustainable beauty products.
+        </p>
 
         <div className="relative w-full max-w-xl">
           <button
@@ -114,29 +183,33 @@ const goToNextSlide = () => {
           </button>
 
           <div className="overflow-hidden w-full">
-    <div
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-    >
-        {Array.from({ length: totalSlides }).map((_, index) => (
-            <div key={index} className="flex w-full justify-center gap-6">
-                {brandLogos.slice(index * 4, index * 4 + 4).map((brand, i) => (
-                    <div key={i} className="w-1/4 flex flex-col items-center p-7 hover:scale-125">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <div key={index} className="flex w-full justify-center gap-6">
+                  {brandLogos
+                    .slice(index * 4, index * 4 + 4)
+                    .map((brand, i) => (
+                      <div
+                        key={i}
+                        className="w-1/4 flex flex-col items-center p-7 hover:scale-125"
+                      >
                         <img
-                            src={brand.logo}
-                            alt={brand.name}
-                            className="w-36 h-20 object-contain transition-transform duration-300 ease-in-out "
+                          src={brand.logo}
+                          alt={brand.name}
+                          className="w-36 h-20 object-contain transition-transform duration-300 ease-in-out "
                         />
                         <span className="mt-2 text-green-900 font-semibold text-lg text-center ">
-                            {brand.name}
+                          {brand.name}
                         </span>
-                    </div>
-                ))}
+                      </div>
+                    ))}
+                </div>
+              ))}
             </div>
-        ))}
-    </div>
-</div>
-
+          </div>
 
           <button
             className="absolute right-[-40px] top-1/3 transform -translate-y-1/2 bg-green-600 text-white p-3 rounded-full hover:bg-green-700 transition z-10"
