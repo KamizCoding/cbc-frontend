@@ -145,22 +145,37 @@ export default function MainHomePage() {
         Our Trusted Partners 🤝
     </h2>
     <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
-        We collaborate with **top eco-friendly brands** to bring you the best sustainable beauty products.
+        We collaborate with <span className="font-semibold">top eco-friendly brands</span> to bring you the best sustainable beauty products.
     </p>
 
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-5xl">
-        {["/brand01logo.png", "/brand02logo.jpg", "/brand03logo.jpg", "/brand014ogo.png", "/brand05logo.jpg", "/brand06logo.jpg", "/brand07logo.jpg", "/brand08logo.jpg"]
-            .map((brand, index) => (
-                <div key={index} className="flex justify-center">
+        {[
+            { logo: "/brand01logo.png", name: "ILIA BEAUTY" },
+            { logo: "/brand02logo.jpg", name: "AXIOLOGY" },
+            { logo: "/brand03logo.jpg", name: "ELATE COSMETICS" },
+            { logo: "/brand014ogo.png", name: "100% PURE" },
+            { logo: "/brand05logo.jpg", name: "LA BOUCHE BEAUTY" },
+            { logo: "/brand06logo.jpg", name: "WELL PEOPLE" },
+            { logo: "/brand07logo.jpg", name: "ALIMA PURE" },
+            { logo: "/brand08logo.jpg", name: "RMS BEAUTY" }
+        ].map((brand, index) => (
+            <div key={index} className="flex flex-col items-center">
+                <div className="relative p-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-muted hover:shadow-xl hover:p-4">
                     <img 
-                        src={brand} 
-                        alt="Brand Logo"
-                        className="w-32 h-16 object-contain opacity-80 hover:opacity-100 transition duration-300"
+                        src={brand.logo} 
+                        alt={brand.name} 
+                        className="w-32 h-16 object-contain transition-transform duration-300 ease-in-out hover:scale-105"
                     />
                 </div>
-            ))}
+                <span className="mt-2 text-green-900 font-semibold text-lg text-center transition-all duration-300 hover:text-green-700">
+                    {brand.name}
+                </span>
+            </div>
+        ))}
     </div>
 </div>
+
+
 
     </div>
   );
