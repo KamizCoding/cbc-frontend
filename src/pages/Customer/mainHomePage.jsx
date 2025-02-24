@@ -12,7 +12,7 @@ export default function MainHomePage() {
     { logo: "/brand01logo.png", name: "ILIA BEAUTY" },
     { logo: "/brand02logo.jpg", name: "AXIOLOGY" },
     { logo: "/brand03logo.jpg", name: "ELATE COSMETICS" },
-    { logo: "/brand04logo.png", name: "100% PURE" },
+    { logo: "/brand014ogo.png", name: "100% PURE" },
     { logo: "/brand05logo.jpg", name: "LA BOUCHE BEAUTY" },
     { logo: "/brand06logo.jpg", name: "WELL PEOPLE" },
     { logo: "/brand07logo.jpg", name: "ALIMA PURE" },
@@ -121,13 +121,13 @@ const goToNextSlide = () => {
         {Array.from({ length: totalSlides }).map((_, index) => (
             <div key={index} className="flex w-full justify-center gap-6">
                 {brandLogos.slice(index * 4, index * 4 + 4).map((brand, i) => (
-                    <div key={i} className="w-1/4 flex flex-col items-center p-4">
+                    <div key={i} className="w-1/4 flex flex-col items-center p-7 hover:scale-125">
                         <img
                             src={brand.logo}
                             alt={brand.name}
-                            className="w-32 h-16 object-contain transition-transform duration-300 ease-in-out hover:scale-105"
+                            className="w-36 h-20 object-contain transition-transform duration-300 ease-in-out "
                         />
-                        <span className="mt-2 text-green-900 font-semibold text-lg text-center">
+                        <span className="mt-2 text-green-900 font-semibold text-lg text-center ">
                             {brand.name}
                         </span>
                     </div>
