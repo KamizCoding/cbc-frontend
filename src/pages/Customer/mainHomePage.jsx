@@ -219,6 +219,74 @@ export default function MainHomePage() {
           </button>
         </div>
       </div>
+
+      <div className="w-full py-12 flex flex-col items-center bg-white">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+          Skincare & Beauty Tips ✨
+        </h2>
+        <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
+          Discover expert tips on **eco-friendly skincare, natural beauty, and
+          self-care.**
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl">
+          {[
+            {
+              id: 1,
+              icon: "🌿",
+              title: "Hydration is Key",
+              description:
+                "Drink plenty of water daily to keep your skin naturally glowing and hydrated.",
+            },
+            {
+              id: 2,
+              icon: "☀️",
+              title: "Never Skip Sunscreen",
+              description:
+                "Protect your skin from harmful UV rays by applying SPF 30+ every day.",
+            },
+            {
+              id: 3,
+              icon: "🍯",
+              title: "Use Natural Ingredients",
+              description:
+                "Honey, aloe vera, and coconut oil work wonders for nourishing the skin.",
+            },
+            {
+              id: 4,
+              icon: "💤",
+              title: "Get Enough Sleep",
+              description:
+                "Your skin repairs itself while you sleep, so aim for at least 7-8 hours.",
+            },
+            {
+              id: 5,
+              icon: "🥑",
+              title: "Eat Healthy Fats",
+              description:
+                "Avocados, nuts, and olive oil help maintain skin elasticity and glow.",
+            },
+            {
+              id: 6,
+              icon: "❌",
+              title: "Avoid Harsh Chemicals",
+              description:
+                "Switch to organic, paraben-free skincare to prevent skin irritation.",
+            },
+          ].map((tip) => (
+            <div
+              key={tip.id}
+              className="bg-green-50 shadow-lg rounded-lg p-6 text-center transition-transform transform hover:scale-105"
+            >
+              <div className="text-5xl">{tip.icon}</div>
+              <h3 className="text-xl font-bold text-green-800 mt-3">
+                {tip.title}
+              </h3>
+              <p className="text-gray-600 mt-2">{tip.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
