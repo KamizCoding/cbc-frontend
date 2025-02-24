@@ -86,50 +86,79 @@ export default function MainHomePage() {
         </div>
       )}
 
-<div className="w-full py-12 flex flex-col items-center bg-green-50">
-    <h2 className="text-3xl font-extrabold text-green-800 mb-2">
-        Why Choose Us? 🌿
-    </h2>
-    <p className="text-lg text-gray-600 mb-6">
-        Experience the best in sustainable beauty with our nature-inspired products!
-    </p>
+      <div className="w-full py-12 flex flex-col items-center bg-green-50">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-2">
+          Why Choose Us? 🌿
+        </h2>
+        <p className="text-lg text-gray-600 mb-6">
+          Experience the best in sustainable beauty with our nature-inspired
+          products!
+        </p>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl">
-        {/* Eco-Friendly Products */}
-        <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
-                        transform transition duration-300 hover:scale-105 hover:shadow-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl">
+          <div
+            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
+                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
             <span className="text-green-600 text-4xl">🌱</span>
             <h3 className="text-xl font-semibold text-green-700 mt-3">
-                100% Eco-Friendly
+              100% Eco-Friendly
             </h3>
             <p className="text-gray-600 mt-2">
-                Our products are sustainably sourced, cruelty-free, and environmentally friendly.
+              Our products are sustainably sourced, cruelty-free, and
+              environmentally friendly.
             </p>
-        </div>
+          </div>
 
-        {/* Premium Quality */}
-        <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
-                        transform transition duration-300 hover:scale-105 hover:shadow-lg">
+          <div
+            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
+                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
             <span className="text-yellow-500 text-4xl">✨</span>
             <h3 className="text-xl font-semibold text-green-700 mt-3">
-                Premium Quality
+              Premium Quality
             </h3>
             <p className="text-gray-600 mt-2">
-                We ensure top-tier quality with the finest natural ingredients and expert craftsmanship.
+              We ensure top-tier quality with the finest natural ingredients and
+              expert craftsmanship.
             </p>
-        </div>
+          </div>
 
-        {/* Customer Satisfaction */}
-        <div className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
-                        transform transition duration-300 hover:scale-105 hover:shadow-lg">
+          <div
+            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
+                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
             <span className="text-blue-500 text-4xl">💚</span>
             <h3 className="text-xl font-semibold text-green-700 mt-3">
-                Loved by Customers
+              Loved by Customers
             </h3>
             <p className="text-gray-600 mt-2">
-                Thousands of happy customers trust us for their skincare and beauty needs.
+              Thousands of happy customers trust us for their skincare and
+              beauty needs.
             </p>
+          </div>
         </div>
+      </div>
+
+      <div className="w-full py-12 bg-green-50 flex flex-col items-center">
+    <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+        Our Trusted Partners 🤝
+    </h2>
+    <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
+        We collaborate with **top eco-friendly brands** to bring you the best sustainable beauty products.
+    </p>
+
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-5xl">
+        {["/brand01logo.png", "/brand02logo.jpg", "/brand03logo.jpg", "/brand014ogo.png", "/brand05logo.jpg", "/brand06logo.jpg", "/brand07logo.jpg", "/brand08logo.jpg"]
+            .map((brand, index) => (
+                <div key={index} className="flex justify-center">
+                    <img 
+                        src={brand} 
+                        alt="Brand Logo"
+                        className="w-32 h-16 object-contain opacity-80 hover:opacity-100 transition duration-300"
+                    />
+                </div>
+            ))}
     </div>
 </div>
 
