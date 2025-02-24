@@ -42,7 +42,7 @@ export default function MainHomePage() {
     <div className="flex-1 w-full overflow-y-auto bg-primary">
       <div className="relative w-full h-[474px] flex flex-col justify-center items-center text-white">
         <HomeImageSlider />
-        <div className="relative text-center max-w-2xl rounded-md p-[30px]">
+        <div className="relative text-center max-w-2xl rounded-md p-[10px]">
           <h1 className="text-5xl md:text-4xl font-extrabold text-gray-400 drop-shadow-lg">
             Pure & Pristine E-Market
           </h1>
