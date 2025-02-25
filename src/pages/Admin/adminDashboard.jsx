@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-export default function OrdersMetrics() {
+export default function AdminDashboard() {
   const [orderStats, setOrderStats] = useState({
     processing: 0,
     shipped: 0,
@@ -54,92 +54,27 @@ export default function OrdersMetrics() {
   }, []);
 
   const pieData = [
-    { name: "Processing", value: orderStats.processing, color: "#ffcc00" },
-    { name: "Shipped", value: orderStats.shipped, color: "#3498db" },
-    { name: "Completed", value: orderStats.completed, color: "#2ecc71" },
-    { name: "Cancelled", value: orderStats.cancelled, color: "#e74c3c" },
+    { name: "Processing", value: orderStats.processing, color: "#FFC107" },
+    { name: "Shipped", value: orderStats.shipped, color: "#2196F3" },
+    { name: "Completed", value: orderStats.completed, color: "#4CAF50" },
+    { name: "Cancelled", value: orderStats.cancelled, color: "#F44336" },
   ];
 
   return (
-    <div className="w-full bg-white shadow-lg rounded-lg p-6">
-      {/* Metrics Heading */}
-      <h2 className="text-3xl font-extrabold text-gray-900 mb-6 border-b pb-2 text-center">
-        📊 Metrics
+    <div className="w-full">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+        📊Key Metrics
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Order Status Overview */}
-        <div className="grid grid-cols-2 gap-6">
-          {/* Processing */}
-          <div className="bg-white shadow-md rounded-lg p-6 flex items-center gap-4">
-            <div className="bg-yellow-100 p-4 rounded-full">
-              <FaBoxOpen className="text-yellow-600 text-3xl" />
-            </div>
-            <div>
-              <p className="text-gray-600 text-lg font-medium">
-                Processing Orders
-              </p>
-              <h2 className="text-3xl font-bold text-gray-900">
-                {orderStats.processing}
-              </h2>
-            </div>
-          </div>
-
-          {/* Shipped */}
-          <div className="bg-white shadow-md rounded-lg p-6 flex items-center gap-4">
-            <div className="bg-blue-100 p-4 rounded-full">
-              <FaShippingFast className="text-blue-600 text-3xl" />
-            </div>
-            <div>
-              <p className="text-gray-600 text-lg font-medium">
-                Shipped Orders
-              </p>
-              <h2 className="text-3xl font-bold text-gray-900">
-                {orderStats.shipped}
-              </h2>
-            </div>
-          </div>
-
-          {/* Completed */}
-          <div className="bg-white shadow-md rounded-lg p-6 flex items-center gap-4">
-            <div className="bg-green-100 p-4 rounded-full">
-              <FaCheckCircle className="text-green-600 text-3xl" />
-            </div>
-            <div>
-              <p className="text-gray-600 text-lg font-medium">
-                Completed Orders
-              </p>
-              <h2 className="text-3xl font-bold text-gray-900">
-                {orderStats.completed}
-              </h2>
-            </div>
-          </div>
-
-          {/* Cancelled */}
-          <div className="bg-white shadow-md rounded-lg p-6 flex items-center gap-4">
-            <div className="bg-red-100 p-4 rounded-full">
-              <FaTimesCircle className="text-red-600 text-3xl" />
-            </div>
-            <div>
-              <p className="text-gray-600 text-lg font-medium">
-                Cancelled Orders
-              </p>
-              <h2 className="text-3xl font-bold text-gray-900">
-                {orderStats.cancelled}
-              </h2>
-            </div>
-          </div>
-        </div>
-
-        {/* Orders Status Pie Chart */}
-        <div className="flex justify-center">
-          <PieChart width={300} height={300}>
+      <div className="flex justify-center gap-6 mb-6">
+        <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center w-[320px]">
+          <h3 className="text-lg font-semibold text-gray-700 mb-2">Orders</h3>
+          <PieChart width={200} height={200}>
             <Pie
               data={pieData}
               cx="50%"
               cy="50%"
-              outerRadius={100}
-              fill="#8884d8"
+              outerRadius={60}
               dataKey="value"
               label
             >
@@ -148,9 +83,28 @@ export default function OrdersMetrics() {
               ))}
             </Pie>
             <Tooltip />
-            <Legend />
+            <Legend layout="horizontal" align="center" wrapperStyle={{ fontSize: "9px" }} />
           </PieChart>
         </div>
+
+       
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 max-w-[320px] mx-auto">
+        {[
+          { title: "Processing", count: orderStats.processing, color: "bg-yellow-100", textColor: "text-yellow-600", icon: <FaBoxOpen className="text-yellow-500 text-xl" /> },
+          { title: "Shipped", count: orderStats.shipped, color: "bg-blue-100", textColor: "text-blue-600", icon: <FaShippingFast className="text-blue-500 text-xl" /> },
+          { title: "Completed", count: orderStats.completed, color: "bg-green-100", textColor: "text-green-600", icon: <FaCheckCircle className="text-green-500 text-xl" /> },
+          { title: "Cancelled", count: orderStats.cancelled, color: "bg-red-100", textColor: "text-red-600", icon: <FaTimesCircle className="text-red-500 text-xl" /> }
+        ].map((metric, index) => (
+          <div key={index} className={`flex items-center gap-3 p-4 ${metric.color} rounded-lg shadow-sm border`}>
+            <div className="p-2 bg-white rounded-full shadow">{metric.icon}</div>
+            <div className="flex flex-col">
+              <p className={`text-sm font-medium ${metric.textColor}`}>{metric.title} Orders</p>
+              <h2 className="text-lg font-bold text-gray-900">{metric.count}</h2>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
