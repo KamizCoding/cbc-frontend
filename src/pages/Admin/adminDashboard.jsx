@@ -133,16 +133,13 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="w-full px-6 py-6 bg-gray-50">
-      {/* Metrics Heading */}
+    <div className="w-full px-6 py-6 bg-primary">
       <h2 className="text-3xl font-extrabold text-gray-800 mb-8 text-center">
         📊 Dashboard Metrics
       </h2>
 
-      {/* 📌 Three Pie Charts (Orders, Customers, Products) */}
       <div className="grid grid-cols-3 gap-5 justify-center">
-        {/* Orders Section */}
-        <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
+        <div className="bg-muted shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">Orders</h3>
           <PieChart width={230} height={230}>
             <Pie
@@ -161,7 +158,7 @@ export default function AdminDashboard() {
             <Legend
               layout="horizontal"
               align="center"
-              wrapperStyle={{ fontSize: "10px" }}
+              wrapperStyle={{ fontSize: "15px" }}
             />
           </PieChart>
           <div className="grid grid-cols-2 gap-4 mt-6 w-[290px]">
@@ -215,8 +212,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Customers Section */}
-        <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
+        <div className="bg-muted shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">
             Customers
           </h3>
@@ -237,7 +233,7 @@ export default function AdminDashboard() {
             <Legend
               layout="horizontal"
               align="center"
-              wrapperStyle={{ fontSize: "10px" }}
+              wrapperStyle={{ fontSize: "15px" }}
             />
           </PieChart>
           <div className="grid grid-cols-2 gap-4 mt-6 w-[290px]">
@@ -284,8 +280,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Products Section */}
-        <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
+        <div className="bg-muted shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">Products</h3>
           <PieChart width={230} height={230}>
             <Pie
@@ -304,11 +299,10 @@ export default function AdminDashboard() {
             <Legend
               layout="horizontal"
               align="center"
-              wrapperStyle={{ fontSize: "10px" }}
+              wrapperStyle={{ fontSize: "15px" }}
             />
           </PieChart>
 
-          {/* Products Cards */}
           <div className="grid grid-cols-2 gap-2 mt-3 w-[280px]">
             {[
               {
