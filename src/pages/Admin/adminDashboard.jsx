@@ -7,6 +7,8 @@ import {
   FaTimesCircle,
   FaUser,
   FaUserLock,
+  FaCubes,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
@@ -22,6 +24,12 @@ export default function AdminDashboard() {
     customers: 0,
     admins: 0,
     blocked: 0,
+  });
+
+  const [productStats, setProductStats] = useState({
+    inStock: 0,
+    lowStock: 0,
+    outOfStock: 0,
   });
 
   useEffect(() => {
@@ -79,6 +87,30 @@ export default function AdminDashboard() {
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
+
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/products`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (!response.data || !Array.isArray(response.data.list)) {
+          console.error("Invalid data format:", response.data);
+          return;
+        }
+
+        const products = response.data.list;
+
+        setProductStats({
+          inStock: products.filter((product) => product.stock > 10).length,
+          lowStock: products.filter(
+            (product) => product.stock <= 10 && product.stock > 0
+          ).length,
+          outOfStock: products.filter((product) => product.stock === 0).length,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
   }, []);
 
   const orderPieData = [
@@ -94,12 +126,22 @@ export default function AdminDashboard() {
     { name: "Blocked", value: customerStats.blocked, color: "#F44336" },
   ];
 
+  const productPieData = [
+    { name: "In Stock", value: productStats.inStock, color: "#4CAF50" },
+    { name: "Low Stock", value: productStats.lowStock, color: "#FFC107" },
+    { name: "Out of Stock", value: productStats.outOfStock, color: "#F44336" },
+  ];
+
   return (
     <div className="w-full px-6 py-6 bg-gray-50">
+      {/* Metrics Heading */}
       <h2 className="text-3xl font-extrabold text-gray-800 mb-8 text-center">
         📊 Dashboard Metrics
       </h2>
-      <div className="grid grid-cols-2 gap-8 justify-center">
+
+      {/* 📌 Three Pie Charts (Orders, Customers, Products) */}
+      <div className="grid grid-cols-3 gap-5 justify-center">
+        {/* Orders Section */}
         <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">Orders</h3>
           <PieChart width={230} height={230}>
@@ -119,11 +161,10 @@ export default function AdminDashboard() {
             <Legend
               layout="horizontal"
               align="center"
-              wrapperStyle={{ fontSize: "15px" }}
+              wrapperStyle={{ fontSize: "10px" }}
             />
           </PieChart>
-
-          <div className="grid grid-cols-2 gap-4 mt-6">
+          <div className="grid grid-cols-2 gap-4 mt-6 w-[290px]">
             {[
               {
                 title: "Processing",
@@ -174,6 +215,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Customers Section */}
         <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">
             Customers
@@ -195,11 +237,10 @@ export default function AdminDashboard() {
             <Legend
               layout="horizontal"
               align="center"
-              wrapperStyle={{ fontSize: "15px" }}
+              wrapperStyle={{ fontSize: "10px" }}
             />
           </PieChart>
-
-          <div className="grid grid-cols-2 gap-4 mt-6">
+          <div className="grid grid-cols-2 gap-4 mt-6 w-[290px]">
             {[
               {
                 title: "Admins",
@@ -221,6 +262,75 @@ export default function AdminDashboard() {
                 color: "bg-red-100",
                 textColor: "text-red-600",
                 icon: <FaUserLock className="text-red-500 text-xl" />,
+              },
+            ].map((metric, index) => (
+              <div
+                key={index}
+                className={`flex items-center gap-3 p-4 ${metric.color} rounded-lg shadow-md border`}
+              >
+                <div className="p-2 bg-white rounded-full shadow">
+                  {metric.icon}
+                </div>
+                <div className="flex flex-col">
+                  <p className={`text-sm font-medium ${metric.textColor}`}>
+                    {metric.title}
+                  </p>
+                  <h2 className="text-lg font-bold text-gray-900">
+                    {metric.count}
+                  </h2>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Products Section */}
+        <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center transition-transform transform hover:scale-105 duration-300">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Products</h3>
+          <PieChart width={230} height={230}>
+            <Pie
+              data={productPieData}
+              cx="50%"
+              cy="50%"
+              outerRadius={70}
+              dataKey="value"
+              label
+            >
+              {productPieData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              layout="horizontal"
+              align="center"
+              wrapperStyle={{ fontSize: "10px" }}
+            />
+          </PieChart>
+
+          {/* Products Cards */}
+          <div className="grid grid-cols-2 gap-2 mt-3 w-[280px]">
+            {[
+              {
+                title: "In Stock",
+                count: productStats.inStock,
+                color: "bg-green-100",
+                textColor: "text-green-600",
+                icon: <FaBoxOpen className="text-green-500 text-xl" />,
+              },
+              {
+                title: "Out of Stock",
+                count: productStats.outOfStock,
+                color: "bg-red-100",
+                textColor: "text-red-600",
+                icon: <FaTimesCircle className="text-red-500 text-xl" />,
+              },
+              {
+                title: "Low Stock",
+                count: productStats.lowStock,
+                color: "bg-yellow-100",
+                textColor: "text-yellow-600",
+                icon: <FaShippingFast className="text-yellow-500 text-xl" />,
               },
             ].map((metric, index) => (
               <div
