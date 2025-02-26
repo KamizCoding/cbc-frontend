@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { deleteProductFromCart, updateCartQuantity } from "../utils/cartfunction";
+import {
+  deleteProductFromCart,
+  updateCartQuantity,
+} from "../utils/cartfunction";
 
 export default function CartCard(props) {
   const { productId, quantity, onQuantityChange } = props;
@@ -82,9 +85,22 @@ export default function CartCard(props) {
               </button>
             </div>
 
-            <p className="text-md font-semibold text-dark">
-              LKR. {product?.lastPrice.toFixed(2)}
-            </p>
+            <div className="mt-2">
+              {product?.lastPrice < product?.price ? (
+                <>
+                  <p className="text-sm font-medium text-gray-500 line-through">
+                    LKR. {product?.price.toFixed(2)}
+                  </p>
+                  <p className="text-md font-semibold text-dark">
+                    LKR. {product?.lastPrice.toFixed(2)}
+                  </p>
+                </>
+              ) : (
+                <p className="text-md font-semibold text-dark">
+                  LKR. {product?.price.toFixed(2)}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Total Price */}
