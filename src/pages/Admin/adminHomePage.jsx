@@ -79,7 +79,6 @@ export default function AdminHomePage() {
 
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
-      {/* Logout Confirmation Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -108,9 +107,7 @@ export default function AdminHomePage() {
         </div>
       )}
 
-      {/* Sidebar with User Profile */}
       <div className="w-[20%] h-screen fixed left-0 top-0 flex flex-col p-5 bg-lime-200 shadow-lg">
-        {/* User Profile Section */}
         {user && (
           <div className="flex flex-col items-center mb-6">
             <img
@@ -130,10 +127,7 @@ export default function AdminHomePage() {
           </div>
         )}
 
-        {/* Styled Divider Line */}
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
-
-        {/* Sidebar Navigation */}
         <div className="flex flex-col gap-4">
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
@@ -165,8 +159,6 @@ export default function AdminHomePage() {
           </Link>
         </div>
       </div>
-
-      {/* Main Content Area */}
       <div className="ml-[20%] w-[80%] min-h-screen p-6">
         {user ? (
           <Routes>
