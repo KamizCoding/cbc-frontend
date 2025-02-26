@@ -59,8 +59,8 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="w-full h-full relative">
-      <div className="w-full flex justify-center mt-5 mb-6">
+    <div className="w-full min-h-screen flex flex-col overflow-auto">
+      <div className="w-full flex justify-center mt-10 mb-6">
         <div className="relative w-1/2">
           <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
           <input
@@ -74,14 +74,16 @@ export default function ProductsPage() {
       </div>
 
       {loadingStatus === "loaded" && (
-        <div className="w-full flex flex-col items-center gap-4 p-4">
-          <div className="w-full max-h-[70vh] overflow-y-auto flex flex-wrap justify-center gap-4">
+        <div className="w-full flex flex-col items-center gap-4 p-4 pb-20">
+          <div className="w-full flex flex-wrap justify-center gap-4 pb-20">
             {products.length > 0 ? (
               products.map((product, index) => (
                 <ProductCard key={product.id || index} product={product} />
               ))
             ) : (
-              <p className="text-dark text-lg font-semibold">No products found.</p>
+              <p className="text-dark text-lg font-semibold">
+                No products found.
+              </p>
             )}
           </div>
         </div>
@@ -90,7 +92,9 @@ export default function ProductsPage() {
       {loadingStatus === "loading" && (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
           <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
-          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">Loading...</p>
+          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">
+            Loading...
+          </p>
         </div>
       )}
 
