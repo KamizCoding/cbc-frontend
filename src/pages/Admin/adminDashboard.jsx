@@ -164,7 +164,7 @@ export default function AdminDashboard() {
     { name: "Processing", value: orderStats.processing, color: "#FFC107" },
     { name: "Shipped", value: orderStats.shipped, color: "#2196F3" },
     { name: "Completed", value: orderStats.completed, color: "#4CAF50" },
-    { name: "Cancelled", value: orderStats.cancelmled, color: "#F44336" },
+    { name: "Cancelled", value: orderStats.cancelled, color: "#F44336" },
   ];
 
   const customerPieData = [
