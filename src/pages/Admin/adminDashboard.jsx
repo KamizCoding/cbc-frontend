@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaChartPie } from "react-icons/fa";
+import { FaChartPie, FaClock, FaUserCheck } from "react-icons/fa";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 export default function AdminDashboard() {
@@ -26,6 +26,10 @@ export default function AdminDashboard() {
   });
 
   const [recentOrders, setRecentOrders] = useState([]);
+
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [recentLogins, setRecentLogins] = useState([]);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -102,6 +106,15 @@ export default function AdminDashboard() {
         });
       })
       .catch((error) => console.error("Error fetching products:", error));
+
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/activity`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(response => {
+        setActiveUsers(response.data.activeUsers);
+        setRecentLogins(response.data.recentLogins);
+      })
+      .catch(error => console.error("Error fetching user activity:", error));
+  
+
   }, []);
 
   const orderPieData = [
@@ -123,6 +136,7 @@ export default function AdminDashboard() {
   ];
 
   return (
+    <>
     <div className="w-full">
       <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
         <FaChartPie className="text-3xl text-blue-600" />
@@ -165,7 +179,20 @@ export default function AdminDashboard() {
           </div>
         ))}
       </div>
-
+      <div className="bg-white shadow-lg rounded-2xl p-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">👤 User Activity</h3>
+        <div className="mb-6">
+          <h4 className="text-md font-medium text-gray-700 mb-2">🟢 Active Users</h4>
+          {activeUsers.length === 0 ? <p className="text-sm text-gray-500">No active users</p> : <ul>{activeUsers.map((user, index) => (<li key={index} className="flex items-center gap-2 text-gray-700"><FaUserCheck className="text-green-500" /> {user.email} ({user.type})</li>))}</ul>}
+        </div>
+        <div>
+          <h4 className="text-md font-medium text-gray-700 mb-2">⏰ Recent Logins</h4>
+          {recentLogins.length === 0 ? <p className="text-sm text-gray-500">No recent logins</p> : <ul>{recentLogins.map((user, index) => (<li key={index} className="flex items-center gap-2 text-gray-700"><FaClock className="text-blue-500" /> {user.email} - {new Date(user.lastLogin).toLocaleString()}</li>))}</ul>}
+        </div>
+      </div>
+    </div>
+      
+<div>
       <h2 className="text-3xl font-extrabold text-gray-900 mb-1 text-center flex items-center justify-center pt-8">
         📋 Recent Orders
       </h2>
@@ -234,6 +261,8 @@ export default function AdminDashboard() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+      </>
+    
   );
 }
