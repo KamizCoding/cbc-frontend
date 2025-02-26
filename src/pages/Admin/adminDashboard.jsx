@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {
-  FaChartPie,
-} from "react-icons/fa";
+import { FaChartPie } from "react-icons/fa";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 export default function AdminDashboard() {
@@ -168,10 +166,10 @@ export default function AdminDashboard() {
         ))}
       </div>
 
+      <h2 className="text-3xl font-extrabold text-gray-900 mb-1 text-center flex items-center justify-center pt-8">
+        📋 Recent Orders
+      </h2>
       <div className="w-full bg-white shadow-lg rounded-2xl p-6 mt-8">
-        <h2 className="text-xl font-extrabold text-gray-900 mb-4 text-center">
-          📋 Recent Orders
-        </h2>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
