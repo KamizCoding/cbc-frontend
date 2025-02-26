@@ -13,7 +13,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const lowStockThreshold = 5; // Define the threshold for low stock
+  const lowStockThreshold = 5; 
 
   const [orderStats, setOrderStats] = useState({
     processing: 0,
