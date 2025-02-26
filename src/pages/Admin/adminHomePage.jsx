@@ -24,7 +24,7 @@ export default function AdminHomePage() {
       nav("/login");
       return;
     }
-    
+
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/users/userdetail", {
         headers: {
@@ -79,12 +79,14 @@ export default function AdminHomePage() {
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
       <div className="w-[20%] h-screen fixed left-0 top-0 flex flex-col p-5 bg-lime-200 shadow-lg">
+        
         {user && (
           <div className="flex flex-col items-center mb-6">
             <img
               src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
               alt="Profile"
-              className="w-20 h-20 rounded-full border border-gray-300 shadow-md"
+              className="w-20 h-20 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
+              onClick={() => nav("/user", { state: { user: user } })}  
             />
             <p className="text-lg font-semibold text-gray-900 mt-2">{user.name || "Admin"}</p>
             <p className="text-sm text-gray-700">{user.email}</p>
@@ -98,7 +100,6 @@ export default function AdminHomePage() {
         )}
 
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
-
         <div className="flex flex-col gap-4">
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
@@ -131,7 +132,6 @@ export default function AdminHomePage() {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="ml-[20%] w-[80%] min-h-screen p-6">
         {user ? (
           <Routes>
