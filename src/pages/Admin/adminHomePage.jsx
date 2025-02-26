@@ -25,7 +25,6 @@ export default function AdminHomePage() {
       nav("/login");
       return;
     }
-
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/users/userdetail", {
         headers: {
@@ -79,91 +78,35 @@ export default function AdminHomePage() {
 
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
-      {/* Logout Confirmation Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Confirm Logout
-            </h2>
-            <p className="text-gray-600 mb-4">Are you sure you want to log out?</p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  handleLogout();
-                }}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Sidebar with User Profile */}
-      <div className="w-[20%] h-screen fixed left-0 top-0 flex flex-col p-5 bg-lime-200 shadow-lg">
-        {/* User Profile Section */}
-        {user && (
-          <div className="flex flex-col items-center mb-6">
-            <img
-              src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
-              alt="Profile"
-              className="w-20 h-20 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
-              onClick={() => nav("/user", { state: { user: user } })}
-            />
-            <p className="text-lg font-semibold text-gray-900 mt-2">{user.name || "Admin"}</p>
-            <p className="text-sm text-gray-700">{user.email}</p>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="mt-4 px-5 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-lg"
-            >
-              Logout
-            </button>
-          </div>
-        )}
-
-        {/* Styled Divider Line */}
-        <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
-
-        {/* Sidebar Navigation */}
-        <div className="flex flex-col gap-4">
-          <Link
-            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
-            to="/admin/dashboard"
-          >
-            <TbLayoutDashboardFilled size={24} />
-            <span>Dashboard</span>
-          </Link>
-          <Link
-            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
-            to="/admin/products"
-          >
-            <FaShoppingBag size={24} />
-            <span>Products</span>
-          </Link>
-          <Link
-            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
-            to="/admin/orders"
-          >
-            <GoListOrdered size={24} />
-            <span>Orders</span>
-          </Link>
-          <Link
-            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
-            to="/admin/customers"
-          >
-            <HiIdentification size={24} />
-            <span>Customers</span>
-          </Link>
-        </div>
+      <div className="bg-lime-200 w-[20%] h-screen fixed left-0 top-0 flex flex-col p-4">
+        <Link
+          className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+          to="/admin/dashboard"
+        >
+          <TbLayoutDashboardFilled />
+          <span>Dashboard</span>
+        </Link>
+        <Link
+          className="flex flex-row items-center gap-4 p-3 text-2xl mt-4 border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+          to="/admin/products"
+        >
+          <FaShoppingBag />
+          <span>Products</span>
+        </Link>
+        <Link
+          className="flex flex-row items-center gap-4 p-3 text-2xl mt-4 border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+          to="/admin/orders"
+        >
+          <GoListOrdered />
+          <span>Orders</span>
+        </Link>
+        <Link
+          className="flex flex-row items-center gap-4 p-3 text-2xl mt-4 border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+          to="/admin/customers"
+        >
+          <HiIdentification />
+          <span>Customers</span>
+        </Link>
       </div>
 
       {/* Main Content Area */}
