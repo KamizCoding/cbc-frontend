@@ -54,56 +54,59 @@ export default function AdminHomePage() {
 
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
-      {/* Sidebar with User Profile */}
-      <div className="bg-lime-200 w-[20%] h-screen fixed left-0 top-0 flex flex-col p-4">
+      {/* Sidebar with Profile Section */}
+      <div className="w-[20%] h-screen fixed left-0 top-0 flex flex-col p-5 bg-lime-200 shadow-lg">
         
-        {/* User Profile & Logout Section */}
+        {/* User Profile Section */}
         {user && (
-          <div className="flex flex-col items-center border-b border-lime-700 pb-4 mb-4">
+          <div className="flex flex-col items-center mb-6">
             <img
               src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
               alt="Profile"
-              className="w-16 h-16 rounded-full border border-gray-300 cursor-pointer hover:scale-110 transition-transform duration-300"
+              className="w-20 h-20 rounded-full border border-gray-300 shadow-md"
             />
             <p className="text-lg font-semibold text-gray-900 mt-2">{user.name || "Admin"}</p>
-            <p className="text-sm text-gray-600">{user.email}</p>
+            <p className="text-sm text-gray-700">{user.email}</p>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 mt-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl"
+              className="mt-4 px-5 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Logout
             </button>
           </div>
         )}
 
+        {/* Styled Divider Line */}
+        <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
+
         {/* Sidebar Navigation */}
         <div className="flex flex-col gap-4">
           <Link
-            className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/dashboard"
           >
-            <TbLayoutDashboardFilled />
+            <TbLayoutDashboardFilled size={24} />
             <span>Dashboard</span>
           </Link>
           <Link
-            className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/products"
           >
-            <FaShoppingBag />
+            <FaShoppingBag size={24} />
             <span>Products</span>
           </Link>
           <Link
-            className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/orders"
           >
-            <GoListOrdered />
+            <GoListOrdered size={24} />
             <span>Orders</span>
           </Link>
           <Link
-            className="flex flex-row items-center gap-4 p-3 text-2xl border border-lime-700 bg-lime-300 rounded-2xl transition-all duration-300 hover:bg-lime-400 hover:text-white hover:shadow-lg"
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/customers"
           >
-            <HiIdentification />
+            <HiIdentification size={24} />
             <span>Customers</span>
           </Link>
         </div>
@@ -111,7 +114,7 @@ export default function AdminHomePage() {
 
       {/* Main Content Area */}
       <div className="ml-[20%] w-[80%] min-h-screen p-6">
-        {user != null ? (
+        {user ? (
           <Routes>
             <Route path="/" element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
