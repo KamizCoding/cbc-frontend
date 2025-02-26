@@ -8,12 +8,20 @@ import {
   FaExclamationTriangle,
   FaBox,
   FaSyncAlt,
+  FaDollarSign, FaChartLine, FaShoppingCart, FaCreditCard
 } from "react-icons/fa";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const lowStockThreshold = 5; 
+
+  const [stats, setStats] = useState({
+    totalRevenue: 0,
+    transactionsToday: 0,
+    pendingRefunds: 0,
+    weeklyGrowth: 0
+  });
 
   const [orderStats, setOrderStats] = useState({
     processing: 0,
@@ -138,6 +146,14 @@ export default function AdminDashboard() {
         setRecentLogins(response.data.recentLogins);
       })
       .catch((error) => console.error("Error fetching user activity:", error));
+
+      axios.get("/api/orders/revenue-stats")
+  .then((res) => {
+    setStats(res.data);
+  })
+  .catch((error) => {
+    console.error("Error fetching revenue stats:", error);
+  });
   }, []);
 
   const orderPieData = [
@@ -249,6 +265,55 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      <div className="bg-white shadow-lg rounded-2xl p-6 w-full">
+  <h2 className="text-3xl font-extrabold text-gray-900 mb-5 text-center flex items-center justify-center">
+    💰 Revenue & Financial Overview
+  </h2>
+
+  <div className="grid grid-cols-2 gap-6">
+    <div className="bg-green-100 shadow-md rounded-lg p-4 flex flex-col items-center text-center">
+      <h3 className="text-lg font-semibold text-green-700 flex items-center gap-2">
+        <FaDollarSign /> Total Revenue
+      </h3>
+      <p className="text-2xl font-bold text-gray-800">
+        ${stats.totalRevenue?.toLocaleString() || "0"}
+      </p>
+      <p className="text-sm text-gray-500">Today</p>
+    </div>
+
+    <div className="bg-blue-100 shadow-md rounded-lg p-4 flex flex-col items-center text-center">
+      <h3 className="text-lg font-semibold text-blue-700 flex items-center gap-2">
+        <FaChartLine /> Weekly Growth
+      </h3>
+      <p className="text-2xl font-bold text-gray-800">
+        {stats.weeklyGrowth?.toFixed(2) || "0"}%
+      </p>
+      <p className="text-sm text-gray-500">Compared to last week</p>
+    </div>
+
+    <div className="bg-yellow-100 shadow-md rounded-lg p-4 flex flex-col items-center text-center">
+      <h3 className="text-lg font-semibold text-yellow-700 flex items-center gap-2">
+        <FaShoppingCart /> Transactions
+      </h3>
+      <p className="text-2xl font-bold text-gray-800">
+        {stats.transactionsToday || 0}
+      </p>
+      <p className="text-sm text-gray-500">Processed today</p>
+    </div>
+
+    <div className="bg-red-100 shadow-md rounded-lg p-4 flex flex-col items-center text-center">
+      <h3 className="text-lg font-semibold text-red-700 flex items-center gap-2">
+        <FaCreditCard /> Pending Refunds
+      </h3>
+      <p className="text-2xl font-bold text-gray-800">
+        {stats.pendingRefunds || 0}
+      </p>
+      <p className="text-sm text-gray-500">Awaiting processing</p>
+    </div>
+  </div>
+</div>
+
 
       <h2 className="text-2xl font-extrabold text-gray-900 mb-6 text-center">
         📦 Inventory & Stock Alerts
