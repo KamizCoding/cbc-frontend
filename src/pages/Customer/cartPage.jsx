@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { loadCart } from "../../utils/cartfunction";
+import { loadCart, updateCartQuantity } from "../../utils/cartfunction";
 import CartCard from "../../components/cartCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,24 +11,40 @@ export default function CartPage() {
     const nav = useNavigate();
 
     useEffect(() => {
-        setCart(loadCart());
-        axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
-            orderedItems: loadCart()
-        }).then((res) => {
-            console.log(res.data);
-            if(res.data.total != null){
-            setTotal(res.data.total);
-            setLabeledTotal(res.data.labeledTotal);
-            }
-        });
+        const currentCart = loadCart();
+        setCart(currentCart);
+        fetchUpdatedTotals(currentCart);
     }, []);
 
-    function onCheckoutClicked(){
-        nav("/shipping", {
-            state : {
-                products : loadCart()
+    const fetchUpdatedTotals = (updatedCart) => {
+        axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
+            orderedItems: updatedCart
+        }).then((res) => {
+            if (res.data.total != null) {
+                setTotal(res.data.total);
+                setLabeledTotal(res.data.labeledTotal);
             }
-        })
+        });
+    };
+
+    const onQuantityChange = (productId, newQuantity) => {
+        if (newQuantity < 1) return; 
+        
+        const updatedCart = cart.map(item =>
+            item.productId === productId ? { ...item, quantity: newQuantity } : item
+        );
+
+        setCart(updatedCart);
+        updateCartQuantity(productId, newQuantity);
+        fetchUpdatedTotals(updatedCart);
+    };
+
+    function onCheckoutClicked() {
+        nav("/shipping", {
+            state: {
+                products: cart
+            }
+        });
     }
 
     return (
@@ -37,7 +53,12 @@ export default function CartPage() {
             <div className="w-full lg:w-2/3 max-w-3xl flex flex-col gap-4 overflow-y-auto max-h-[65vh] p-2">
                 {cart.length > 0 ? (
                     cart.map((product) => (
-                        <CartCard key={product.productId} productId={product.productId} quantity={product.quantity} />
+                        <CartCard 
+                            key={product.productId} 
+                            productId={product.productId} 
+                            quantity={product.quantity} 
+                            onQuantityChange={onQuantityChange} 
+                        />
                     ))
                 ) : (
                     <p className="text-lg text-dark text-center font-semibold">Your cart is empty.</p>

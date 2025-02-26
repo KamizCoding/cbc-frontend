@@ -55,3 +55,13 @@ export function deleteProductFromCart(productId){
     }
 
 }
+
+export const updateCartQuantity = (productId, newQuantity) => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart = cart.map(item =>
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
+    );
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+};
