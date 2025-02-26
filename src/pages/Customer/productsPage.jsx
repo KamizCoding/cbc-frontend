@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ProductCard from "../../components/productCard";
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaSearch } from "react-icons/fa";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -30,6 +30,7 @@ export default function ProductsPage() {
     const query = e.target.value;
     setQuery(query);
     setLoadingStatus("loading");
+
     if (query === "") {
       axios
         .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
@@ -59,15 +60,19 @@ export default function ProductsPage() {
 
   return (
     <div className="w-full h-full relative">
-      <div className="w-full flex justify-center mb-6">
-        <input
-          type="text"
-          className="w-1/2 p-3 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 z-50"
-          placeholder="Search Products"
-          onChange={search}
-          value={query}
-        />
+      <div className="w-full flex justify-center mt-5 mb-6">
+        <div className="relative w-1/2">
+          <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+          <input
+            type="text"
+            className="w-full p-4 pl-12 rounded-full border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300"
+            placeholder="Search for products..."
+            onChange={search}
+            value={query}
+          />
+        </div>
       </div>
+
       {loadingStatus === "loaded" && (
         <div className="w-full flex flex-col items-center gap-4 p-4">
           <div className="w-full max-h-[70vh] overflow-y-auto flex flex-wrap justify-center gap-4">
@@ -81,16 +86,14 @@ export default function ProductsPage() {
           </div>
         </div>
       )}
+
       {loadingStatus === "loading" && (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
           <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
-          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">
-            Loading...
-          </p>
+          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">Loading...</p>
         </div>
       )}
 
-      {/* Floating Cart Button */}
       <Link
         to="/cart"
         className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition flex items-center gap-2"
