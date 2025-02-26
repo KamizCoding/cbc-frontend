@@ -24,6 +24,7 @@ export default function AdminHomePage() {
       nav("/login");
       return;
     }
+    
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/users/userdetail", {
         headers: {
@@ -46,18 +47,38 @@ export default function AdminHomePage() {
       });
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    nav("/login");
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        nav("/login");
+        return;
+      }
+
+      await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/users/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      localStorage.removeItem("token");
+      setUser(null);
+      nav("/login");
+      toast.success("Logged out successfully!");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Logout failed. Please try again.");
+    }
   };
 
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
-      {/* Sidebar with Profile Section */}
       <div className="w-[20%] h-screen fixed left-0 top-0 flex flex-col p-5 bg-lime-200 shadow-lg">
-        
-        {/* User Profile Section */}
         {user && (
           <div className="flex flex-col items-center mb-6">
             <img
@@ -76,10 +97,8 @@ export default function AdminHomePage() {
           </div>
         )}
 
-        {/* Styled Divider Line */}
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
 
-        {/* Sidebar Navigation */}
         <div className="flex flex-col gap-4">
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
