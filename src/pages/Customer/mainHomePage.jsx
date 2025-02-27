@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import HomeImageSlider from "../../components/homeImageSlider";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import ReviewModal from "../Customer/reviewModalPage";
+import ReviewModalPage from "../Customer/reviewModalPage";
 
 export default function MainHomePage() {
   const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviews, setReviews] = useState([]);
 
   const brandLogos = [
     { logo: "/brand01logo.png", name: "ILIA BEAUTY" },
@@ -22,6 +23,8 @@ export default function MainHomePage() {
   ];
 
   useEffect(() => {
+    fetchReviews();
+
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
       .then((res) => setProducts(res.data.list || []))
@@ -39,6 +42,24 @@ export default function MainHomePage() {
   const goToNextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
   };
+
+  async function fetchReviews() {
+    try {
+      const { data } = await axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/api/reviews"
+      );
+
+      if (Array.isArray(data.list)) {
+        setReviews(data.list);
+      } else {
+        setReviews([]);
+        console.error("Expected an array but got:", data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch reviews", error);
+      setReviews([]);
+    }
+  }
 
   return (
     <div className="flex-1 w-full overflow-y-auto bg-primary">
@@ -222,27 +243,44 @@ export default function MainHomePage() {
         </div>
       </div>
 
-      {/* Review Section - Adjusted Alignment & Spacing */}
-<div className="w-full py-16 flex flex-col items-center bg-green-50">
-  <h2 className="text-3xl font-extrabold text-green-800 mb-6">Customer Reviews</h2>
-  <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
-    See what our happy customers have to say about our products!
-  </p>
+      <div>
+        <div className="w-full py-16 flex flex-col items-center bg-green-50">
+          <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+            Customer Reviews
+          </h2>
+          <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
+            See what our happy customers have to say about our products!
+          </p>
 
-  <button 
-    onClick={() => setIsReviewModalOpen(true)} 
-    className="px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
-  >
-    View Customer Reviews
-  </button>
+          <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-md">
+            {Array.isArray(reviews) && reviews.length > 0 ? (
+              reviews.slice(0, 5).map((review) => (
+                <div key={review._id} className="border-b pb-3 mb-3">
+                  <h3 className="font-semibold">{review.name}</h3>
+                  <p className="text-yellow-500">⭐ {review.rating}/5</p>
+                  <p className="text-gray-700">{review.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-600">
+                No reviews yet. Be the first to leave one!
+              </p>
+            )}
+          </div>
 
-  {/* Review Modal */}
-  <ReviewModal 
-    isOpen={isReviewModalOpen} 
-    onClose={() => setIsReviewModalOpen(false)} 
-  />
-</div>
+          <button
+            onClick={() => setIsReviewModalOpen(true)}
+            className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
+          >
+            View Customer Reviews
+          </button>
 
+          <ReviewModalPage
+            isOpen={isReviewModalOpen}
+            onClose={() => setIsReviewModalOpen(false)}
+          />
+        </div>
+      </div>
 
       <div className="w-full py-12 flex flex-col items-center bg-white">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
