@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import HomeImageSlider from "../../components/homeImageSlider";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import ReviewModal from "../Customer/reviewModalPage";
 
 export default function MainHomePage() {
   const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const brandLogos = [
     { logo: "/brand01logo.png", name: "ILIA BEAUTY" },
@@ -219,6 +221,28 @@ export default function MainHomePage() {
           </button>
         </div>
       </div>
+
+      {/* Review Section - Adjusted Alignment & Spacing */}
+<div className="w-full py-16 flex flex-col items-center bg-green-50">
+  <h2 className="text-3xl font-extrabold text-green-800 mb-6">Customer Reviews</h2>
+  <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
+    See what our happy customers have to say about our products!
+  </p>
+
+  <button 
+    onClick={() => setIsReviewModalOpen(true)} 
+    className="px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
+  >
+    View Customer Reviews
+  </button>
+
+  {/* Review Modal */}
+  <ReviewModal 
+    isOpen={isReviewModalOpen} 
+    onClose={() => setIsReviewModalOpen(false)} 
+  />
+</div>
+
 
       <div className="w-full py-12 flex flex-col items-center bg-white">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
