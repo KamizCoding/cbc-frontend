@@ -243,43 +243,53 @@ export default function MainHomePage() {
         </div>
       </div>
 
-      <div>
-        <div className="w-full py-16 flex flex-col items-center bg-green-50">
-          <h2 className="text-3xl font-extrabold text-green-800 mb-6">
-            Customer Reviews
-          </h2>
-          <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
-            See what our happy customers have to say about our products!
-          </p>
+      <div className="w-full py-16 flex flex-col items-center bg-green-50">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+          Customer Reviews
+        </h2>
+        <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
+          See what our happy customers have to say about our products!
+        </p>
 
-          <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-md">
+        <div className="w-full max-w-6xl p-6 bg-primary rounded-lg shadow-md">
+          <div
+            className="grid gap-6"
+            style={{
+              gridTemplateColumns: `repeat(${
+                reviews.length >= 3 ? 3 : reviews.length
+              }, minmax(0, 1fr))`,
+            }}
+          >
             {Array.isArray(reviews) && reviews.length > 0 ? (
               reviews.slice(0, 5).map((review) => (
-                <div key={review._id} className="border-b pb-3 mb-3">
+                <div
+                  key={review._id}
+                  className="p-4 border rounded-lg shadow-md bg-white"
+                >
                   <h3 className="font-semibold">{review.name}</h3>
                   <p className="text-yellow-500">⭐ {review.rating}/5</p>
                   <p className="text-gray-700">{review.comment}</p>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-600">
+              <p className="text-center text-gray-600 col-span-full">
                 No reviews yet. Be the first to leave one!
               </p>
             )}
           </div>
-
-          <button
-            onClick={() => setIsReviewModalOpen(true)}
-            className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
-          >
-            View Customer Reviews
-          </button>
-
-          <ReviewModalPage
-            isOpen={isReviewModalOpen}
-            onClose={() => setIsReviewModalOpen(false)}
-          />
         </div>
+
+        <button
+          onClick={() => setIsReviewModalOpen(true)}
+          className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
+        >
+          View Customer Reviews
+        </button>
+
+        <ReviewModalPage
+          isOpen={isReviewModalOpen}
+          onClose={() => setIsReviewModalOpen(false)}
+        />
       </div>
 
       <div className="w-full py-12 flex flex-col items-center bg-white">
