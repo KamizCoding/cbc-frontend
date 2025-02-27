@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ReviewModalPage({ isOpen, onClose }) {
+export default function ReviewModal({ isOpen, onClose }) {
   const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+  const [hasReviewed, setHasReviewed] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -14,6 +17,12 @@ export default function ReviewModalPage({ isOpen, onClose }) {
     try {
       const { data } = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews");
       setReviews(data);
+
+      const token = localStorage.getItem("token");
+      if (token) {
+        const user = JSON.parse(atob(token.split(".")[1]));
+        setHasReviewed(data.some(review => review.user === user._id));
+      }
     } catch (error) {
       console.error("Failed to fetch reviews", error);
     }
@@ -28,6 +37,32 @@ export default function ReviewModalPage({ isOpen, onClose }) {
         <button onClick={onClose} className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-lg">
           ✖
         </button>
+
+        {!hasReviewed && (
+          <div className="mb-4">
+            <label className="block text-md font-semibold">Rating:</label>
+            <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
+              {[5, 4, 3, 2, 1].map((star) => (
+                <option key={star} value={star}>{star} Stars</option>
+              ))}
+            </select>
+
+            <label className="block text-md font-semibold mt-2">Comment:</label>
+            <textarea 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)} 
+              rows="3" 
+              className="p-2 border rounded w-full">
+            </textarea>
+
+            <button 
+              type="button" 
+              className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition"
+            >
+              Submit Review
+            </button>
+          </div>
+        )}
 
         <div className="border-t pt-4">
           {reviews.length === 0 ? (
