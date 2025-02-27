@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ReviewModal({ isOpen, onClose }) {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
 
   useEffect(() => {
@@ -28,6 +30,29 @@ export default function ReviewModal({ isOpen, onClose }) {
     }
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/reviews",
+        { rating, comment },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      toast.success("Review submitted!");
+      setRating(5);
+      setComment("");
+      fetchReviews();
+      setLoading(false);
+    } catch (error) {
+      toast.error("Failed to submit review.");
+      setLoading(false);
+    }
+  }
+
   if (!isOpen) return null;
 
   return (
@@ -39,7 +64,7 @@ export default function ReviewModal({ isOpen, onClose }) {
         </button>
 
         {!hasReviewed && (
-          <div className="mb-4">
+          <form onSubmit={handleSubmit} className="mb-4">
             <label className="block text-md font-semibold">Rating:</label>
             <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
               {[5, 4, 3, 2, 1].map((star) => (
@@ -56,12 +81,13 @@ export default function ReviewModal({ isOpen, onClose }) {
             </textarea>
 
             <button 
-              type="button" 
-              className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition"
+              type="submit" 
+              className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition" 
+              disabled={loading}
             >
-              Submit Review
+              {loading ? "Submitting..." : "Submit Review"}
             </button>
-          </div>
+          </form>
         )}
 
         <div className="border-t pt-4">
