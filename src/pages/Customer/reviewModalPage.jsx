@@ -3,12 +3,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function ReviewModalPage({ isOpen, onClose }) {
-  const [reviews, setReviews] = useState([]); 
+  const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
-  const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     if (isOpen) {
@@ -19,74 +19,59 @@ export default function ReviewModalPage({ isOpen, onClose }) {
   async function fetchReviews() {
     try {
       const { data } = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews");
-  
-      console.log("API Response:", data.list); 
-  
       if (Array.isArray(data.list)) {
-        setReviews(data.list); 
+        setReviews(data.list);
       } else {
-        setReviews([]); 
-        console.error("Expected an array but got:", data);
+        setReviews([]);
       }
-  
+
       const token = localStorage.getItem("token");
       if (token) {
         const user = JSON.parse(atob(token.split(".")[1]));
-  
         if (user && user.email) {
           setHasReviewed(data.list.some(review => review.userEmail === user.email));
         } else {
-          setHasReviewed(false); 
+          setHasReviewed(false);
         }
       }
     } catch (error) {
       console.error("Failed to fetch reviews", error);
-      setReviews([]); 
+      setReviews([]);
     }
   }
-  
-  
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
       const token = localStorage.getItem("token");
-  
       if (!token) {
         toast.error("You must be logged in to submit a review.");
         setLoading(false);
         return;
       }
-  
+
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
-  
-      console.log("Decoded Token:", decodedToken); 
-  
       if (!decodedToken || !decodedToken.email) {
         toast.error("Invalid user session. Please log in again.");
         setLoading(false);
         return;
       }
-  
+
       const reviewData = {
-        userEmail: decodedToken.email, 
+        userEmail: decodedToken.email,
         name: `${decodedToken.firstName} ${decodedToken.lastName}`,
         rating,
-        comment
+        comment,
       };
-  
-      console.log("Sending Review Data:", reviewData); 
-  
+
       const response = await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/reviews",
         reviewData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      console.log("Server Response:", response.data); 
-  
+
       toast.success("Review submitted!");
       setRating(5);
       setComment("");
@@ -98,9 +83,6 @@ export default function ReviewModalPage({ isOpen, onClose }) {
       setLoading(false);
     }
   }
-  
-  
-  
 
   if (!isOpen) return null;
 
@@ -139,11 +121,12 @@ export default function ReviewModalPage({ isOpen, onClose }) {
           </form>
         )}
 
-        <div className="border-t pt-4">
+        {/* Reviews List - Scrollable & Paginated */}
+        <div className="border-t pt-4 max-h-[50vh] overflow-y-auto">
           {reviews.length === 0 ? (
             <p className="text-center text-gray-600">No reviews yet. Be the first to leave one!</p>
           ) : (
-            (showAll ? reviews : reviews.slice(0, 5)).map((review) => (
+            reviews.slice(0, visibleCount).map((review) => (
               <div key={review._id} className="border-b pb-3 mb-3">
                 <h3 className="font-semibold">{review.name}</h3>
                 <p className="text-yellow-500">⭐ {review.rating}/5</p>
@@ -153,12 +136,13 @@ export default function ReviewModalPage({ isOpen, onClose }) {
           )}
         </div>
 
-        {reviews.length > 5 && !showAll && (
+        {/* "Load More" Button */}
+        {reviews.length > visibleCount && (
           <button
-            onClick={() => setShowAll(true)} 
+            onClick={() => setVisibleCount(prev => prev + 5)}
             className="mt-4 w-full bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition"
           >
-            View More Reviews
+            Load More Reviews
           </button>
         )}
       </div>
