@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
@@ -7,6 +7,7 @@ import uploadMediaToSupabase from "../../utils/mediaUpload";
 export default function UserDetailsPage() {
   const location = useLocation();
   const user = location.state?.user || {};
+  const navigate = useNavigate(); // 🔹 Use navigate for back button
 
   const [firstName, setFirstName] = useState(user.firstName || "");
   const [lastName, setLastName] = useState(user.lastName || "");
@@ -14,7 +15,7 @@ export default function UserDetailsPage() {
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicURL, setProfilePicURL] = useState(user.profilePicture || "");
-  const [showModal, setShowModal] = useState(false); // 🔹 Modal state
+  const [showModal, setShowModal] = useState(false);
 
   async function handleUpdate() {
     let uploadedImageURL = profilePicURL;
@@ -123,13 +124,24 @@ export default function UserDetailsPage() {
             </div>
           </div>
 
-          {/* 🔹 Update Button - Opens Confirmation Modal */}
-          <button
-            onClick={() => setShowModal(true)}
-            className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
-          >
-            Update User Details
-          </button>
+          {/* 🔹 Button Group - Back & Update */}
+          <div className="flex gap-3 mt-4">
+            {/* 🔹 Back Button */}
+            <button
+              onClick={() => navigate(-1)}
+              className="w-1/2 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition"
+            >
+              Back
+            </button>
+
+            {/* 🔹 Update Button - Opens Confirmation Modal */}
+            <button
+              onClick={() => setShowModal(true)}
+              className="w-1/2 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
+            >
+              Update User Details
+            </button>
+          </div>
         </div>
       </div>
 
