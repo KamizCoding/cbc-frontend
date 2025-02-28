@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ImageSlider from "../../components/imageSlider";
 import { addToCart } from "../../utils/cartfunction";
 import toast from "react-hot-toast";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function ProductInfoPage() {
   const { id: productId } = useParams();
@@ -180,6 +181,15 @@ export default function ProductInfoPage() {
           </div>
         </div>
       )}
+
+      {/* 🔹 Floating Cart Button */}
+      <Link
+        to="/cart"
+        className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition flex items-center gap-2"
+      >
+        <FaShoppingCart size={24} />
+        <span className="hidden md:inline font-semibold">Cart</span>
+      </Link>
     </div>
   );
 }
