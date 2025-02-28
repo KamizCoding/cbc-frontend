@@ -4,11 +4,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ImageSlider from "../../components/imageSlider";
 import { addToCart } from "../../utils/cartfunction";
 import toast from "react-hot-toast";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function ProductInfoPage() {
   const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
+  const [showModal, setShowModal] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -25,8 +28,13 @@ export default function ProductInfoPage() {
   }, []);
 
   function onAddToCartClicked() {
-    addToCart(product.productId, 1);
-    toast.success(product.productId + " was added to the cart successfully");
+    setShowModal(true);
+  }
+
+  function confirmAddToCart() {
+    addToCart(product.productId, quantity);
+    toast.success(`${quantity} x ${product.productName} added to cart successfully`);
+    setShowModal(false);
   }
 
   function onBuyNowClicked() {
@@ -60,8 +68,7 @@ export default function ProductInfoPage() {
             Oops! This Product is Missing
           </h2>
           <p className="text-gray-600 text-sm mt-2">
-            We couldn’t find the product you were looking for. It may have been
-            removed or never existed.
+            We couldn’t find the product you were looking for. It may have been removed or never existed.
           </p>
           <Link
             to="/products"
@@ -134,6 +141,55 @@ export default function ProductInfoPage() {
           </div>
         </div>
       )}
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Confirm Add to Cart</h2>
+            <p className="mb-2">Select quantity before adding to cart:</p>
+
+            <div className="flex items-center justify-center gap-4 my-4">
+              <button
+                className="px-3 py-2 bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              >
+                -
+              </button>
+              <span className="text-xl font-bold">{quantity}</span>
+              <button
+                className="px-3 py-2 bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                +
+              </button>
+            </div>
+
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                onClick={confirmAddToCart}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🔹 Floating Cart Button */}
+      <Link
+        to="/cart"
+        className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition flex items-center gap-2"
+      >
+        <FaShoppingCart size={24} />
+        <span className="hidden md:inline font-semibold">Cart</span>
+      </Link>
     </div>
   );
 }

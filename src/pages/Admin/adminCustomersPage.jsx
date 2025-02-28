@@ -6,6 +6,9 @@ import { FaLock, FaLockOpen, FaTrash } from "react-icons/fa6";
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState([]);
   const [loadedCustomers, setLoadedCustomers] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
     if (!loadedCustomers) {
@@ -16,7 +19,6 @@ export default function AdminCustomersPage() {
           },
         })
         .then((res) => {
-          console.log(res.data.list);
           setCustomers(res.data.list);
           setLoadedCustomers(true);
         })
@@ -25,12 +27,17 @@ export default function AdminCustomersPage() {
   }, [loadedCustomers]);
 
   function handleBlockToggle(customer) {
+    setSelectedCustomer(customer);
+    setShowBlockModal(true);
+  }
+
+  function confirmBlock() {
     const token = localStorage.getItem("token");
 
     axios
       .put(
-        import.meta.env.VITE_BACKEND_URL + "/api/users", 
-        { email: customer.email, isBlocked: !customer.isBlocked }, 
+        import.meta.env.VITE_BACKEND_URL + "/api/users",
+        { email: selectedCustomer.email, isBlocked: !selectedCustomer.isBlocked },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -39,14 +46,38 @@ export default function AdminCustomersPage() {
         toast.success(res.data.message);
         setCustomers(
           customers.map((c) =>
-            c.email === customer.email
-              ? { ...c, isBlocked: !customer.isBlocked }
+            c.email === selectedCustomer.email
+              ? { ...c, isBlocked: !selectedCustomer.isBlocked }
               : c
           )
         );
+        setShowBlockModal(false);
       })
       .catch(() => {
         toast.error("Failed to update user status. Please try again.");
+      });
+  }
+
+  function handleDeleteCustomer(customer) {
+    setSelectedCustomer(customer);
+    setShowDeleteModal(true);
+  }
+
+  function confirmDelete() {
+    const token = localStorage.getItem("token");
+
+    axios
+      .delete(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { email: selectedCustomer.email },
+      })
+      .then((res) => {
+        toast.success("The customer was successfully removed.");
+        setCustomers(customers.filter((c) => c.email !== selectedCustomer.email));
+        setShowDeleteModal(false);
+      })
+      .catch(() => {
+        toast.error("Failed to delete customer. Please try again.");
       });
   }
 
@@ -56,7 +87,7 @@ export default function AdminCustomersPage() {
         Admin Customers Page
       </h1>
       <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
-        <div className="max-h-[350px] overflow-y-auto">
+        <div className="max-h-[415px] overflow-y-auto">
           <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
             <thead>
               <tr className="bg-lime-700 text-white uppercase text-md font-semibold">
@@ -111,31 +142,7 @@ export default function AdminCustomersPage() {
                   <td className="py-3 px-3 text-left">
                     <button
                       className="p-1 rounded-lg bg-red-500 hover:bg-red-600 text-white shadow-md transition duration-200"
-                      onClick={() => {
-                        const token = localStorage.getItem("token");
-
-                        axios
-                          .delete(
-                            import.meta.env.VITE_BACKEND_URL + "/api/users",
-                            {
-                              headers: {
-                                Authorization: `Bearer ${token}`,
-                              },
-                              data: { email: customer.email },
-                            }
-                          )
-                          .then((res) => {
-                            console.log(res.data);
-                            toast.success(
-                              "The unwelcome customer was kicked out successfully"
-                            );
-
-                            setTimeout(() => {
-                              setLoadedCustomers(false);
-                            }, 1000);
-                          })
-                          .catch((err) => console.error(err));
-                      }}
+                      onClick={() => handleDeleteCustomer(customer)}
                     >
                       <FaTrash />
                     </button>
@@ -146,6 +153,60 @@ export default function AdminCustomersPage() {
           </table>
         </div>
       </div>
+
+      {showBlockModal && selectedCustomer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold text-center mb-4">
+              Confirm Block Action
+            </h2>
+            <p className="text-gray-700 text-center">
+              Are you sure you want to block <strong>{selectedCustomer.email}</strong>?
+            </p>
+            <div className="mt-4 flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                onClick={() => setShowBlockModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={confirmBlock}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && selectedCustomer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold text-center mb-4">
+              Confirm Delete Action
+            </h2>
+            <p className="text-gray-700 text-center">
+              Are you sure you want to delete <strong>{selectedCustomer.email}</strong>?
+            </p>
+            <div className="mt-4 flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={confirmDelete}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

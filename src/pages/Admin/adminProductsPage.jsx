@@ -7,19 +7,41 @@ import { Link, useNavigate } from "react-router-dom";
 export default function AdminProductsPage() {
     const [products, setProducts] = useState([]);
     const [loadedProducts, setLoadedProducts] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!loadedProducts) {
             axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products")
                 .then((res) => {
-                    console.log(res.data.list);
                     setProducts(res.data.list);
                     setLoadedProducts(true);
                 });
         }
     }, [loadedProducts]);
 
-    const navigate = useNavigate()
+    function handleDeleteProduct(product) {
+        setSelectedProduct(product);
+        setShowDeleteModal(true);
+    }
+
+    function confirmDeleteProduct() {
+        if (!selectedProduct) return;
+
+        const token = localStorage.getItem("token");
+        axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/products/${selectedProduct.productId}`, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then((res) => {
+            toast.success("The product was deleted successfully");
+            setLoadedProducts(false);
+            setShowDeleteModal(false);
+        }).catch(() => {
+            toast.error("Failed to delete the product.");
+        });
+    }
 
     return (
         <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
@@ -27,7 +49,9 @@ export default function AdminProductsPage() {
                 <FaPlus className="text-lg transition-transform duration-300 group-hover:rotate-90" />
                 <span>Add Product</span>
             </Link>
+
             <h1 className="text-4xl font-extrabold text-lime-700 mb-8">Admin Products Page</h1>
+
             {
                 loadedProducts ? (
                     <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
@@ -56,26 +80,15 @@ export default function AdminProductsPage() {
                                             <td className="py-4 px-6 text-left truncate max-w-sm">{product.description}</td>
                                             <td className="py-4 px-6 text-center">
                                                 <button className="text-lime-600 hover:text-lime-800 transition duration-200 p-2 rounded-lg bg-lime-300 hover:bg-lime-400"
-                                                onClick={()=>{
-                                                    navigate("/admin/products/updateProducts", {state : {product : product}});
-                                                }}>
+                                                    onClick={() => {
+                                                        navigate("/admin/products/updateProducts", { state: { product: product } });
+                                                    }}>
                                                     <FaPencil />
                                                 </button>
                                             </td>
                                             <td className="py-4 px-6 text-center">
                                                 <button className="text-red-600 hover:text-red-800 transition duration-200 p-2 rounded-lg bg-red-200 hover:bg-red-300"
-                                                    onClick={() => {
-                                                        const token = localStorage.getItem("token");
-                                                        axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/products/${product.productId}`, {
-                                                            headers: {
-                                                                Authorization: "Bearer " + token
-                                                            }
-                                                        }).then((res) => {
-                                                            console.log(res.data);
-                                                            toast.success("The product was deleted successfully");
-                                                            setLoadedProducts(false);
-                                                        });
-                                                    }}>
+                                                    onClick={() => handleDeleteProduct(product)}>
                                                     <FaTrash />
                                                 </button>
                                             </td>
@@ -91,6 +104,24 @@ export default function AdminProductsPage() {
                     </div>
                 )
             }
+
+            {showDeleteModal && selectedProduct && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+                        <p className="mb-2">Are you sure you want to delete <span className="font-semibold">{selectedProduct.productName}</span>?</p>
+
+                        <div className="flex justify-end gap-4">
+                            <button className="px-4 py-2 bg-gray-400 text-white rounded-md" onClick={() => setShowDeleteModal(false)}>
+                                Cancel
+                            </button>
+                            <button className="px-4 py-2 bg-red-500 text-white rounded-md" onClick={confirmDeleteProduct}>
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

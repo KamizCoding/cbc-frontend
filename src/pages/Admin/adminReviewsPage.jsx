@@ -50,6 +50,7 @@ export default function AdminReviewsPage() {
       <h1 className="text-4xl font-extrabold text-lime-700 mb-8">
         Admin Reviews Page
       </h1>
+
       {loading ? (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
           <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
@@ -59,56 +60,56 @@ export default function AdminReviewsPage() {
         </div>
       ) : (
         <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
-          <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
-            <thead>
-              <tr className="bg-green-700 text-white uppercase text-md font-bold">
-                <th className="py-4 px-3 text-left w-20">Name</th>
-                <th className="py-4 px-3 text-left w-40">Email</th>
-                <th className="py-4 px-3 text-left w-16">Rating</th>
-                <th className="py-4 px-3 text-left w-64">Comment</th>
-                <th className="py-4 px-3 text-left w-32">Submitted On</th>
-                <th className="py-4 px-3 text-left w-16">Action</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-800 text-sm font-medium divide-y divide-gray-200">
-              {reviews.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="text-center py-4 text-gray-600">
-                    No reviews available
-                  </td>
+          <div className="max-h-[415px] overflow-y-auto">
+            <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
+              <thead>
+                <tr className="bg-lime-700 text-white uppercase text-md font-bold">
+                  <th className="py-4 px-6 text-left w-20">Name</th>
+                  <th className="py-4 px-6 text-left w-40">Email</th>
+                  <th className="py-4 px-6 text-left w-16">Rating</th>
+                  <th className="py-4 px-6 text-left">Comment</th>
+                  <th className="py-4 px-6 text-left w-32">Submitted On</th>
+                  <th className="py-4 px-6 text-center w-16">Action</th>
                 </tr>
-              ) : (
-                reviews.map((review, index) => (
-                  <tr
-                    key={review._id}
-                    className={`${
-                      index % 2 === 0 ? "bg-gray-100" : "bg-gray-200"
-                    } hover:bg-gray-300 transition`}
-                  >
-                    <td className="py-4 px-3 font-semibold">{review.name}</td>
-                    <td className="py-4 px-3">{review.userEmail}</td>
-                    <td className="py-4 px-3 text-yellow-500 font-bold">
-                      {review.rating}/5
-                    </td>
-                    <td className="py-4 px-3 text-gray-700">
-                      {review.comment}
-                    </td>
-                    <td className="py-4 px-3">
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="py-4 px-3">
-                      <button
-                        onClick={() => setSelectedReview(review)}
-                        className="p-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition"
-                      >
-                        <FaTrash />
-                      </button>
+              </thead>
+              <tbody className="text-gray-800 text-sm font-medium divide-y divide-gray-200">
+                {reviews.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4 text-gray-600">
+                      No reviews available
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  reviews.map((review, index) => (
+                    <tr
+                      key={review._id}
+                      className={`${
+                        index % 2 === 0 ? "bg-lime-100" : "bg-lime-200"
+                      } hover:bg-lime-300 transition duration-200`}
+                    >
+                      <td className="py-4 px-6 font-semibold">{review.name}</td>
+                      <td className="py-4 px-6">{review.userEmail}</td>
+                      <td className="py-4 px-6 text-yellow-500 font-bold">
+                        {review.rating}/5
+                      </td>
+                      <td className="py-4 px-6 text-gray-700">{review.comment}</td>
+                      <td className="py-4 px-6">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="py-4 px-6 text-center">
+                        <button
+                          onClick={() => setSelectedReview(review)}
+                          className="p-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
+                        >
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
@@ -116,7 +117,11 @@ export default function AdminReviewsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-            <p className="mb-2">Are you sure you want to delete {selectedReview.userEmail}'s review?</p>
+            <p className="mb-2">
+              Are you sure you want to delete{" "}
+              <span className="font-semibold">{selectedReview.userEmail}'s</span>{" "}
+              review?
+            </p>
             <div className="flex justify-end gap-4">
               <button
                 className="px-4 py-2 bg-gray-400 text-white rounded-md"

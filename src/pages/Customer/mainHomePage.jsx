@@ -63,13 +63,14 @@ export default function MainHomePage() {
 
   return (
     <div className="flex-1 w-full overflow-y-auto bg-primary">
-      <div className="relative w-full h-[474px] flex flex-col justify-center items-center text-white">
+      <div className="relative w-full h-[280px] sm:h-[350px] md:h-[510px] flex flex-col justify-center items-center text-white">
         <HomeImageSlider />
-        <div className="relative text-center max-w-2xl rounded-md p-[10px]">
-          <h1 className="text-5xl md:text-4xl font-extrabold text-gray-400 drop-shadow-lg">
-            Pure & Pristine E-Market
+
+        <div className="relative text-center max-w-xl px-4 md:px-0 rounded-md p-3 sm:p-4 md:p-5">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-400 drop-shadow-lg">
+            Pure & Pristine Cosmetics
           </h1>
-          <p className="text-xl md:text-2xl mt-4 text-gray-300 font-medium">
+          <p className="text-lg sm:text-xl md:text-2xl mt-2 sm:mt-4 text-gray-300 font-medium">
             Discover nature-inspired beauty products made with sustainability in
             mind.
           </p>
@@ -243,7 +244,7 @@ export default function MainHomePage() {
         </div>
       </div>
 
-      <div className="w-full py-16 flex flex-col items-center bg-green-50">
+      <div className="w-full flex flex-col items-center bg-green-50">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
           Customer Reviews
         </h2>
@@ -302,7 +303,7 @@ export default function MainHomePage() {
         />
       </div>
 
-      <div className="w-full py-12 flex flex-col items-center bg-white">
+      <div className="w-full py-12 flex flex-col items-center bg-primary">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
           Skincare & Beauty Tips ✨
         </h2>
