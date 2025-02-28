@@ -19,7 +19,6 @@ export default function HamburgerMenu(props) {
     <div className="fixed w-full h-screen bg-[#00000080] z-[10] lg:hidden">
       <div className="bg-primary flex flex-col w-[300px] h-screen shadow-xl">
         
-        {/* 🔹 Top Section */}
         <div className="bg-secondary w-full flex h-[93px] items-center justify-between px-5 shadow-md">
           <div className="flex items-center gap-3">
             <img
@@ -36,7 +35,6 @@ export default function HamburgerMenu(props) {
           />
         </div>
 
-        {/* 🔹 Navigation Links (Updated) */}
         <div className="flex flex-col items-center justify-center gap-6 py-6">
           <Link to="/" className="flex flex-col items-center text-dark hover:text-accent transition-all duration-300" onClick={closeHamburgerMenu}>
             <FaHome size={28} className="mb-1" />
@@ -56,7 +54,6 @@ export default function HamburgerMenu(props) {
           </Link>
         </div>
 
-        {/* 🔹 Profile & Logout */}
         {user ? (
           <div className="flex flex-col items-center gap-3 mt-4">
             <button onClick={() => { nav("/user", { state: { user } }); closeHamburgerMenu(); }}>
@@ -80,7 +77,6 @@ export default function HamburgerMenu(props) {
             </button>
           </div>
         ) : (
-          /* 🔹 Login & Register Buttons */
           <div className="mt-auto pb-6 flex flex-col items-center gap-3 px-6">
             <Link to="/login" className="w-full text-center bg-dark text-white py-3 rounded-lg font-semibold hover:bg-accent transition-all" onClick={closeHamburgerMenu}>
               Login
