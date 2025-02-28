@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedReview, setSelectedReview] = useState(null);
 
   useEffect(() => {
     fetchReviews();
@@ -13,7 +14,9 @@ export default function AdminReviewsPage() {
 
   async function fetchReviews() {
     try {
-      const { data } = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews");
+      const { data } = await axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/api/reviews"
+      );
       setReviews(Array.isArray(data.list) ? data.list : []);
     } catch (error) {
       console.error("Failed to fetch reviews", error);
@@ -22,25 +25,25 @@ export default function AdminReviewsPage() {
       setLoading(false);
     }
   }
-  
-  
 
-  async function handleDelete(reviewId) {
-    if (!window.confirm("Are you sure you want to delete this review?")) return;
-
+  async function handleDelete() {
+    if (!selectedReview) return;
     try {
-        const token = localStorage.getItem("token");
-        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/reviews/delete/${reviewId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        toast.success("Review deleted successfully");
-        fetchReviews(); // 🔹 Fetch latest reviews after deletion
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/reviews/delete/${selectedReview._id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      toast.success("Review deleted successfully");
+      fetchReviews();
     } catch (error) {
-        console.error("Failed to delete review:", error);
-        toast.error("Failed to delete review. Please try again.");
+      console.error("Failed to delete review:", error);
+      toast.error("Failed to delete review. Please try again.");
     }
-}
+    setSelectedReview(null);
+  }
 
   return (
     <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
@@ -87,13 +90,15 @@ export default function AdminReviewsPage() {
                     <td className="py-4 px-3 text-yellow-500 font-bold">
                       {review.rating}/5
                     </td>
-                    <td className="py-4 px-3 text-gray-700">{review.comment}</td>
+                    <td className="py-4 px-3 text-gray-700">
+                      {review.comment}
+                    </td>
                     <td className="py-4 px-3">
                       {new Date(review.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-4 px-3">
                       <button
-                        onClick={() => handleDelete(review._id)}
+                        onClick={() => setSelectedReview(review)}
                         className="p-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition"
                       >
                         <FaTrash />
@@ -104,6 +109,29 @@ export default function AdminReviewsPage() {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {selectedReview && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+            <p className="mb-2">Are you sure you want to delete {selectedReview.userEmail}'s review?</p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                onClick={() => setSelectedReview(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

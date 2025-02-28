@@ -127,7 +127,6 @@ export default function ReviewModalPage({ isOpen, onClose }) {
           ✖
         </button>
 
-        {/* Submit Review Form (Only visible if no review exists) */}
         {!hasReview && !editing && (
           <form onSubmit={handleSubmit} className="mb-4">
             <label className="block text-md font-semibold">Rating:</label>
@@ -151,7 +150,6 @@ export default function ReviewModalPage({ isOpen, onClose }) {
           </form>
         )}
 
-        {/* Edit Review Form (Only visible when editing is true) */}
         {editing && (
           <form onSubmit={handleUpdate}>
             <label className="block text-md font-semibold">Rating:</label>
@@ -175,7 +173,6 @@ export default function ReviewModalPage({ isOpen, onClose }) {
           </form>
         )}
 
-        {/* Reviews List (Hidden when editing) */}
         {!editing && (
           <div className="border-t pt-4 max-h-[50vh] overflow-y-auto">
             {reviews.length === 0 ? (
