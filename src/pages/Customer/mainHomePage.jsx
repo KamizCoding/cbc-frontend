@@ -269,6 +269,16 @@ export default function MainHomePage() {
                   <h3 className="font-semibold">{review.name}</h3>
                   <p className="text-yellow-500">⭐ {review.rating}/5</p>
                   <p className="text-gray-700">{review.comment}</p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Reviewed on{" "}
+                    {new Date(review.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
                 </div>
               ))
             ) : (
