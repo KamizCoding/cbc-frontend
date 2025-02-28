@@ -13,37 +13,34 @@ export default function AdminReviewsPage() {
 
   async function fetchReviews() {
     try {
-      const res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-      setReviews(res.data.list);
-      setLoading(false);
+      const { data } = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews");
+      setReviews(Array.isArray(data.list) ? data.list : []);
     } catch (error) {
-      console.error("Error fetching reviews:", error);
-      toast.error("Failed to fetch reviews.");
+      console.error("Failed to fetch reviews", error);
+      setReviews([]);
+    } finally {
       setLoading(false);
     }
   }
+  
+  
 
   async function handleDelete(reviewId) {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/reviews/delete/${reviewId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+        const token = localStorage.getItem("token");
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/reviews/delete/${reviewId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
 
-      toast.success(res.data.message);
-      setReviews(reviews.filter((review) => review._id !== reviewId));
+        toast.success("Review deleted successfully");
+        fetchReviews(); // 🔹 Fetch latest reviews after deletion
     } catch (error) {
-      console.error("Failed to delete review:", error);
-      toast.error("Failed to delete review. Please try again.");
+        console.error("Failed to delete review:", error);
+        toast.error("Failed to delete review. Please try again.");
     }
-  }
+}
 
   return (
     <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
