@@ -4,10 +4,12 @@ import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { FaShoppingBag } from "react-icons/fa";
 import { GoListOrdered } from "react-icons/go";
 import { HiIdentification } from "react-icons/hi2";
+import { FaStar } from "react-icons/fa";
 import AdminProductsPage from "./adminProductsPage";
 import AdminDashboard from "./adminDashboard";
 import AdminOrdersPage from "./adminOrdersPage";
 import AdminCustomersPage from "./adminCustomersPage";
+import AdminReviewsPage from "./adminReviewsPage.jsx";
 import AddProductForm from "./addProductForm";
 import UpdateProductForm from "./updateProductForm";
 import axios from "axios";
@@ -113,7 +115,7 @@ export default function AdminHomePage() {
             <img
               src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
               alt="Profile"
-              className="w-20 h-20 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
+              className="w-10 h-10 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
               onClick={() => nav("/user", { state: { user: user } })}
             />
             <p className="text-lg font-semibold text-gray-900 mt-2">{user.name || "Admin"}</p>
@@ -157,6 +159,13 @@ export default function AdminHomePage() {
             <HiIdentification size={24} />
             <span>Customers</span>
           </Link>
+          <Link
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
+            to="/admin/reviews"
+          >
+            <FaStar size={24} />
+            <span>User Reviews</span>
+          </Link>
         </div>
       </div>
       <div className="ml-[20%] w-[80%] min-h-screen p-6">
@@ -169,6 +178,7 @@ export default function AdminHomePage() {
             <Route path="products/updateProducts" element={<UpdateProductForm />} />
             <Route path="orders" element={<AdminOrdersPage />} />
             <Route path="customers" element={<AdminCustomersPage />} />
+            <Route path="reviews" element={<AdminReviewsPage />} />
             <Route
               path="*"
               element={<h1 className="text-center text-3xl text-red-600">404 Error - Page Not Found</h1>}
@@ -176,10 +186,7 @@ export default function AdminHomePage() {
           </Routes>
         ) : (
           <div className="w-full h-full flex justify-center items-center">
-            <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
-              <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
-              <p className="mt-3 text-dark text-lg font-semibold animate-pulse">Loading...</p>
-            </div>
+            <p className="text-lg font-semibold text-dark">Loading...</p>
           </div>
         )}
       </div>
