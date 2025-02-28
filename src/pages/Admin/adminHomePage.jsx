@@ -1,7 +1,7 @@
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag, FaBars, FaTimes } from "react-icons/fa";
 import { GoListOrdered } from "react-icons/go";
 import { HiIdentification } from "react-icons/hi2";
 import { FaStar } from "react-icons/fa";
@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -30,12 +31,9 @@ export default function AdminHomePage() {
 
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/users/userdetail", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data.type !== "admin") {
           toast.error("Unauthorized Access");
           nav("/login");
@@ -43,8 +41,7 @@ export default function AdminHomePage() {
           setUser(res.data);
         }
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
         toast.error("Failed To Fetch User Data");
         nav("/login");
       });
@@ -59,8 +56,7 @@ export default function AdminHomePage() {
         return;
       }
 
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      const response = await axios.post(
+      await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/users/logout",
         {},
         {
@@ -75,52 +71,44 @@ export default function AdminHomePage() {
       nav("/login");
       toast.success("Logged out successfully!");
     } catch (error) {
-      console.error("Logout failed:", error);
-
-      if (error.response) {
-        console.error("Server Response:", error.response.data);
-        console.error("Status Code:", error.response.status);
-      }
-
       toast.error("Logout failed. Please try again.");
     }
-  };
-
-  const isActive = (path) => location.pathname === path;
+  }
 
   return (
-    <div className="bg-lime-50 w-full min-h-screen flex">
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Confirm Logout
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Are you sure you want to log out?
-            </p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  handleLogout();
-                }}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="bg-lime-50 w-full min-h-screen flex flex-col md:flex-row">
+      
+      {/* 🔹 Mobile Navbar */}
+      <div className="bg-lime-200 flex items-center justify-between px-4 py-3 shadow-md md:hidden">
+        <h1 className="text-lg font-bold text-gray-900">Admin Panel</h1>
+        <button onClick={() => setIsSidebarOpen(true)} className="text-xl">
+          <FaBars />
+        </button>
+      </div>
+
+      {/* 🔹 Sidebar Overlay (Mobile) */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-[40] md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
       )}
 
-      <div className="w-[20%] h-screen fixed left-0 top-0 flex flex-col p-5 bg-lime-200 shadow-lg">
+      {/* 🔹 Sidebar */}
+      <div
+        className={`fixed md:relative top-0 left-0 w-64 md:w-[20%] h-full bg-lime-200 shadow-lg p-5 transition-transform duration-300 z-[50] ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:flex md:flex-col md:fixed`}
+      >
+        {/* 🔹 Close Button (Mobile) */}
+        <button
+          onClick={() => setIsSidebarOpen(false)}
+          className="absolute top-3 right-3 text-2xl text-gray-700 md:hidden"
+        >
+          <FaTimes />
+        </button>
+
+        {/* 🔹 User Profile */}
         {user && (
           <div className="flex flex-col items-center mb-6">
             <img
@@ -129,7 +117,7 @@ export default function AdminHomePage() {
                 "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"
               }
               alt="Profile"
-              className="w-10 h-10 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
+              className="w-14 h-14 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
               onClick={() => nav("/user", { state: { user: user } })}
             />
             <p className="text-lg font-semibold text-gray-900 mt-2">
@@ -147,10 +135,12 @@ export default function AdminHomePage() {
 
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
 
-        <div className="flex flex-col gap-4">
+        {/* 🔹 Sidebar Navigation */}
+        <div className="flex flex-col gap-2">
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/dashboard"
+            onClick={() => setIsSidebarOpen(false)}
           >
             <TbLayoutDashboardFilled size={24} />
             <span>Dashboard</span>
@@ -158,6 +148,7 @@ export default function AdminHomePage() {
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/products"
+            onClick={() => setIsSidebarOpen(false)}
           >
             <FaShoppingBag size={24} />
             <span>Products</span>
@@ -165,6 +156,7 @@ export default function AdminHomePage() {
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/orders"
+            onClick={() => setIsSidebarOpen(false)}
           >
             <GoListOrdered size={24} />
             <span>Orders</span>
@@ -172,6 +164,7 @@ export default function AdminHomePage() {
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/customers"
+            onClick={() => setIsSidebarOpen(false)}
           >
             <HiIdentification size={24} />
             <span>Customers</span>
@@ -179,40 +172,26 @@ export default function AdminHomePage() {
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/reviews"
+            onClick={() => setIsSidebarOpen(false)}
           >
             <FaStar size={24} />
             <span>User Reviews</span>
           </Link>
         </div>
       </div>
-      <div className="ml-[20%] w-[80%] min-h-screen p-6">
-        {user ? (
-          <Routes>
-            <Route path="/" element={<AdminDashboard />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="products" element={<AdminProductsPage />} />
-            <Route path="products/addProducts" element={<AddProductForm />} />
-            <Route
-              path="products/updateProducts"
-              element={<UpdateProductForm />}
-            />
-            <Route path="orders" element={<AdminOrdersPage />} />
-            <Route path="customers" element={<AdminCustomersPage />} />
-            <Route path="reviews" element={<AdminReviewsPage />} />
-            <Route
-              path="*"
-              element={
-                <h1 className="text-center text-3xl text-red-600">
-                  404 Error - Page Not Found
-                </h1>
-              }
-            />
-          </Routes>
-        ) : (
-          <div className="w-full h-full flex justify-center items-center">
-            <p className="text-lg font-semibold text-dark">Loading...</p>
-          </div>
-        )}
+
+      {/* 🔹 Main Content */}
+      <div className="w-full md:w-[80%] p-6 overflow-auto h-screen">
+        <Routes>
+          <Route path="/" element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProductsPage />} />
+          <Route path="products/addProducts" element={<AddProductForm />} />
+          <Route path="products/updateProducts" element={<UpdateProductForm />} />
+          <Route path="orders" element={<AdminOrdersPage />} />
+          <Route path="customers" element={<AdminCustomersPage />} />
+          <Route path="reviews" element={<AdminReviewsPage />} />
+        </Routes>
       </div>
     </div>
   );
