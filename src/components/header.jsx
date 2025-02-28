@@ -88,13 +88,18 @@ export default function Header() {
       )}
 
       <header className="bg-secondary w-full flex h-[93px] justify-between items-center px-10 shadow-md">
-        <div className="flex flex-col items-center">
-          <img
-            src="/logo.png"
-            className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
-          />
-          <span className="text-sm font-semibold text-dark mt-1">Pure & Pristine E-Market</span>
-        </div>
+      <div className="flex flex-col items-center">
+  <img
+    src="/logo.png"
+    className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
+  />
+  
+  <span
+    className="text-xl lg:text-2xl font-bold text-lime-800 tracking-wide text-center mt-1"
+  >
+    Pure & Pristine Cosmetics
+  </span>
+</div>
 
         <RxHamburgerMenu
           className="text-3xl absolute cursor-pointer text-dark right-[10px] lg:hidden"

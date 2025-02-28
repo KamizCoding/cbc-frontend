@@ -67,7 +67,7 @@ export default function MainHomePage() {
         <HomeImageSlider />
         <div className="relative text-center max-w-2xl rounded-md p-[10px]">
           <h1 className="text-5xl md:text-4xl font-extrabold text-gray-400 drop-shadow-lg">
-            Pure & Pristine E-Market
+            Pure & Pristine Cosmetics
           </h1>
           <p className="text-xl md:text-2xl mt-4 text-gray-300 font-medium">
             Discover nature-inspired beauty products made with sustainability in
