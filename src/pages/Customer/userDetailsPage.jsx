@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
@@ -14,7 +14,7 @@ export default function UserDetailsPage() {
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicURL, setProfilePicURL] = useState(user.profilePicture || "");
-  const nav = useNavigate();
+  const [showModal, setShowModal] = useState(false); // 🔹 Modal state
 
   async function handleUpdate() {
     let uploadedImageURL = profilePicURL;
@@ -48,10 +48,8 @@ export default function UserDetailsPage() {
           },
         }
       );
-      toast.success("Your Details Were Updated Successfully");
-      setTimeout(() => {
-        nav("/login");
-      }, 1000);
+      toast.success("Your details were updated successfully");
+      setShowModal(false); // Close modal after update
     } catch (error) {
       toast.error("Failed to update user details due to an error");
     }
@@ -125,14 +123,39 @@ export default function UserDetailsPage() {
             </div>
           </div>
 
+          {/* 🔹 Update Button - Opens Confirmation Modal */}
           <button
-            onClick={handleUpdate}
+            onClick={() => setShowModal(true)}
             className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
           >
             Update User Details
           </button>
         </div>
       </div>
+
+      {/* 🔹 Confirmation Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Confirm Update</h2>
+            <p className="mb-2">Are you sure you want to update your details?</p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdate}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
