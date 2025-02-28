@@ -7,9 +7,10 @@ export default function ReviewModalPage({ isOpen, onClose }) {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [reviewId, setReviewId] = useState(null);
+  const [hasReview, setHasReview] = useState(false); 
   const [userEmail, setUserEmail] = useState(null);
+  const [reviewId, setReviewId] = useState(null);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -19,32 +20,58 @@ export default function ReviewModalPage({ isOpen, onClose }) {
 
   async function fetchReviews() {
     try {
-      const { data } = await axios.get(
-        import.meta.env.VITE_BACKEND_URL + "/api/reviews"
-      );
-      if (Array.isArray(data.list)) {
-        setReviews(data.list);
-      } else {
-        setReviews([]);
-      }
+      const { data } = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews");
+      setReviews(Array.isArray(data.list) ? data.list : []);
 
       const token = localStorage.getItem("token");
       if (token) {
         const user = JSON.parse(atob(token.split(".")[1]));
         setUserEmail(user.email);
 
-        const userReview = data.list.find(
-          (review) => review.userEmail === user.email
-        );
+        const userReview = data.list.find(review => review.userEmail === user.email);
         if (userReview) {
+          setHasReview(true);
           setReviewId(userReview._id);
           setRating(userReview.rating);
           setComment(userReview.comment);
+        } else {
+          setHasReview(false);
+          setReviewId(null);
+          setRating(5);
+          setComment("");
         }
       }
     } catch (error) {
       console.error("Failed to fetch reviews", error);
       setReviews([]);
+    }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("You must be logged in to submit a review.");
+        setLoading(false);
+        return;
+      }
+
+      await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/reviews",
+        { rating, comment },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      toast.success("Review submitted successfully!");
+      fetchReviews();
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+      toast.error("Failed to submit review.");
+      setLoading(false);
     }
   }
 
@@ -60,14 +87,14 @@ export default function ReviewModalPage({ isOpen, onClose }) {
         return;
       }
 
-      const response = await axios.post(
+      await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/reviews/update",
         { reviewId, rating, comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       toast.success("Review updated successfully!");
-      setEditing(false); 
+      setEditing(false);
       fetchReviews();
       setLoading(false);
     } catch (error) {
@@ -96,77 +123,73 @@ export default function ReviewModalPage({ isOpen, onClose }) {
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           {editing ? "Edit Your Review" : "Customer Reviews"}
         </h2>
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-lg"
-        >
+        <button onClick={onClose} className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-lg">
           ✖
         </button>
 
-        {editing ? (
-          <form onSubmit={handleUpdate}>
+        {/* Submit Review Form (Only visible if no review exists) */}
+        {!hasReview && !editing && (
+          <form onSubmit={handleSubmit} className="mb-4">
             <label className="block text-md font-semibold">Rating:</label>
-            <select
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-              className="p-2 border rounded w-full"
-            >
+            <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
               {[5, 4, 3, 2, 1].map((star) => (
-                <option key={star} value={star}>
-                  {star} Stars
-                </option>
+                <option key={star} value={star}>{star} Stars</option>
               ))}
             </select>
 
             <label className="block text-md font-semibold mt-2">Comment:</label>
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              rows="3"
-              className="p-2 border rounded w-full"
-            ></textarea>
+            <textarea 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)} 
+              rows="3" 
+              className="p-2 border rounded w-full">
+            </textarea>
 
-            <button
-              type="submit"
-              className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition"
-              disabled={loading}
-            >
+            <button type="submit" className="mt-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition" disabled={loading}>
+              {loading ? "Submitting..." : "Submit Review"}
+            </button>
+          </form>
+        )}
+
+        {/* Edit Review Form (Only visible when editing is true) */}
+        {editing && (
+          <form onSubmit={handleUpdate}>
+            <label className="block text-md font-semibold">Rating:</label>
+            <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
+              {[5, 4, 3, 2, 1].map((star) => (
+                <option key={star} value={star}>{star} Stars</option>
+              ))}
+            </select>
+
+            <label className="block text-md font-semibold mt-2">Comment:</label>
+            <textarea value={comment} onChange={(e) => setComment(e.target.value)} rows="3" className="p-2 border rounded w-full">
+            </textarea>
+
+            <button type="submit" className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition" disabled={loading}>
               {loading ? "Updating..." : "Update Review"}
             </button>
 
-            <button
-              onClick={() => setEditing(false)}
-              className="mt-2 w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-400 transition"
-            >
+            <button onClick={() => setEditing(false)} className="mt-2 w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-400 transition">
               Cancel
             </button>
           </form>
-        ) : (
+        )}
+
+        {/* Reviews List (Hidden when editing) */}
+        {!editing && (
           <div className="border-t pt-4 max-h-[50vh] overflow-y-auto">
             {reviews.length === 0 ? (
-              <p className="text-center text-gray-600">
-                No reviews yet. Be the first to leave one!
-              </p>
+              <p className="text-center text-gray-600">No reviews yet. Be the first to leave one!</p>
             ) : (
               reviews.map((review) => (
-                <div
-                  key={review._id}
-                  className="border-b pb-3 mb-3 flex justify-between items-center"
-                >
-                  <div>
-                    <h3 className="font-semibold">{review.name}</h3>
-                    <p className="text-yellow-500">⭐ {review.rating}/5</p>
-                    <p className="text-gray-700">{review.comment}</p>
-                    <p className="text-sm text-gray-500">
-                      Reviewed on {formatDate(review.createdAt)}
-                    </p>
-                  </div>
+                <div key={review._id} className="border-b pb-3 mb-3">
+                  <h3 className="font-semibold">{review.name}</h3>
+                  <p className="text-yellow-500">⭐ {review.rating}/5</p>
+                  <p className="text-gray-700">{review.comment}</p>
+                  <p className="text-sm text-gray-500">Reviewed on {formatDate(review.createdAt)}</p>
                   {review.userEmail === userEmail && (
-                    <button
-                      onClick={() => setEditing(true)}
-                      className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-                    >
-                      Edit
+                    <button onClick={() => setEditing(true)} className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                      Edit Review
                     </button>
                   )}
                 </div>
