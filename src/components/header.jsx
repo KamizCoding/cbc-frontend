@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaBoxOpen, FaEnvelope, FaHome, FaClipboardList } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, useEffect } from "react";
@@ -11,6 +11,7 @@ export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const nav = useNavigate();
+  const location = useLocation(); 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -54,6 +55,8 @@ export default function Header() {
     }
   }
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <>
       {isMenuOpen && <HamburgerMenu closeHamburgerMenu={() => setIsMenuOpen(false)} />}
@@ -61,9 +64,7 @@ export default function Header() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Confirm Logout
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Confirm Logout</h2>
             <p className="text-gray-600 mb-4">Are you sure you want to log out?</p>
             <div className="flex justify-end gap-4">
               <button
@@ -101,19 +102,39 @@ export default function Header() {
         />
 
         <div className="gap-12 flex-1 justify-center hidden lg:flex">
-          <Link to="/" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/"
+            className={`flex flex-col items-center text-lg ${
+              isActive("/") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+            }`}
+          >
             <FaHome size={30} />
             <span>Home</span>
           </Link>
-          <Link to="/products" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/products"
+            className={`flex flex-col items-center text-lg ${
+              isActive("/products") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+            }`}
+          >
             <FaBoxOpen size={30} />
             <span>Products</span>
           </Link>
-          <Link to="/orders" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/orders"
+            className={`flex flex-col items-center text-lg ${
+              isActive("/orders") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+            }`}
+          >
             <FaClipboardList size={30} />
             <span>Orders</span>
           </Link>
-          <Link to="/contact" className="flex flex-col items-center text-dark text-lg hover:text-white">
+          <Link
+            to="/contact"
+            className={`flex flex-col items-center text-lg ${
+              isActive("/contact") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+            }`}
+          >
             <FaEnvelope size={30} />
             <span>Contact</span>
           </Link>
