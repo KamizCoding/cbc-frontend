@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { FaShoppingBag } from "react-icons/fa";
@@ -19,7 +19,6 @@ export default function AdminHomePage() {
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const nav = useNavigate();
-  const location = useLocation(); 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,6 +35,7 @@ export default function AdminHomePage() {
         },
       })
       .then((res) => {
+        console.log(res.data);
         if (res.data.type !== "admin") {
           toast.error("Unauthorized Access");
           nav("/login");
@@ -78,8 +78,6 @@ export default function AdminHomePage() {
       toast.error("Logout failed. Please try again.");
     }
   };
-
-  const isActive = (path) => location.pathname === path;
 
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
@@ -132,39 +130,30 @@ export default function AdminHomePage() {
         )}
 
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
-
         <div className="flex flex-col gap-4">
           <Link
-            className={`flex items-center gap-4 p-3 text-lg rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md ${
-              isActive("/admin/dashboard") ? "bg-lime-500 text-white font-bold shadow-md" : "bg-lime-300 text-black"
-            }`}
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/dashboard"
           >
             <TbLayoutDashboardFilled size={24} />
             <span>Dashboard</span>
           </Link>
           <Link
-            className={`flex items-center gap-4 p-3 text-lg rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md ${
-              isActive("/admin/products") ? "bg-lime-500 text-white font-bold shadow-md" : "bg-lime-300 text-black"
-            }`}
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/products"
           >
             <FaShoppingBag size={24} />
             <span>Products</span>
           </Link>
           <Link
-            className={`flex items-center gap-4 p-3 text-lg rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md ${
-              isActive("/admin/orders") ? "bg-lime-500 text-white font-bold shadow-md" : "bg-lime-300 text-black"
-            }`}
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/orders"
           >
             <GoListOrdered size={24} />
             <span>Orders</span>
           </Link>
           <Link
-            className={`flex items-center gap-4 p-3 text-lg rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md ${
-              isActive("/admin/customers") ? "bg-lime-500 text-white font-bold shadow-md" : "bg-lime-300 text-black"
-            }`}
+            className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/customers"
           >
             <HiIdentification size={24} />
@@ -179,7 +168,6 @@ export default function AdminHomePage() {
           </Link>
         </div>
       </div>
-
       <div className="ml-[20%] w-[80%] min-h-screen p-6">
         {user ? (
           <Routes>
@@ -190,6 +178,7 @@ export default function AdminHomePage() {
             <Route path="products/updateProducts" element={<UpdateProductForm />} />
             <Route path="orders" element={<AdminOrdersPage />} />
             <Route path="customers" element={<AdminCustomersPage />} />
+            <Route path="reviews" element={<AdminReviewsPage />} />
             <Route
               path="*"
               element={<h1 className="text-center text-3xl text-red-600">404 Error - Page Not Found</h1>}
@@ -197,10 +186,7 @@ export default function AdminHomePage() {
           </Routes>
         ) : (
           <div className="w-full h-full flex justify-center items-center">
-            <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
-              <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
-              <p className="mt-3 text-dark text-lg font-semibold animate-pulse">Loading...</p>
-            </div>
+            <p className="text-lg font-semibold text-dark">Loading...</p>
           </div>
         )}
       </div>
