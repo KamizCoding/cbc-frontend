@@ -1,25 +1,49 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_BACKEND_URL + "/api/reviews", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setReviews(res.data.list);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching reviews:", err);
-        setLoading(false);
-      });
+    fetchReviews();
   }, []);
+
+  async function fetchReviews() {
+    try {
+      const res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/api/reviews", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setReviews(res.data.list);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      toast.error("Failed to fetch reviews.");
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete(reviewId) {
+    if (!window.confirm("Are you sure you want to delete this review?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/reviews/delete/${reviewId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      toast.success(res.data.message);
+      setReviews(reviews.filter((review) => review._id !== reviewId));
+    } catch (error) {
+      console.error("Failed to delete review:", error);
+      toast.error("Failed to delete review. Please try again.");
+    }
+  }
 
   return (
     <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
@@ -29,7 +53,9 @@ export default function AdminReviewsPage() {
       {loading ? (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
           <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
-          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">Loading...</p>
+          <p className="mt-3 text-dark text-lg font-semibold animate-pulse">
+            Loading...
+          </p>
         </div>
       ) : (
         <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
@@ -61,13 +87,18 @@ export default function AdminReviewsPage() {
                   >
                     <td className="py-4 px-3 font-semibold">{review.name}</td>
                     <td className="py-4 px-3">{review.userEmail}</td>
-                    <td className="py-4 px-3 text-yellow-500 font-bold">{review.rating}/5</td>
+                    <td className="py-4 px-3 text-yellow-500 font-bold">
+                      {review.rating}/5
+                    </td>
                     <td className="py-4 px-3 text-gray-700">{review.comment}</td>
                     <td className="py-4 px-3">
                       {new Date(review.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-4 px-3">
-                      <button className="p-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition">
+                      <button
+                        onClick={() => handleDelete(review._id)}
+                        className="p-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition"
+                      >
                         <FaTrash />
                       </button>
                     </td>
