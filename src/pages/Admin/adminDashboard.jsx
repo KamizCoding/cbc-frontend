@@ -184,53 +184,51 @@ export default function AdminDashboard() {
         🚀 Admin <span className="text-green-900">DashBoard</span>
       </h1>
       <div className="w-full">
-        <div>
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
-            <FaChartPie className="text-3xl text-blue-600" />
-            Metrics
-          </h2>
+      <div>
+  <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
+    <FaChartPie className="text-2xl md:text-3xl text-blue-600" />
+    Metrics
+  </h2>
 
-          <div className="grid grid-cols-3 gap-6 mb-6 justify-center">
-            {[
-              { title: "Orders", data: orderPieData, stats: orderStats },
-              {
-                title: "Customers",
-                data: customerPieData,
-                stats: customerStats,
-              },
-              { title: "Products", data: productPieData, stats: productStats },
-            ].map((section, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-lg rounded-2xl p-8 flex flex-col items-center transition-transform transform hover:scale-105 duration-300"
-              >
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  {section.title}
-                </h3>
-                <PieChart width={250} height={250}>
-                  <Pie
-                    data={section.data}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={75}
-                    dataKey="value"
-                    label
-                  >
-                    {section.data.map((entry, i) => (
-                      <Cell key={i} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend
-                    layout="horizontal"
-                    align="center"
-                    wrapperStyle={{ fontSize: "13px" }}
-                  />
-                </PieChart>
-              </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 justify-center">
+    {[
+      { title: "Orders", data: orderPieData, stats: orderStats },
+      { title: "Customers", data: customerPieData, stats: customerStats },
+      { title: "Products", data: productPieData, stats: productStats },
+    ].map((section, index) => (
+      <div
+        key={index}
+        className="bg-white shadow-lg rounded-2xl p-6 sm:p-8 flex flex-col items-center transition-transform transform hover:scale-105 duration-300"
+      >
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+          {section.title}
+        </h3>
+        <PieChart width={200} height={200} className="w-full sm:w-auto">
+          <Pie
+            data={section.data}
+            cx="50%"
+            cy="50%"
+            outerRadius={65}
+            sm:outerRadius={75}
+            dataKey="value"
+            label
+          >
+            {section.data.map((entry, i) => (
+              <Cell key={i} fill={entry.color} />
             ))}
-          </div>
-        </div>
+          </Pie>
+          <Tooltip />
+          <Legend
+            layout="horizontal"
+            align="center"
+            wrapperStyle={{ fontSize: "12px", textAlign: "center" }}
+          />
+        </PieChart>
+      </div>
+    ))}
+  </div>
+</div>
+
 
         <div>
           <h2 className="text-3xl font-extrabold text-gray-900 mb-5 text-center flex items-center justify-center">
