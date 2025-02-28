@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaTrash } from "react-icons/fa6";
 
 export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState([]);
@@ -40,12 +41,13 @@ export default function AdminReviewsPage() {
                 <th className="py-4 px-3 text-left w-16">Rating</th>
                 <th className="py-4 px-3 text-left w-64">Comment</th>
                 <th className="py-4 px-3 text-left w-32">Submitted On</th>
+                <th className="py-4 px-3 text-left w-16">Action</th>
               </tr>
             </thead>
             <tbody className="text-gray-800 text-sm font-medium divide-y divide-gray-200">
               {reviews.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-4 text-gray-600">
+                  <td colSpan="6" className="text-center py-4 text-gray-600">
                     No reviews available
                   </td>
                 </tr>
@@ -63,6 +65,11 @@ export default function AdminReviewsPage() {
                     <td className="py-4 px-3 text-gray-700">{review.comment}</td>
                     <td className="py-4 px-3">
                       {new Date(review.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="py-4 px-3">
+                      <button className="p-2 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition">
+                        <FaTrash />
+                      </button>
                     </td>
                   </tr>
                 ))
