@@ -50,7 +50,7 @@ export default function AdminHomePage() {
       });
   }, []);
 
-  const handleLogout = async () => {
+  async function handleLogout() {
     try {
       const token = localStorage.getItem("token");
 
@@ -59,7 +59,8 @@ export default function AdminHomePage() {
         return;
       }
 
-      await axios.post(
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const response = await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/users/logout",
         {},
         {
@@ -75,9 +76,17 @@ export default function AdminHomePage() {
       toast.success("Logged out successfully!");
     } catch (error) {
       console.error("Logout failed:", error);
+
+      if (error.response) {
+        console.error("Server Response:", error.response.data);
+        console.error("Status Code:", error.response.status);
+      }
+
       toast.error("Logout failed. Please try again.");
     }
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div className="bg-lime-50 w-full min-h-screen flex">
@@ -87,7 +96,9 @@ export default function AdminHomePage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
               Confirm Logout
             </h2>
-            <p className="text-gray-600 mb-4">Are you sure you want to log out?</p>
+            <p className="text-gray-600 mb-4">
+              Are you sure you want to log out?
+            </p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -113,12 +124,17 @@ export default function AdminHomePage() {
         {user && (
           <div className="flex flex-col items-center mb-6">
             <img
-              src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
+              src={
+                user.profilePicture ||
+                "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"
+              }
               alt="Profile"
               className="w-10 h-10 rounded-full border border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
               onClick={() => nav("/user", { state: { user: user } })}
             />
-            <p className="text-lg font-semibold text-gray-900 mt-2">{user.name || "Admin"}</p>
+            <p className="text-lg font-semibold text-gray-900 mt-2">
+              {user.name || "Admin"}
+            </p>
             <p className="text-sm text-gray-700">{user.email}</p>
             <button
               onClick={() => setIsModalOpen(true)}
@@ -130,7 +146,8 @@ export default function AdminHomePage() {
         )}
 
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
-        <div className="flex flex-col gap-3">
+
+        <div className="flex flex-col gap-4">
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/dashboard"
@@ -175,13 +192,20 @@ export default function AdminHomePage() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<AdminProductsPage />} />
             <Route path="products/addProducts" element={<AddProductForm />} />
-            <Route path="products/updateProducts" element={<UpdateProductForm />} />
+            <Route
+              path="products/updateProducts"
+              element={<UpdateProductForm />}
+            />
             <Route path="orders" element={<AdminOrdersPage />} />
             <Route path="customers" element={<AdminCustomersPage />} />
             <Route path="reviews" element={<AdminReviewsPage />} />
             <Route
               path="*"
-              element={<h1 className="text-center text-3xl text-red-600">404 Error - Page Not Found</h1>}
+              element={
+                <h1 className="text-center text-3xl text-red-600">
+                  404 Error - Page Not Found
+                </h1>
+              }
             />
           </Routes>
         ) : (

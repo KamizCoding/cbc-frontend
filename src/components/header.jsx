@@ -29,12 +29,12 @@ export default function Header() {
   async function handleLogout() {
     try {
       const token = localStorage.getItem("token");
-
+  
       if (!token) {
         nav("/login");
         return;
       }
-
+  
       await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/users/logout",
         {},
@@ -44,7 +44,7 @@ export default function Header() {
           },
         }
       );
-
+  
       localStorage.removeItem("token");
       setUser(null);
       nav("/login");
@@ -54,6 +54,7 @@ export default function Header() {
       toast.error("Logout failed. Please try again.");
     }
   }
+  
 
   const isActive = (path) => location.pathname === path;
 
