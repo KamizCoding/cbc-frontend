@@ -184,51 +184,54 @@ export default function AdminDashboard() {
         🚀 Admin <span className="text-green-900">DashBoard</span>
       </h1>
       <div className="w-full">
-      <div>
-  <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
-    <FaChartPie className="text-2xl md:text-3xl text-blue-600" />
-    Metrics
-  </h2>
+        <div>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
+            <FaChartPie className="text-2xl md:text-3xl text-blue-600" />
+            Metrics
+          </h2>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 justify-center">
-    {[
-      { title: "Orders", data: orderPieData, stats: orderStats },
-      { title: "Customers", data: customerPieData, stats: customerStats },
-      { title: "Products", data: productPieData, stats: productStats },
-    ].map((section, index) => (
-      <div
-        key={index}
-        className="bg-white shadow-lg rounded-2xl p-6 sm:p-8 flex flex-col items-center transition-transform transform hover:scale-105 duration-300"
-      >
-        <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-          {section.title}
-        </h3>
-        <PieChart width={200} height={200} className="w-full sm:w-auto">
-          <Pie
-            data={section.data}
-            cx="50%"
-            cy="50%"
-            outerRadius={65}
-            sm:outerRadius={75}
-            dataKey="value"
-            label
-          >
-            {section.data.map((entry, i) => (
-              <Cell key={i} fill={entry.color} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 justify-center">
+            {[
+              { title: "Orders", data: orderPieData, stats: orderStats },
+              {
+                title: "Customers",
+                data: customerPieData,
+                stats: customerStats,
+              },
+              { title: "Products", data: productPieData, stats: productStats },
+            ].map((section, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-lg rounded-2xl p-6 sm:p-8 flex flex-col items-center transition-transform transform hover:scale-105 duration-300"
+              >
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+                  {section.title}
+                </h3>
+                <PieChart width={200} height={200} className="w-full sm:w-auto">
+                  <Pie
+                    data={section.data}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={65}
+                    sm:outerRadius={75}
+                    dataKey="value"
+                    label
+                  >
+                    {section.data.map((entry, i) => (
+                      <Cell key={i} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend
+                    layout="horizontal"
+                    align="center"
+                    wrapperStyle={{ fontSize: "12px", textAlign: "center" }}
+                  />
+                </PieChart>
+              </div>
             ))}
-          </Pie>
-          <Tooltip />
-          <Legend
-            layout="horizontal"
-            align="center"
-            wrapperStyle={{ fontSize: "12px", textAlign: "center" }}
-          />
-        </PieChart>
-      </div>
-    ))}
-  </div>
-</div>
-
+          </div>
+        </div>
 
         <div>
           <h2 className="text-3xl font-extrabold text-gray-900 mb-5 text-center flex items-center justify-center">
@@ -332,16 +335,16 @@ export default function AdminDashboard() {
       </div>
 
       <div>
-        <h2 className="text-2xl font-extrabold text-gray-900 mb-6 text-center">
+        <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-6 text-center">
           📦 Inventory & Stock Alerts
         </h2>
 
-        <div className="grid grid-cols-3 gap-6">
-          <div className="bg-yellow-100 shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-yellow-700 flex items-center gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-yellow-100 shadow-md rounded-lg p-4 sm:p-6">
+            <h3 className="text-md sm:text-lg font-semibold text-yellow-700 flex items-center gap-2">
               <FaExclamationTriangle /> Low Stock ⚠️
             </h3>
-            <ul className="mt-3 text-sm text-gray-700">
+            <ul className="mt-2 sm:mt-3 text-sm text-gray-700">
               {lowStockProducts.length > 0 ? (
                 lowStockProducts.map((product) => (
                   <li key={product.productId} className="border-b py-1">
@@ -354,11 +357,11 @@ export default function AdminDashboard() {
             </ul>
           </div>
 
-          <div className="bg-red-100 shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-red-700 flex items-center gap-2">
+          <div className="bg-red-100 shadow-md rounded-lg p-4 sm:p-6">
+            <h3 className="text-md sm:text-lg font-semibold text-red-700 flex items-center gap-2">
               <FaBox /> Out of Stock ❌
             </h3>
-            <ul className="mt-3 text-sm text-gray-700">
+            <ul className="mt-2 sm:mt-3 text-sm text-gray-700">
               {outOfStockProducts.length > 0 ? (
                 outOfStockProducts.map((product) => (
                   <li key={product.productId} className="border-b py-1">
@@ -371,11 +374,11 @@ export default function AdminDashboard() {
             </ul>
           </div>
 
-          <div className="bg-blue-100 shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-blue-700 flex items-center gap-2">
+          <div className="bg-blue-100 shadow-md rounded-lg p-4 sm:p-6">
+            <h3 className="text-md sm:text-lg font-semibold text-blue-700 flex items-center gap-2">
               <FaSyncAlt /> Stock Replenishment 🔄
             </h3>
-            <ul className="mt-3 text-sm text-gray-700">
+            <ul className="mt-2 sm:mt-3 text-sm text-gray-700">
               {replenishmentNeeded.length > 0 ? (
                 replenishmentNeeded.map((product) => (
                   <li key={product.productId} className="border-b py-1">
