@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa"; // Import back arrow icon
 import axios from "axios";
 import toast from "react-hot-toast";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
@@ -7,7 +8,7 @@ import uploadMediaToSupabase from "../../utils/mediaUpload";
 export default function UserDetailsPage() {
   const location = useLocation();
   const user = location.state?.user || {};
-  const navigate = useNavigate(); // 🔹 Use navigate for back button
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState(user.firstName || "");
   const [lastName, setLastName] = useState(user.lastName || "");
@@ -50,14 +51,14 @@ export default function UserDetailsPage() {
         }
       );
       toast.success("Your details were updated successfully");
-      setShowModal(false); // Close modal after update
+      setShowModal(false);
     } catch (error) {
       toast.error("Failed to update user details due to an error");
     }
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen relative">
       <div className="w-1/3 bg-green-600 p-8 flex flex-col items-center text-white">
         <img
           src={profilePicURL || "https://via.placeholder.com/150"}
@@ -70,7 +71,7 @@ export default function UserDetailsPage() {
         <p className="text-gray-200">{email}</p>
       </div>
 
-      <div className="w-2/3 p-8 bg-muted">
+      <div className="w-2/3 p-8 bg-muted relative">
         <h1 className="text-2xl font-bold text-gray-700 mb-4">Edit Profile</h1>
 
         <div className="space-y-4">
@@ -124,24 +125,22 @@ export default function UserDetailsPage() {
             </div>
           </div>
 
-          {/* 🔹 Button Group - Back & Update */}
-          <div className="flex gap-3 mt-4">
-            {/* 🔹 Back Button */}
-            <button
-              onClick={() => navigate(-1)}
-              className="w-1/2 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition"
-            >
-              Back
-            </button>
+          {/* 🔹 Update Button */}
+          <button
+            onClick={() => setShowModal(true)}
+            className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
+          >
+            Update User Details
+          </button>
 
-            {/* 🔹 Update Button - Opens Confirmation Modal */}
-            <button
-              onClick={() => setShowModal(true)}
-              className="w-1/2 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
-            >
-              Update User Details
-            </button>
-          </div>
+          {/* 🔹 Floating Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute right-6 mt-4 bg-blue-600 text-white px-4 py-2 flex items-center gap-2 rounded-full shadow-lg hover:bg-blue-700 transition"
+          >
+            <FaArrowLeft size={16} />
+            <span>Back to Previous Page</span>
+          </button>
         </div>
       </div>
 
