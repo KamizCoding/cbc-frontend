@@ -9,6 +9,8 @@ export default function ReviewModalPage({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
   const [visibleCount, setVisibleCount] = useState(5);
+  const [editing, setEditing] = useState(false); // Controls update mode
+  const [reviewId, setReviewId] = useState(null); // Stores review ID for update
 
   useEffect(() => {
     if (isOpen) {
@@ -29,9 +31,15 @@ export default function ReviewModalPage({ isOpen, onClose }) {
       if (token) {
         const user = JSON.parse(atob(token.split(".")[1]));
         if (user && user.email) {
-          setHasReviewed(data.list.some(review => review.userEmail === user.email));
-        } else {
-          setHasReviewed(false);
+          const existingReview = data.list.find(review => review.userEmail === user.email);
+          if (existingReview) {
+            setHasReviewed(true);
+            setReviewId(existingReview._id);
+            setRating(existingReview.rating);
+            setComment(existingReview.comment);
+          } else {
+            setHasReviewed(false);
+          }
         }
       }
     } catch (error) {
@@ -66,15 +74,24 @@ export default function ReviewModalPage({ isOpen, onClose }) {
         comment,
       };
 
-      const response = await axios.post(
-        import.meta.env.VITE_BACKEND_URL + "/api/reviews",
-        reviewData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      let response;
+      if (editing) {
+        response = await axios.post(
+          import.meta.env.VITE_BACKEND_URL + "/api/reviews/update",
+          { reviewId, rating, comment },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } else {
+        response = await axios.post(
+          import.meta.env.VITE_BACKEND_URL + "/api/reviews",
+          reviewData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
 
-      toast.success("Review submitted!");
-      setRating(5);
-      setComment("");
+      toast.success(editing ? "Review updated successfully!" : "Review submitted!");
+      setEditing(false);
+      setReviewId(null);
       fetchReviews();
       setLoading(false);
     } catch (error) {
@@ -94,32 +111,30 @@ export default function ReviewModalPage({ isOpen, onClose }) {
           ✖
         </button>
 
-        {!hasReviewed && (
-          <form onSubmit={handleSubmit} className="mb-4">
-            <label className="block text-md font-semibold">Rating:</label>
-            <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
-              {[5, 4, 3, 2, 1].map((star) => (
-                <option key={star} value={star}>{star} Stars</option>
-              ))}
-            </select>
+        <form onSubmit={handleSubmit} className="mb-4">
+          <label className="block text-md font-semibold">Rating:</label>
+          <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
+            {[5, 4, 3, 2, 1].map((star) => (
+              <option key={star} value={star}>{star} Stars</option>
+            ))}
+          </select>
 
-            <label className="block text-md font-semibold mt-2">Comment:</label>
-            <textarea 
-              value={comment} 
-              onChange={(e) => setComment(e.target.value)} 
-              rows="3" 
-              className="p-2 border rounded w-full">
-            </textarea>
+          <label className="block text-md font-semibold mt-2">Comment:</label>
+          <textarea 
+            value={comment} 
+            onChange={(e) => setComment(e.target.value)} 
+            rows="3" 
+            className="p-2 border rounded w-full">
+          </textarea>
 
-            <button 
-              type="submit" 
-              className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition" 
-              disabled={loading}
-            >
-              {loading ? "Submitting..." : "Submit Review"}
-            </button>
-          </form>
-        )}
+          <button 
+            type="submit" 
+            className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition" 
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : editing ? "Update Review" : "Submit Review"}
+          </button>
+        </form>
 
         {/* Reviews List - Scrollable & Paginated */}
         <div className="border-t pt-4 max-h-[50vh] overflow-y-auto">
@@ -127,10 +142,25 @@ export default function ReviewModalPage({ isOpen, onClose }) {
             <p className="text-center text-gray-600">No reviews yet. Be the first to leave one!</p>
           ) : (
             reviews.slice(0, visibleCount).map((review) => (
-              <div key={review._id} className="border-b pb-3 mb-3">
-                <h3 className="font-semibold">{review.name}</h3>
-                <p className="text-yellow-500">⭐ {review.rating}/5</p>
-                <p className="text-gray-700">{review.comment}</p>
+              <div key={review._id} className="border-b pb-3 mb-3 flex justify-between items-center">
+                <div>
+                  <h3 className="font-semibold">{review.name}</h3>
+                  <p className="text-yellow-500">⭐ {review.rating}/5</p>
+                  <p className="text-gray-700">{review.comment}</p>
+                </div>
+                {review.userEmail === JSON.parse(atob(localStorage.getItem("token").split(".")[1])).email && (
+                  <button 
+                    onClick={() => {
+                      setEditing(true);
+                      setReviewId(review._id);
+                      setRating(review.rating);
+                      setComment(review.comment);
+                    }} 
+                    className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             ))
           )}
