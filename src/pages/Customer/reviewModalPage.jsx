@@ -7,10 +7,9 @@ export default function ReviewModalPage({ isOpen, onClose }) {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [hasReviewed, setHasReviewed] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(5);
-  const [editing, setEditing] = useState(false); // Controls update mode
-  const [reviewId, setReviewId] = useState(null); // Stores review ID for update
+  const [editing, setEditing] = useState(false); 
+  const [reviewId, setReviewId] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -30,16 +29,14 @@ export default function ReviewModalPage({ isOpen, onClose }) {
       const token = localStorage.getItem("token");
       if (token) {
         const user = JSON.parse(atob(token.split(".")[1]));
-        if (user && user.email) {
-          const existingReview = data.list.find(review => review.userEmail === user.email);
-          if (existingReview) {
-            setHasReviewed(true);
-            setReviewId(existingReview._id);
-            setRating(existingReview.rating);
-            setComment(existingReview.comment);
-          } else {
-            setHasReviewed(false);
-          }
+        setUserEmail(user.email);
+        
+        // If user has an existing review, set for editing
+        const userReview = data.list.find(review => review.userEmail === user.email);
+        if (userReview) {
+          setReviewId(userReview._id);
+          setRating(userReview.rating);
+          setComment(userReview.comment);
         }
       }
     } catch (error) {
@@ -48,55 +45,31 @@ export default function ReviewModalPage({ isOpen, onClose }) {
     }
   }
 
-  async function handleSubmit(e) {
+  async function handleUpdate(e) {
     e.preventDefault();
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        toast.error("You must be logged in to submit a review.");
+        toast.error("You must be logged in to update a review.");
         setLoading(false);
         return;
       }
 
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      if (!decodedToken || !decodedToken.email) {
-        toast.error("Invalid user session. Please log in again.");
-        setLoading(false);
-        return;
-      }
+      const response = await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/reviews/update",
+        { reviewId, rating, comment },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-      const reviewData = {
-        userEmail: decodedToken.email,
-        name: `${decodedToken.firstName} ${decodedToken.lastName}`,
-        rating,
-        comment,
-      };
-
-      let response;
-      if (editing) {
-        response = await axios.post(
-          import.meta.env.VITE_BACKEND_URL + "/api/reviews/update",
-          { reviewId, rating, comment },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      } else {
-        response = await axios.post(
-          import.meta.env.VITE_BACKEND_URL + "/api/reviews",
-          reviewData,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      }
-
-      toast.success(editing ? "Review updated successfully!" : "Review submitted!");
-      setEditing(false);
-      setReviewId(null);
+      toast.success("Review updated successfully!");
+      setEditing(false); // Exit edit mode
       fetchReviews();
       setLoading(false);
     } catch (error) {
-      console.error("Failed to submit review:", error);
-      toast.error("Failed to submit review.");
+      console.error("Failed to update review:", error);
+      toast.error("Failed to update review.");
       setLoading(false);
     }
   }
@@ -106,74 +79,72 @@ export default function ReviewModalPage({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] max-h-[80vh] overflow-y-auto relative">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Customer Reviews</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">
+          {editing ? "Edit Your Review" : "Customer Reviews"}
+        </h2>
         <button onClick={onClose} className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-lg">
           ✖
         </button>
 
-        <form onSubmit={handleSubmit} className="mb-4">
-          <label className="block text-md font-semibold">Rating:</label>
-          <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
-            {[5, 4, 3, 2, 1].map((star) => (
-              <option key={star} value={star}>{star} Stars</option>
-            ))}
-          </select>
+        {/* Show Review Update Form When Editing */}
+        {editing ? (
+          <form onSubmit={handleUpdate}>
+            <label className="block text-md font-semibold">Rating:</label>
+            <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className="p-2 border rounded w-full">
+              {[5, 4, 3, 2, 1].map((star) => (
+                <option key={star} value={star}>{star} Stars</option>
+              ))}
+            </select>
 
-          <label className="block text-md font-semibold mt-2">Comment:</label>
-          <textarea 
-            value={comment} 
-            onChange={(e) => setComment(e.target.value)} 
-            rows="3" 
-            className="p-2 border rounded w-full">
-          </textarea>
+            <label className="block text-md font-semibold mt-2">Comment:</label>
+            <textarea 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)} 
+              rows="3" 
+              className="p-2 border rounded w-full">
+            </textarea>
 
-          <button 
-            type="submit" 
-            className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition" 
-            disabled={loading}
-          >
-            {loading ? "Submitting..." : editing ? "Update Review" : "Submit Review"}
-          </button>
-        </form>
+            <button 
+              type="submit" 
+              className="mt-3 w-full bg-accent text-white py-2 rounded hover:bg-dark transition" 
+              disabled={loading}
+            >
+              {loading ? "Updating..." : "Update Review"}
+            </button>
 
-        {/* Reviews List - Scrollable & Paginated */}
-        <div className="border-t pt-4 max-h-[50vh] overflow-y-auto">
-          {reviews.length === 0 ? (
-            <p className="text-center text-gray-600">No reviews yet. Be the first to leave one!</p>
-          ) : (
-            reviews.slice(0, visibleCount).map((review) => (
-              <div key={review._id} className="border-b pb-3 mb-3 flex justify-between items-center">
-                <div>
-                  <h3 className="font-semibold">{review.name}</h3>
-                  <p className="text-yellow-500">⭐ {review.rating}/5</p>
-                  <p className="text-gray-700">{review.comment}</p>
+            {/* Cancel Edit Button */}
+            <button 
+              onClick={() => setEditing(false)} 
+              className="mt-2 w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-400 transition"
+            >
+              Cancel
+            </button>
+          </form>
+        ) : (
+          /* Show Reviews */
+          <div className="border-t pt-4 max-h-[50vh] overflow-y-auto">
+            {reviews.length === 0 ? (
+              <p className="text-center text-gray-600">No reviews yet. Be the first to leave one!</p>
+            ) : (
+              reviews.map((review) => (
+                <div key={review._id} className="border-b pb-3 mb-3 flex justify-between items-center">
+                  <div>
+                    <h3 className="font-semibold">{review.name}</h3>
+                    <p className="text-yellow-500">⭐ {review.rating}/5</p>
+                    <p className="text-gray-700">{review.comment}</p>
+                  </div>
+                  {review.userEmail === userEmail && (
+                    <button 
+                      onClick={() => setEditing(true)}
+                      className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+                    >
+                      Edit
+                    </button>
+                  )}
                 </div>
-                {review.userEmail === JSON.parse(atob(localStorage.getItem("token").split(".")[1])).email && (
-                  <button 
-                    onClick={() => {
-                      setEditing(true);
-                      setReviewId(review._id);
-                      setRating(review.rating);
-                      setComment(review.comment);
-                    }} 
-                    className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-                  >
-                    Edit
-                  </button>
-                )}
-              </div>
-            ))
-          )}
-        </div>
-
-        {/* "Load More" Button */}
-        {reviews.length > visibleCount && (
-          <button
-            onClick={() => setVisibleCount(prev => prev + 5)}
-            className="mt-4 w-full bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition"
-          >
-            Load More Reviews
-          </button>
+              ))
+            )}
+          </div>
         )}
       </div>
     </div>
