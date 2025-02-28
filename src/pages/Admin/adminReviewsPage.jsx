@@ -60,54 +60,56 @@ export default function AdminReviewsPage() {
         </div>
       ) : (
         <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
-          <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
-            <thead>
-              <tr className="bg-lime-700 text-white uppercase text-md font-bold">
-                <th className="py-4 px-6 text-left w-20">Name</th>
-                <th className="py-4 px-6 text-left w-40">Email</th>
-                <th className="py-4 px-6 text-left w-16">Rating</th>
-                <th className="py-4 px-6 text-left">Comment</th>
-                <th className="py-4 px-6 text-left w-32">Submitted On</th>
-                <th className="py-4 px-6 text-center w-16">Action</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-800 text-sm font-medium divide-y divide-gray-200">
-              {reviews.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="text-center py-4 text-gray-600">
-                    No reviews available
-                  </td>
+          <div className="max-h-[415px] overflow-y-auto">
+            <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
+              <thead>
+                <tr className="bg-lime-700 text-white uppercase text-md font-bold">
+                  <th className="py-4 px-6 text-left w-20">Name</th>
+                  <th className="py-4 px-6 text-left w-40">Email</th>
+                  <th className="py-4 px-6 text-left w-16">Rating</th>
+                  <th className="py-4 px-6 text-left">Comment</th>
+                  <th className="py-4 px-6 text-left w-32">Submitted On</th>
+                  <th className="py-4 px-6 text-center w-16">Action</th>
                 </tr>
-              ) : (
-                reviews.map((review, index) => (
-                  <tr
-                    key={review._id}
-                    className={`${
-                      index % 2 === 0 ? "bg-lime-100" : "bg-lime-200"
-                    } hover:bg-lime-300 transition duration-200`}
-                  >
-                    <td className="py-4 px-6 font-semibold">{review.name}</td>
-                    <td className="py-4 px-6">{review.userEmail}</td>
-                    <td className="py-4 px-6 text-yellow-500 font-bold">
-                      {review.rating}/5
-                    </td>
-                    <td className="py-4 px-6 text-gray-700">{review.comment}</td>
-                    <td className="py-4 px-6">
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="py-4 px-6 text-center">
-                      <button
-                        onClick={() => setSelectedReview(review)}
-                        className="p-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
-                      >
-                        <FaTrash />
-                      </button>
+              </thead>
+              <tbody className="text-gray-800 text-sm font-medium divide-y divide-gray-200">
+                {reviews.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4 text-gray-600">
+                      No reviews available
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  reviews.map((review, index) => (
+                    <tr
+                      key={review._id}
+                      className={`${
+                        index % 2 === 0 ? "bg-lime-100" : "bg-lime-200"
+                      } hover:bg-lime-300 transition duration-200`}
+                    >
+                      <td className="py-4 px-6 font-semibold">{review.name}</td>
+                      <td className="py-4 px-6">{review.userEmail}</td>
+                      <td className="py-4 px-6 text-yellow-500 font-bold">
+                        {review.rating}/5
+                      </td>
+                      <td className="py-4 px-6 text-gray-700">{review.comment}</td>
+                      <td className="py-4 px-6">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="py-4 px-6 text-center">
+                        <button
+                          onClick={() => setSelectedReview(review)}
+                          className="p-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition"
+                        >
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
