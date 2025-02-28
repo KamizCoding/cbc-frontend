@@ -7,6 +7,7 @@ export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState([]);
   const [loadedCustomers, setLoadedCustomers] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
@@ -18,7 +19,6 @@ export default function AdminCustomersPage() {
           },
         })
         .then((res) => {
-          console.log(res.data.list);
           setCustomers(res.data.list);
           setLoadedCustomers(true);
         })
@@ -55,6 +55,29 @@ export default function AdminCustomersPage() {
       })
       .catch(() => {
         toast.error("Failed to update user status. Please try again.");
+      });
+  }
+
+  function handleDeleteCustomer(customer) {
+    setSelectedCustomer(customer);
+    setShowDeleteModal(true);
+  }
+
+  function confirmDelete() {
+    const token = localStorage.getItem("token");
+
+    axios
+      .delete(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { email: selectedCustomer.email },
+      })
+      .then((res) => {
+        toast.success("The customer was successfully removed.");
+        setCustomers(customers.filter((c) => c.email !== selectedCustomer.email));
+        setShowDeleteModal(false);
+      })
+      .catch(() => {
+        toast.error("Failed to delete customer. Please try again.");
       });
   }
 
@@ -119,29 +142,7 @@ export default function AdminCustomersPage() {
                   <td className="py-3 px-3 text-left">
                     <button
                       className="p-1 rounded-lg bg-red-500 hover:bg-red-600 text-white shadow-md transition duration-200"
-                      onClick={() => {
-                        const token = localStorage.getItem("token");
-
-                        axios
-                          .delete(
-                            import.meta.env.VITE_BACKEND_URL + "/api/users",
-                            {
-                              headers: {
-                                Authorization: `Bearer ${token}`,
-                              },
-                              data: { email: customer.email },
-                            }
-                          )
-                          .then((res) => {
-                            console.log(res.data);
-                            toast.success("The unwelcome customer was kicked out successfully");
-
-                            setTimeout(() => {
-                              setLoadedCustomers(false);
-                            }, 1000);
-                          })
-                          .catch((err) => console.error(err));
-                      }}
+                      onClick={() => handleDeleteCustomer(customer)}
                     >
                       <FaTrash />
                     </button>
@@ -172,6 +173,33 @@ export default function AdminCustomersPage() {
               <button
                 className="px-4 py-2 bg-red-500 text-white rounded-md"
                 onClick={confirmBlock}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && selectedCustomer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold text-center mb-4">
+              Confirm Delete Action
+            </h2>
+            <p className="text-gray-700 text-center">
+              Are you sure you want to delete <strong>{selectedCustomer.email}</strong>?
+            </p>
+            <div className="mt-4 flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={confirmDelete}
               >
                 Confirm
               </button>
