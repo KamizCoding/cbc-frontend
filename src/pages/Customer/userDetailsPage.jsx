@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa"; // Import back arrow icon
+import { FaArrowLeft } from "react-icons/fa"; 
 import axios from "axios";
 import toast from "react-hot-toast";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
@@ -125,7 +125,6 @@ export default function UserDetailsPage() {
             </div>
           </div>
 
-          {/* 🔹 Update Button */}
           <button
             onClick={() => setShowModal(true)}
             className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
@@ -133,7 +132,6 @@ export default function UserDetailsPage() {
             Update User Details
           </button>
 
-          {/* 🔹 Floating Back Button */}
           <button
             onClick={() => navigate(-1)}
             className="absolute right-6 mt-4 bg-blue-600 text-white px-4 py-2 flex items-center gap-2 rounded-full shadow-lg hover:bg-blue-700 transition"
@@ -144,7 +142,6 @@ export default function UserDetailsPage() {
         </div>
       </div>
 
-      {/* 🔹 Confirmation Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
