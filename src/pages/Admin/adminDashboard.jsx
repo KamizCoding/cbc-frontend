@@ -395,18 +395,18 @@ export default function AdminDashboard() {
       </div>
 
       <div>
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-1 text-center flex items-center justify-center pt-8">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1 text-center flex items-center justify-center pt-8">
           📋 Recent Orders
         </h2>
-        <div className="w-full bg-white shadow-lg rounded-2xl p-6 mt-8">
+        <div className="w-full bg-white shadow-lg rounded-2xl p-4 sm:p-6 mt-8">
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full border-collapse text-sm sm:text-base">
               <thead>
                 <tr className="bg-gray-200 text-gray-700 text-left">
-                  <th className="p-3">Order ID</th>
-                  <th className="p-3">Customer</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Total</th>
+                  <th className="p-2 sm:p-3">Order ID</th>
+                  <th className="p-2 sm:p-3">Customer</th>
+                  <th className="p-2 sm:p-3">Status</th>
+                  <th className="p-2 sm:p-3">Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -416,11 +416,13 @@ export default function AdminDashboard() {
                       key={order.orderId}
                       className="border-b hover:bg-gray-100 transition"
                     >
-                      <td className="p-3 font-medium">{order.orderId}</td>
-                      <td className="p-3">{order.name}</td>
-                      <td className="p-3 text-center">
+                      <td className="p-2 sm:p-3 font-medium">
+                        {order.orderId}
+                      </td>
+                      <td className="p-2 sm:p-3">{order.name}</td>
+                      <td className="p-2 sm:p-3 text-center">
                         <span
-                          className={`px-3 py-1 rounded-lg font-semibold text-sm ${
+                          className={`px-2 py-1 sm:px-3 sm:py-1 rounded-lg font-semibold text-xs sm:text-sm ${
                             {
                               processing: "bg-yellow-100 text-yellow-700",
                               shipped: "bg-blue-100 text-blue-700",
@@ -433,7 +435,7 @@ export default function AdminDashboard() {
                             order.status.slice(1)}
                         </span>
                       </td>
-                      <td className="p-3 font-semibold text-green-600">
+                      <td className="p-2 sm:p-3 font-semibold text-green-600">
                         LKR{" "}
                         {order.orderedItems
                           .reduce(
@@ -454,10 +456,11 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
+
           <div className="flex justify-center mt-6">
             <button
               onClick={() => navigate("/admin/orders")}
-              className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition"
+              className="bg-blue-600 text-white py-2 px-4 sm:px-6 rounded-lg hover:bg-blue-700 transition"
             >
               View All Orders
             </button>
