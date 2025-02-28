@@ -6,6 +6,8 @@ import { FaLock, FaLockOpen, FaTrash } from "react-icons/fa6";
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState([]);
   const [loadedCustomers, setLoadedCustomers] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
     if (!loadedCustomers) {
@@ -25,12 +27,17 @@ export default function AdminCustomersPage() {
   }, [loadedCustomers]);
 
   function handleBlockToggle(customer) {
+    setSelectedCustomer(customer);
+    setShowBlockModal(true);
+  }
+
+  function confirmBlock() {
     const token = localStorage.getItem("token");
 
     axios
       .put(
-        import.meta.env.VITE_BACKEND_URL + "/api/users", 
-        { email: customer.email, isBlocked: !customer.isBlocked }, 
+        import.meta.env.VITE_BACKEND_URL + "/api/users",
+        { email: selectedCustomer.email, isBlocked: !selectedCustomer.isBlocked },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -39,11 +46,12 @@ export default function AdminCustomersPage() {
         toast.success(res.data.message);
         setCustomers(
           customers.map((c) =>
-            c.email === customer.email
-              ? { ...c, isBlocked: !customer.isBlocked }
+            c.email === selectedCustomer.email
+              ? { ...c, isBlocked: !selectedCustomer.isBlocked }
               : c
           )
         );
+        setShowBlockModal(false);
       })
       .catch(() => {
         toast.error("Failed to update user status. Please try again.");
@@ -126,9 +134,7 @@ export default function AdminCustomersPage() {
                           )
                           .then((res) => {
                             console.log(res.data);
-                            toast.success(
-                              "The unwelcome customer was kicked out successfully"
-                            );
+                            toast.success("The unwelcome customer was kicked out successfully");
 
                             setTimeout(() => {
                               setLoadedCustomers(false);
@@ -146,6 +152,33 @@ export default function AdminCustomersPage() {
           </table>
         </div>
       </div>
+
+      {showBlockModal && selectedCustomer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold text-center mb-4">
+              Confirm Block Action
+            </h2>
+            <p className="text-gray-700 text-center">
+              Are you sure you want to block <strong>{selectedCustomer.email}</strong>?
+            </p>
+            <div className="mt-4 flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                onClick={() => setShowBlockModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={confirmBlock}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

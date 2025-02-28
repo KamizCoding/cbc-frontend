@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function AdminProductsPage() {
     const [products, setProducts] = useState([]);
     const [loadedProducts, setLoadedProducts] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false); // 🔹 Modal state
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const navigate = useNavigate();
 
@@ -105,7 +105,6 @@ export default function AdminProductsPage() {
                 )
             }
 
-            {/* Confirmation Modal */}
             {showDeleteModal && selectedProduct && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-96">

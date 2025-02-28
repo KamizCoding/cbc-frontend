@@ -23,7 +23,7 @@ export default function UpdateProductForm() {
     const [lastPrice, setLastPrice] = useState(product.lastPrice);
     const [stock, setStock] = useState(product.stock);
     const [description, setDescription] = useState(product.description);
-    const [showModal, setShowModal] = useState(false); // 🔹 Modal state
+    const [showModal, setShowModal] = useState(false); 
 
     async function handleUpdateProduct() {
         const altNamesArray = alternativeNames.split(",");
@@ -114,13 +114,11 @@ export default function UpdateProductForm() {
                     <textarea className="border p-3 rounded-lg h-28 focus:outline-none focus:ring-2 focus:ring-green-400" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
 
-                {/* Open Confirmation Modal */}
                 <button className="bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700 transition-all mt-4" onClick={() => setShowModal(true)}>
                     Update Product
                 </button>
             </div>
 
-            {/* Confirmation Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-96">
