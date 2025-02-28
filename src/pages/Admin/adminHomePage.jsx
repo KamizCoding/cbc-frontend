@@ -130,7 +130,7 @@ export default function AdminHomePage() {
         )}
 
         <div className="border-t border-gray-400 opacity-50 mt-4 mb-4"></div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           <Link
             className="flex items-center gap-4 p-3 text-lg text-black bg-lime-300 rounded-lg transition-all duration-300 hover:bg-lime-400 hover:shadow-md"
             to="/admin/dashboard"
