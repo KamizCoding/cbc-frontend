@@ -243,7 +243,7 @@ export default function MainHomePage() {
         </div>
       </div>
 
-      <div className="w-full py-16 flex flex-col items-center bg-green-50">
+      <div className="w-full flex flex-col items-center bg-green-50">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
           Customer Reviews
         </h2>
@@ -302,7 +302,7 @@ export default function MainHomePage() {
         />
       </div>
 
-      <div className="w-full py-12 flex flex-col items-center bg-white">
+      <div className="w-full py-12 flex flex-col items-center bg-primary">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
           Skincare & Beauty Tips ✨
         </h2>
