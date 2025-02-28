@@ -180,6 +180,9 @@ export default function AdminDashboard() {
 
   return (
     <>
+      <h1 className="text-5xl font-extrabold text-center text-lime-700 mb-8 uppercase tracking-wide drop-shadow-lg">
+        🚀 Admin <span className="text-green-900">DashBoard</span>
+      </h1>
       <div className="w-full">
         <div>
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center gap-3">
