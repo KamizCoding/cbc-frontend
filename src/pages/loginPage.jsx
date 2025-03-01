@@ -3,11 +3,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   const googleLogin = useGoogleLogin({
     onSuccess: (res) => {
-      console.log(res);
       axios
         .post(import.meta.env.VITE_BACKEND_URL + "/api/users/google", {
           token: res.access_token,
@@ -28,6 +28,7 @@ export default function LoginPage() {
         });
     },
   });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -67,7 +68,7 @@ export default function LoginPage() {
         </h1>
         <div className="space-y-4">
           <span className="pl-44 text-xl text-gray-200 font-bold">
-            Email :{" "}
+            Email :
           </span>
           <input
             type="text"
@@ -79,7 +80,7 @@ export default function LoginPage() {
             }}
           />
           <span className="pl-40 text-xl text-gray-200 font-bold">
-            Password :{" "}
+            Password :
           </span>
           <input
             type="password"
@@ -104,9 +105,21 @@ export default function LoginPage() {
               googleLogin();
             }}
           >
-            <FcGoogle className="text-xl" />{" "}
+            <FcGoogle className="text-xl" />
             <span className="text-dark">Login with Google</span>
           </button>
+
+          <div className="text-center mt-3">
+            <p className="text-gray-100">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="text-blue-300 hover:text-blue-500 font-semibold transition"
+              >
+                Register Here
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
