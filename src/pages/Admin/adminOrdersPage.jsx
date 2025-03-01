@@ -83,13 +83,13 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
-      <h1 className="text-4xl font-extrabold text-lime-700 mb-8">Admin Orders Page</h1>
+      <h1 className="text-4xl font-extrabold text-lime-700 mb-4">Admin Orders Page</h1>
 
       {orders.length === 0 ? (
         <p className="text-accent text-lg">No orders found.</p>
       ) : (
         <div className="w-full max-w-6xl shadow-lg rounded-lg flex-grow">
-          <div className="max-h-[415px] overflow-y-auto">
+          <div className="max-h-[370px] overflow-y-auto">
             <table className="w-full bg-white rounded-lg border border-gray-300 shadow-md">
               <thead>
                 <tr className="bg-lime-700 text-white uppercase text-md font-semibold">
