@@ -63,7 +63,7 @@ export default function MainHomePage() {
 
   return (
     <div className="flex-1 w-full overflow-y-auto bg-primary">
-      <div className="relative w-full h-[280px] sm:h-[350px] md:h-[510px] flex flex-col justify-center items-center text-white">
+      <div className="relative w-full h-[280px] sm:h-[350px] md:h-[560px] flex flex-col justify-center items-center text-white">
         <HomeImageSlider />
 
         <div className="relative text-center max-w-xl px-4 md:px-0 rounded-md p-3 sm:p-4 md:p-5">
@@ -369,6 +369,8 @@ export default function MainHomePage() {
             </div>
           ))}
         </div>
+      </div>
+      <div>
       </div>
     </div>
   );

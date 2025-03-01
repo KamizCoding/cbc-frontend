@@ -17,7 +17,7 @@ export default function Homepage() {
         <div className="flex flex-col min-h-screen w-full">
             <Header />
 
-            <div className="h-[calc(100vh-150px)] bg-primary flex flex-col overflow-hidden">
+            <div className="h-[calc(100vh-93px)] bg-primary flex flex-col overflow-hidden">
                 <Routes>
                     <Route path="/" element={<MainHomePage />} />
                     <Route path="/cart" element={<CartPage />} />
@@ -39,9 +39,7 @@ export default function Homepage() {
             />
                 </Routes>               
             </div>
-            <footer className="bg-gray-800 text-white text-center py-4 mt-0">
-                <p>&copy; 2024 Pure & Pristine. All rights reserved.</p>
-            </footer>
+
         </div>
     );
 }
