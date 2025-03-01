@@ -40,7 +40,7 @@ export default function Homepage() {
                 </Routes>               
             </div>
             <footer className="bg-gray-800 text-white text-center py-4 mt-0">
-                <p>&copy; 2024 My Website. All rights reserved.</p>
+                <p>&copy; 2024 Pure & Pristine. All rights reserved.</p>
             </footer>
         </div>
     );
