@@ -115,7 +115,7 @@ export default function Header() {
             to="/"
             className={`flex flex-col items-center text-lg ${
               isActive("/")
-                ? "text-dark font-bold border-b-2 border-white"
+                ? "text-secondary font-bold border-b-2 border-white"
                 : "text-dark hover:text-secondary"
             }`}
           >

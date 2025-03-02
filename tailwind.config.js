@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary": "#f3f4f6",  // Soft mint green (Background)
-        "secondary": "#065F46", // Fresh pastel green (Buttons, highlights)
-        "accent": "#166534",    // Deep forest green (Headings, important text)
+        "primary": "#f3f4f6",  
+        "secondary": "#065F46", 
+        "accent": "#166534",   
       }
     },
   },

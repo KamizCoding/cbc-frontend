@@ -35,11 +35,11 @@ export default function Footer() {
           {/* 🔹 Contact Info */}
           <div>
             <h2 className="text-lg font-bold">Contact</h2>
-            <p className="mt-3 text-sm text-gray-300">
-              📍 123 Green Avenue, Colombo, Sri Lanka
+            <p className="mt-3 text-sm text-gray-300 mb-3">
+              📍 123 Greenway Avenue, Eco City, USA
             </p>
-            <p className="text-sm text-gray-300">📞 +94 77 123 4567</p>
-            <p className="text-sm text-gray-300">✉️ support@yourapp.com</p>
+            <p className="text-sm text-gray-300 mb-3">📞 +1 234 567 890</p>
+            <p className="text-sm text-gray-300">✉️ support@pnpemarket.com</p>
           </div>
         </div>
 
