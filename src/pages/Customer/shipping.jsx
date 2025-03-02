@@ -86,7 +86,7 @@ export default function ShippingPage() {
 
             {/* ✅ Order Summary Section - Centered & Scrollable */}
             {cart.length > 0 && (
-                <div className="w-full lg:w-[40%] max-w-lg bg-muted text-dark rounded-lg shadow-lg p-5 border border-gray-300 max-h-[65vh] overflow-y-auto">
+                <div className="w-full lg:w-[40%] max-w-lg bg-accent text-dark rounded-lg shadow-lg p-5 border border-gray-300 max-h-[65vh] overflow-y-auto">
                     
                     {/* Order Summary Heading */}
                     <h2 className="text-xl font-bold text-dark text-center border-b pb-2 tracking-wide">
@@ -129,7 +129,7 @@ export default function ShippingPage() {
                     {/* Checkout Button */}
                     <div className="mt-6 flex justify-center">
                         <button 
-                            className="w-full text-center px-5 py-3 bg-accent text-white text-lg font-medium rounded-md hover:bg-dark transition-all duration-300 shadow-md" 
+                            className="w-full text-center px-5 py-3 bg-accent text-white text-lg font-medium rounded-md hover:bg-secondary transition-all duration-300 shadow-md" 
                             onClick={createOrder}
                         >
                             Proceed to Checkout

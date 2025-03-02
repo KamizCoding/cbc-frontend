@@ -46,14 +46,14 @@ export default function AdminReviewsPage() {
   }
 
   return (
-    <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
+    <div className="p-6 bg-primary flex flex-col items-center relative overflow-hidden">
       <h1 className="text-4xl font-extrabold text-lime-700 mb-8">
         Admin Reviews Page
       </h1>
 
       {loading ? (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
-          <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-accent border-t-accent border-b-accent rounded-full animate-spin"></div>
           <p className="mt-3 text-dark text-lg font-semibold animate-pulse">
             Loading...
           </p>

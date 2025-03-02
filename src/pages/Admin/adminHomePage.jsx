@@ -76,7 +76,7 @@ export default function AdminHomePage() {
   }
 
   return (
-    <div className="bg-lime-50 w-full min-h-screen flex flex-col md:flex-row">
+    <div className="bg-primary w-full min-h-screen flex flex-col md:flex-row">
       
       <div className="bg-lime-200 flex items-center justify-between px-4 py-3 shadow-md md:hidden">
         <h1 className="text-lg font-bold text-gray-900">Admin Panel</h1>

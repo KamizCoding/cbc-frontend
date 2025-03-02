@@ -99,7 +99,7 @@ export default function LoginPage() {
           </button>
 
           <button
-            className="w-full py-2 flex items-center justify-center gap-3 bg-muted text-dark border border-muted font-semibold rounded-full shadow-md 
+            className="w-full py-2 flex items-center justify-center gap-3 bg-accent text-dark border border-accent font-semibold rounded-full shadow-md 
     hover:bg-secondary transition duration-300"
             onClick={() => {
               googleLogin();

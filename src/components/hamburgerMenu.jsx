@@ -78,10 +78,10 @@ export default function HamburgerMenu(props) {
           </div>
         ) : (
           <div className="mt-auto pb-6 flex flex-col items-center gap-3 px-6">
-            <Link to="/login" className="w-full text-center bg-dark text-white py-3 rounded-lg font-semibold hover:bg-accent transition-all" onClick={closeHamburgerMenu}>
+            <Link to="/login" className="w-full text-center bg-secondary text-white py-3 rounded-lg font-semibold hover:bg-accent transition-all" onClick={closeHamburgerMenu}>
               Login
             </Link>
-            <Link to="/register" className="w-full text-center bg-accent text-white py-3 rounded-lg font-semibold hover:bg-dark transition-all" onClick={closeHamburgerMenu}>
+            <Link to="/register" className="w-full text-center bg-accent text-white py-3 rounded-lg font-semibold hover:bg-secondary transition-all" onClick={closeHamburgerMenu}>
               Register
             </Link>
           </div>

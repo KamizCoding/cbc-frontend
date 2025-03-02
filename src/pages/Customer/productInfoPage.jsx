@@ -54,7 +54,7 @@ export default function ProductInfoPage() {
     <div className="w-full h-[calc(100vh-150px)] overflow-y-auto bg-primary px-4 lg:px-8 py-6 flex flex-col">
       {status === "loading" && (
         <div className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-opacity-50 bg-primary">
-          <div className="w-12 h-12 border-4 border-muted border-t-accent border-b-accent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-accent border-t-accent border-b-accent rounded-full animate-spin"></div>
           <p className="mt-3 text-dark text-lg font-semibold animate-pulse">
             Loading...
           </p>
@@ -72,7 +72,7 @@ export default function ProductInfoPage() {
           </p>
           <Link
             to="/products"
-            className="mt-4 px-4 py-2 bg-secondary text-dark font-semibold rounded-md shadow-md hover:bg-dark hover:text-white transition-all duration-300"
+            className="mt-4 px-4 py-2 bg-secondary text-dark font-semibold rounded-md shadow-md hover:bg-secondary hover:text-white transition-all duration-300"
           >
             Back to Products
           </Link>
@@ -125,14 +125,14 @@ export default function ProductInfoPage() {
 
             <div className="flex flex-col lg:flex-row gap-3 mt-4">
               <button
-                className="bg-dark text-white py-2 px-5 rounded-lg font-semibold text-md hover:bg-accent transition-all duration-300"
+                className="bg-secondary text-white py-2 px-5 rounded-lg font-semibold text-md hover:bg-accent transition-all duration-300"
                 onClick={onAddToCartClicked}
               >
                 Add To Cart
               </button>
 
               <button
-                className="bg-accent text-white py-2 px-5 rounded-lg font-semibold text-md hover:bg-dark transition-all duration-300"
+                className="bg-accent text-white py-2 px-5 rounded-lg font-semibold text-md hover:bg-secondary transition-all duration-300"
                 onClick={onBuyNowClicked}
               >
                 Buy Now

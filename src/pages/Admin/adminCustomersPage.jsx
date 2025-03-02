@@ -82,7 +82,7 @@ export default function AdminCustomersPage() {
   }
 
   return (
-    <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
+    <div className="p-6 bg-primary flex flex-col items-center relative overflow-hidden">
       <h1 className="text-4xl font-extrabold text-lime-700 mb-4">
         Admin Customers Page
       </h1>

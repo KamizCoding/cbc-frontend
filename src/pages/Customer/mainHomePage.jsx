@@ -4,6 +4,7 @@ import axios from "axios";
 import HomeImageSlider from "../../components/homeImageSlider";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReviewModalPage from "../Customer/reviewModalPage";
+import Footer from "../../components/footer";
 
 export default function MainHomePage() {
   const [products, setProducts] = useState([]);
@@ -62,7 +63,7 @@ export default function MainHomePage() {
   }
 
   return (
-    <div className="flex-1 w-full overflow-y-auto bg-primary">
+    <div className="flex-1 w-full overflow-y-auto bg-gray-100">
       <div className="relative w-full h-[280px] sm:h-[350px] md:h-[560px] flex flex-col justify-center items-center text-white">
         <HomeImageSlider />
 
@@ -81,12 +82,12 @@ export default function MainHomePage() {
         <h2 className="text-3xl font-extrabold text-green-800 mb-2">
           Featured Deals ✨
         </h2>
-        <p className="text-lg text-gray-600 mb-6">
+        <p className="text-lg text-gray-600 lg:mb-6 text-center">
           Exclusive discounts on our best-selling nature-inspired products!
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4 max-w-6xl mx-auto">
         {products
           .filter((product) => product.lastPrice < product.price)
           .slice(0, 8)
@@ -98,7 +99,7 @@ export default function MainHomePage() {
               <img
                 src={product.images?.[0] || "/placeholder.png"}
                 alt={product.productName}
-                className="w-full h-48 object-cover rounded-lg"
+                className="w-full h-[150px] lg:h-48 object-cover rounded-lg"
               />
               <h3 className="text-lg font-semibold text-gray-900 mt-4">
                 {product.productName}
@@ -116,7 +117,7 @@ export default function MainHomePage() {
 
               <Link
                 to={`/products/productinfo/${product.productId}`}
-                className="mt-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
+                className="mt-4 px-4 py-2 bg-accent text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
               >
                 View Details
               </Link>
@@ -128,60 +129,60 @@ export default function MainHomePage() {
         <div className="flex justify-center mt-8">
           <Link
             to="/products"
-            className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
+            className="px-6 py-3 bg-accent text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
           >
             View All Products
           </Link>
         </div>
       )}
 
-      <div className="w-full py-12 flex flex-col items-center bg-green-50">
-        <h2 className="text-3xl font-extrabold text-green-800 mb-2">
+      <div className="w-full py-12 flex flex-col items-center bg-gray-100">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-2 text-center">
           Why Choose Us? 🌿
         </h2>
-        <p className="text-lg text-gray-600 mb-6">
+        <p className="text-lg text-gray-600 mb-6 max-w-md text-center">
           Experience the best in sustainable beauty with our nature-inspired
           products!
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl px-6 sm:px-0">
           <div
-            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
-                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="flex flex-col items-center text-center p-4 sm:p-6 bg-secondary rounded-lg shadow-md 
+                  transform transition duration-300 hover:scale-105 hover:shadow-lg"
           >
-            <span className="text-green-600 text-4xl">🌱</span>
-            <h3 className="text-xl font-semibold text-green-700 mt-3">
+            <span className="text-secondary text-4xl">🌱</span>
+            <h3 className="text-xl font-semibold text-primary mt-3">
               100% Eco-Friendly
             </h3>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-100 mt-2">
               Our products are sustainably sourced, cruelty-free, and
               environmentally friendly.
             </p>
           </div>
 
           <div
-            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
-                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="flex flex-col items-center text-center p-4 sm:p-6 bg-secondary rounded-lg shadow-md 
+                  transform transition duration-300 hover:scale-105 hover:shadow-lg"
           >
             <span className="text-yellow-500 text-4xl">✨</span>
-            <h3 className="text-xl font-semibold text-green-700 mt-3">
+            <h3 className="text-xl font-semibold text-primary mt-3">
               Premium Quality
             </h3>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-100 mt-2">
               We ensure top-tier quality with the finest natural ingredients and
               expert craftsmanship.
             </p>
           </div>
 
           <div
-            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md 
-                        transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="flex flex-col items-center text-center p-4 sm:p-6 bg-secondary rounded-lg shadow-md 
+                  transform transition duration-300 hover:scale-105 hover:shadow-lg"
           >
             <span className="text-blue-500 text-4xl">💚</span>
-            <h3 className="text-xl font-semibold text-green-700 mt-3">
+            <h3 className="text-xl font-semibold text-primary mt-3">
               Loved by Customers
             </h3>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-100 mt-2">
               Thousands of happy customers trust us for their skincare and
               beauty needs.
             </p>
@@ -189,8 +190,8 @@ export default function MainHomePage() {
         </div>
       </div>
 
-      <div className="w-full py-12 bg-green-50 flex flex-col items-center">
-        <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+      <div className="w-full py-12 bg-gray-100 flex flex-col items-center">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-6 text-center">
           Our Trusted Partners 🤝
         </h2>
         <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
@@ -198,12 +199,12 @@ export default function MainHomePage() {
           sustainable beauty products.
         </p>
 
-        <div className="relative w-full max-w-xl">
+        <div className="relative w-full max-w-xl px-4 sm:px-0">
           <button
-            className="absolute left-[-60px] top-1/3 transform -translate-y-1/2 bg-green-600 text-white p-3 rounded-full hover:bg-green-700 transition z-10"
+            className="absolute left-2 sm:left-[-60px] top-1/2 transform -translate-y-1/2 bg-accent text-white p-2 sm:p-3 rounded-full hover:bg-green-700 transition z-10"
             onClick={goToPreviousSlide}
           >
-            <FaChevronLeft size={20} />
+            <FaChevronLeft size={18} sm:size={20} />
           </button>
 
           <div className="overflow-hidden w-full">
@@ -212,20 +213,23 @@ export default function MainHomePage() {
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {Array.from({ length: totalSlides }).map((_, index) => (
-                <div key={index} className="flex w-full justify-center gap-6">
+                <div
+                  key={index}
+                  className="flex w-full justify-center gap-6 sm:flex-row flex-col"
+                >
                   {brandLogos
                     .slice(index * 4, index * 4 + 4)
                     .map((brand, i) => (
                       <div
                         key={i}
-                        className="w-1/4 flex flex-col items-center p-7 hover:scale-125"
+                        className="w-full sm:w-1/4 flex flex-col items-center px-[100px] sm:p-7 hover:scale-110 sm:hover:scale-125 transition-transform"
                       >
                         <img
                           src={brand.logo}
                           alt={brand.name}
-                          className="w-36 h-20 object-contain transition-transform duration-300 ease-in-out "
+                          className="w-24 h-16 sm:w-36 sm:h-20 object-contain transition-transform duration-300 ease-in-out"
                         />
-                        <span className="mt-2 text-green-900 font-semibold text-lg text-center ">
+                        <span className="mt-2 text-green-900 font-semibold text-lg text-center">
                           {brand.name}
                         </span>
                       </div>
@@ -236,15 +240,15 @@ export default function MainHomePage() {
           </div>
 
           <button
-            className="absolute right-[-40px] top-1/3 transform -translate-y-1/2 bg-green-600 text-white p-3 rounded-full hover:bg-green-700 transition z-10"
+            className="absolute right-2 sm:right-[-40px] top-1/2 transform -translate-y-1/2 bg-accent text-white p-2 sm:p-3 rounded-full hover:bg-green-700 transition z-10"
             onClick={goToNextSlide}
           >
-            <FaChevronRight size={20} />
+            <FaChevronRight size={18} sm:size={20} />
           </button>
         </div>
       </div>
 
-      <div className="w-full flex flex-col items-center bg-green-50">
+      <div className="w-full flex flex-col items-center bg-gray-100 pb-10">
         <h2 className="text-3xl font-extrabold text-green-800 mb-6">
           Customer Reviews
         </h2>
@@ -252,7 +256,7 @@ export default function MainHomePage() {
           See what our happy customers have to say about our products!
         </p>
 
-        <div className="w-full max-w-6xl p-6 bg-primary rounded-lg shadow-md">
+        <div className="w-full max-w-6xl p-6 bg-gray-100 rounded-lg ">
           <div
             className="grid gap-6"
             style={{
@@ -265,7 +269,7 @@ export default function MainHomePage() {
               reviews.slice(0, 5).map((review) => (
                 <div
                   key={review._id}
-                  className="p-4 border rounded-lg shadow-md bg-white"
+                  className="p-4 border rounded-lg shadow-sm bg-white"
                 >
                   <h3 className="font-semibold">{review.name}</h3>
                   <p className="text-yellow-500">⭐ {review.rating}/5</p>
@@ -292,7 +296,7 @@ export default function MainHomePage() {
 
         <button
           onClick={() => setIsReviewModalOpen(true)}
-          className="mt-6 px-6 py-3 bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
+          className="mt-6 px-6 py-3 bg-accent text-white font-semibold rounded-lg shadow-md hover:bg-green-800 transition"
         >
           View Customer Reviews
         </button>
@@ -303,16 +307,16 @@ export default function MainHomePage() {
         />
       </div>
 
-      <div className="w-full py-12 flex flex-col items-center bg-primary">
-        <h2 className="text-3xl font-extrabold text-green-800 mb-6">
+      <div className="w-full py-12 flex flex-col items-center bg-gray-100">
+        <h2 className="text-3xl font-extrabold text-green-800 mb-2 text-center">
           Skincare & Beauty Tips ✨
         </h2>
-        <p className="text-lg text-gray-600 mb-6 max-w-xl text-center">
-          Discover expert tips on **eco-friendly skincare, natural beauty, and
-          self-care.**
+        <p className="text-lg text-gray-600 mb-6 max-w-md text-center">
+          Discover expert tips on eco-friendly skincare, natural beauty, and
+          self-care.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl px-6 sm:px-0">
           {[
             {
               id: 1,
@@ -359,18 +363,20 @@ export default function MainHomePage() {
           ].map((tip) => (
             <div
               key={tip.id}
-              className="bg-green-50 shadow-lg rounded-lg p-6 text-center transition-transform transform hover:scale-105"
+              className="bg-secondary shadow-lg rounded-lg p-4 sm:p-6 text-center transition-transform transform hover:scale-105"
             >
               <div className="text-5xl">{tip.icon}</div>
-              <h3 className="text-xl font-bold text-green-800 mt-3">
+              <h3 className="text-xl font-bold text-primary mt-3">
                 {tip.title}
               </h3>
-              <p className="text-gray-600 mt-2">{tip.description}</p>
+              <p className="text-gray-100 mt-2">{tip.description}</p>
             </div>
           ))}
         </div>
       </div>
+
       <div>
+        <Footer />
       </div>
     </div>
   );

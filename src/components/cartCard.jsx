@@ -50,7 +50,7 @@ export default function CartCard(props) {
         <h1>Loading</h1>
       ) : (
         <div
-          className="w-full max-w-[600px] flex items-center gap-4 bg-muted p-4 rounded-lg shadow-md border border-muted 
+          className="w-full max-w-[600px] flex items-center gap-4 bg-accent p-4 rounded-lg shadow-md border border-accent 
           transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-accent"
         >
           {/* Product Image */}
@@ -71,14 +71,14 @@ export default function CartCard(props) {
             {/* Quantity Controls */}
             <div className="flex items-center space-x-2 mt-1">
               <button
-                className="px-2 py-1 bg-secondary text-white rounded-md shadow-md hover:bg-dark transition-all duration-300"
+                className="px-2 py-1 bg-secondary text-white rounded-md shadow-md hover:bg-secondary transition-all duration-300"
                 onClick={handleDecrease}
               >
                 -
               </button>
               <p className="text-md font-semibold text-dark">{itemQuantity}</p>
               <button
-                className="px-2 py-1 bg-accent text-white rounded-md shadow-md hover:bg-dark transition-all duration-300"
+                className="px-2 py-1 bg-accent text-white rounded-md shadow-md hover:bg-secondary transition-all duration-300"
                 onClick={handleIncrease}
               >
                 +

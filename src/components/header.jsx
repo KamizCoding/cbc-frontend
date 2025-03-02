@@ -11,7 +11,7 @@ export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const nav = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,12 +29,12 @@ export default function Header() {
   async function handleLogout() {
     try {
       const token = localStorage.getItem("token");
-  
+
       if (!token) {
         nav("/login");
         return;
       }
-  
+
       await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/api/users/logout",
         {},
@@ -44,7 +44,7 @@ export default function Header() {
           },
         }
       );
-  
+
       localStorage.removeItem("token");
       setUser(null);
       nav("/login");
@@ -54,19 +54,24 @@ export default function Header() {
       toast.error("Logout failed. Please try again.");
     }
   }
-  
 
   const isActive = (path) => location.pathname === path;
 
   return (
     <>
-      {isMenuOpen && <HamburgerMenu closeHamburgerMenu={() => setIsMenuOpen(false)} />}
+      {isMenuOpen && (
+        <HamburgerMenu closeHamburgerMenu={() => setIsMenuOpen(false)} />
+      )}
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Confirm Logout</h2>
-            <p className="text-gray-600 mb-4">Are you sure you want to log out?</p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Confirm Logout
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Are you sure you want to log out?
+            </p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -88,19 +93,17 @@ export default function Header() {
         </div>
       )}
 
-      <header className="bg-secondary w-full flex h-[93px] justify-between items-center px-10 shadow-md">
-      <div className="flex flex-col items-center">
-  <img
-    src="/logo.png"
-    className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
-  />
-  
-  <span
-    className="text-xl lg:text-2xl font-bold text-lime-800 tracking-wide text-center mt-1"
-  >
-    Pure & Pristine Cosmetics
-  </span>
-</div>
+      <header className="bg-white-full flex h-[93px] justify-between items-center px-10 shadow-md">
+        <div className="flex items-center gap-3">
+          <img
+            src="/logo.png"
+            className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 hover:opacity-80 hover:scale-105 transition-transform duration-300"
+            alt="Pure & Pristine Logo"
+          />
+          <span className="text-2xl lg:text-lg pl-3 font-bold text-secondary tracking-wide">
+            Pure & Pristine Cosmetics
+          </span>
+        </div>
 
         <RxHamburgerMenu
           className="text-3xl absolute cursor-pointer text-dark right-[10px] lg:hidden"
@@ -111,7 +114,9 @@ export default function Header() {
           <Link
             to="/"
             className={`flex flex-col items-center text-lg ${
-              isActive("/") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+              isActive("/")
+                ? "text-dark font-bold border-b-2 border-white"
+                : "text-dark hover:text-secondary"
             }`}
           >
             <FaHome size={30} />
@@ -120,7 +125,9 @@ export default function Header() {
           <Link
             to="/products"
             className={`flex flex-col items-center text-lg ${
-              isActive("/products") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+              isActive("/products")
+                ? "text-secondary font-bold border-b-2 border-secondary"
+                : "text-dark hover:text-secondary"
             }`}
           >
             <FaBoxOpen size={30} />
@@ -129,7 +136,9 @@ export default function Header() {
           <Link
             to="/orders"
             className={`flex flex-col items-center text-lg ${
-              isActive("/orders") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+              isActive("/orders")
+                ? "text-secondary font-bold border-b-2 border-secondary"
+                : "text-dark hover:text-secondary"
             }`}
           >
             <FaClipboardList size={30} />
@@ -138,7 +147,9 @@ export default function Header() {
           <Link
             to="/contact"
             className={`flex flex-col items-center text-lg ${
-              isActive("/contact") ? "text-white font-bold border-b-2 border-white" : "text-dark hover:text-white"
+              isActive("/contact")
+                ? "text-secondary font-bold border-b-2 border-secondary"
+                : "text-dark hover:text-secondary"
             }`}
           >
             <FaEnvelope size={30} />
@@ -148,27 +159,36 @@ export default function Header() {
 
         <div className="space-x-6 ml-auto hidden lg:flex">
           {user ? (
-            <div className="flex flex-col items-center gap-1 mt-2">
+            <div className="flex flex-col items-center gap-1">
               <button onClick={() => nav("/user", { state: { user: user } })}>
                 <img
-                  src={user.profilePicture || "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"}
+                  src={
+                    user.profilePicture ||
+                    "https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg"
+                  }
                   alt="Profile"
                   className="w-12 h-12 rounded-full border border-gray-300 cursor-pointer hover:scale-110 transition-transform duration-300"
                 />
               </button>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-5 py-1 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl mb-1"
+                className="px-5 py-1 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl"
               >
                 Logout
               </button>
             </div>
           ) : (
             <>
-              <Link to="/login" className="px-7 py-3 bg-dark text-white text-lg font-semibold rounded-lg hover:bg-accent">
+              <Link
+                to="/login"
+                className="px-7 py-3 bg-secondary text-white text-lg font-semibold rounded-lg hover:bg-accent"
+              >
                 Login
               </Link>
-              <Link to="/register" className="px-7 py-3 bg-accent text-white text-lg font-semibold rounded-lg hover:bg-dark">
+              <Link
+                to="/register"
+                className="px-7 py-3 bg-accent text-white text-lg font-semibold rounded-lg hover:bg-secondary"
+              >
                 Register
               </Link>
             </>

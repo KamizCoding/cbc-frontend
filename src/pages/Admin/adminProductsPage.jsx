@@ -44,7 +44,7 @@ export default function AdminProductsPage() {
     }
 
     return (
-        <div className="p-6 bg-lime-50 flex flex-col items-center relative overflow-hidden">
+        <div className="p-6 bg-primary flex flex-col items-center relative overflow-hidden">
             <Link to="/admin/products/addProducts" className="fixed right-5 bottom-5 flex items-center gap-2 p-3 bg-lime-600 text-white rounded-lg shadow-md hover:bg-lime-700 hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out">
                 <FaPlus className="text-lg transition-transform duration-300 group-hover:rotate-90" />
                 <span>Add Product</span>
