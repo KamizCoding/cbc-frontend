@@ -69,7 +69,7 @@ export default function MainHomePage() {
 
         <div className="relative text-center max-w-xl px-4 md:px-0 rounded-md p-3 sm:p-4 md:p-5">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-400 drop-shadow-lg">
-            Pure & Pristine Cosmetics
+            Shimmer Muse
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl mt-2 sm:mt-4 text-gray-300 font-medium">
             Discover nature-inspired beauty products made with sustainability in

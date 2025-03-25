@@ -101,7 +101,7 @@ export default function Header() {
             alt="Pure & Pristine Logo"
           />
           <span className="text-2xl lg:text-lg pl-3 font-bold text-secondary tracking-wide">
-            Pure & Pristine Cosmetics
+            Shimmer Muse
           </span>
         </div>
 

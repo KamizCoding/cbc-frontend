@@ -45,7 +45,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-500 mt-6 pt-6 text-center text-sm text-gray-400">
           <p>
-            &copy; {new Date().getFullYear()} Pure & Pristine Cosmetics. All
+            &copy; {new Date().getFullYear()} Shimmer Muse. All
             rights reserved.
           </p>
         </div>

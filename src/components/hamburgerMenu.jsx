@@ -26,7 +26,7 @@ export default function HamburgerMenu(props) {
               className="h-[60px] w-[60px] rounded-full cursor-pointer p-1 transition-transform duration-300 hover:scale-105"
             />
             <span className="text-xl font-bold text-lime-800 tracking-wide">
-              Pure & Pristine Cosmetics
+              Shimmer Muse
             </span>
           </div>
           <IoMdClose 
